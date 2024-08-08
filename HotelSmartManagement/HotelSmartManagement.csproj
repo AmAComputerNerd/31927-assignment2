@@ -9,16 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="EmployeeSelfService\MVVM\Models\" />
-    <Folder Include="HotelManagement\MVVM\Models\" />
-    <Folder Include="HotelManagement\MVVM\Views\" />
-    <Folder Include="HotelManagement\MVVM\ViewModels\" />
-    <Folder Include="ReservationAndRooms\MVVM\Models\" />
-    <Folder Include="ReservationAndRooms\MVVM\Views\" />
-    <Folder Include="ReservationAndRooms\MVVM\ViewModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
   </ItemGroup>
 
