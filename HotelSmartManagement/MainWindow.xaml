@@ -10,6 +10,8 @@
         Title="Hotel Smart Management System" Height="450" Width="800">
 
     <Window.DataContext>
+        <!-- Disclaimer: the change below throws an error in the Designor, but in normal use this will work perfectly fine and is required for dependency injection to work. -->
+        <!-- Ideally we shouldn't be designing in this screen regardless. Most changes should be in the individual Views, and those interfaces can still be seen when editing in there. -->
         <extensions:ServiceLocatorExtension ServiceType="{x:Type viewmodel:MainViewModel}"/>
     </Window.DataContext>
 
