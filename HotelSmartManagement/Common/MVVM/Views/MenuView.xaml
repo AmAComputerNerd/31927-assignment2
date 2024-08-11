@@ -18,11 +18,14 @@
         <UniformGrid Columns="3">
             <!-- We need to use &amp; to represent '&' here as XAML uses this as an entity reference thingo and it causes errors -->
             <Button Content="Hotel Overview &amp; Management"
+                    Padding="10"
                     Command="{Binding HotelManagement_Selected}"/>
             <Button Content="Employee Self-Service"
+                    Padding="10"
                     Command="{Binding EmployeeSelfService_Selected}"/>
             <!-- Same thing here -->
             <Button Content="Reservation &amp; Rooms"
+                    Padding="10"
                     Command="{Binding ReservationAndRooms_Selected}"/>
         </UniformGrid>
     </StackPanel>

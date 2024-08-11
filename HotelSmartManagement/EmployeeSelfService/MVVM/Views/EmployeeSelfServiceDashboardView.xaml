@@ -12,13 +12,9 @@
         <TextBlock Text="Employee Self-Service" 
                    Style="{StaticResource Title}"/>
         <TextBlock Style="{StaticResource SubTitle}">Welcome <Bold>{user}</Bold>. You have <Bold>{numOfJobs} jobs</Bold> pending (highest urgency level: {highestUrgencyLevel}).</TextBlock>
-        <Grid Margin="0,10,0,0" 
-              HorizontalAlignment="Left"
-              MinWidth="418">
-            <ScrollBar HorizontalAlignment="Right"/>
-            <UniformGrid Rows="4"
-                         HorizontalAlignment="Left"
-                         MinWidth="400">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled"
+                      HorizontalAlignment="Left" Margin="10,10,0,0" Width="400">
+            <UniformGrid Rows="4">
                 <Button MinHeight="50"
                         Background="Yellow"/>
                 <Button MinHeight="50"
@@ -28,7 +24,7 @@
                 <Button MinHeight="50"
                         Background="White"/>
             </UniformGrid>
-        </Grid>
+        </ScrollViewer>
         <TextBlock Text="Employment At-A-Glance"
                    Style="{StaticResource Heading}"/>
         <TextBlock Style="{StaticResource SubTitle}">You are currently employed at <Bold>{workHours} hours p/week</Bold>.</TextBlock>
@@ -37,8 +33,10 @@
         <TextBlock Style="{StaticResource SubTitle}">You have <Bold>{leaveHours} hours</Bold> of annual leave saved.</TextBlock>
         <StackPanel Orientation="Horizontal">
             <Button Content="My Profile"
+                    Padding="5"
                     Margin="10,0,20,0"/>
-            <Button Content="My Employment"/>
+            <Button Content="My Employment"
+                    Padding="5"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

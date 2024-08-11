@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using HotelSmartManagement.Common.Events;
 using HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels;
+using HotelSmartManagement.HotelManagement.MVVM.ViewModels;
+using HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels;
 
 namespace HotelSmartManagement.Common.MVVM.ViewModels
 {
@@ -21,11 +23,11 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
             });
             HotelManagement_Selected = new RelayCommand(() =>
             {
-                WeakReferenceMessenger.Default.Send(new ChangeViewEvent(typeof(object)));
+                WeakReferenceMessenger.Default.Send(new ChangeViewEvent(typeof(HotelManagementDashboardViewModel)), nameof(MainViewModel));
             });
             ReservationAndRooms_Selected = new RelayCommand(() =>
             {
-                WeakReferenceMessenger.Default.Send(new ChangeViewEvent(typeof(object)));
+                WeakReferenceMessenger.Default.Send(new ChangeViewEvent(typeof(ReservationAndRoomsDashboardViewModel)), nameof(MainViewModel));
             });
             Logout_Clicked = new RelayCommand(() =>
             {
