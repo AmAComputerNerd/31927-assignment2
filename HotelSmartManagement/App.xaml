@@ -2,18 +2,39 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:HotelSmartManagement"
+             xmlns:commonViews="clr-namespace:HotelSmartManagement.Common.MVVM.Views"
              xmlns:commonViewModels="clr-namespace:HotelSmartManagement.Common.MVVM.ViewModels"
+             xmlns:hotelViews="clr-namespace:HotelSmartManagement.HotelManagement.MVVM.Views"
+             xmlns:hotelViewModels="clr-namespace:HotelSmartManagement.HotelManagement.MVVM.ViewModels"
              xmlns:employeeViews="clr-namespace:HotelSmartManagement.EmployeeSelfService.MVVM.Views"
              xmlns:employeeViewModels="clr-namespace:HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels"
-             StartupUri="Common/MainWindow.xaml">
+             xmlns:reservationRoomsViews="clr-namespace:HotelSmartManagement.ReservationAndRooms.MVVM.Views"
+             xmlns:reservationRoomsViewModels="clr-namespace:HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels"
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="./Common/Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate DataType="{x:Type employeeViewModels:ExampleViewModel}">
-                <employeeViews:ExampleView/>
+            <!-- Common -->
+            <DataTemplate DataType="{x:Type commonViewModels:MenuViewModel}">
+                <commonViews:MenuView/>
+            </DataTemplate>
+            
+            <!-- Hotel Management / Overview -->
+            <DataTemplate DataType="{x:Type hotelViewModels:HotelManagementDashboardViewModel}">
+                <hotelViews:HotelManagementDashboardView/>
+            </DataTemplate>
+            
+            <!-- Employee Self-Service -->
+            <DataTemplate DataType="{x:Type employeeViewModels:EmployeeSelfServiceDashboardViewModel}">
+                <employeeViews:EmployeeSelfServiceDashboardView/>
+            </DataTemplate>
+            
+            <!-- Reservation & Rooms -->
+            <DataTemplate DataType="{x:Type reservationRoomsViewModels:ReservationAndRoomsDashboardViewModel}">
+                <reservationRoomsViews:ReservationAndRoomsDashboardView/>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
