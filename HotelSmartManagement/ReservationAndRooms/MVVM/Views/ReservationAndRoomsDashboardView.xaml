@@ -8,8 +8,17 @@
              d:DataContext="{d:DesignInstance Type=viewmodel:ReservationAndRoomsDashboardViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="OrangeRed">
-        <TextBlock Text="Test 2"
-                   Style="{StaticResource SubTitle}"/>
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="259*"/>
+            <ColumnDefinition Width="541*"/>
+        </Grid.ColumnDefinitions>
+        <Image HorizontalAlignment="Left" Height="450" Stretch="UniformToFill" VerticalAlignment="Center" Width="199" Source="\ReservationAndRooms\MVVM\Views\Assets\StockHotelExterior.jpg"/>
+        <Rectangle Margin="0,0,60,0" Fill="Black" Opacity=".5"/>
+        <Label Content="07:08" FontWeight="Bold" FontSize="40" Foreground="White" Margin="10,2,131,392"/>
+        <Label Content="12th of &#xD;&#xA;August, 2024" FontSize="8" Foreground="White" Margin="128,26,13,392"/>
+        <Label Content="No critical alerts to display." FontWeight="Bold" FontSize="8" HorizontalAlignment="Left" Foreground="White" Margin="43,96,0,331"/>
+        <Rectangle Fill="White" Margin="0,63,60,386"/>
+        <Rectangle Fill="White" Margin="0,149,60,300"/>
     </Grid>
 </UserControl>
