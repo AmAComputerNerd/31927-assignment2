@@ -11,8 +11,7 @@ namespace HotelSmartManagement.Common.Database.Repositories
 
         public override IQueryable<InventoryItem> AsQueryable()
         {
-            return _dbSet
-                .Include(item => item.Name);
+            return _dbSet;
         }
     }
 }
