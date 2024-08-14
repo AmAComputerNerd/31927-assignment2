@@ -1,11 +1,11 @@
-﻿using HotelSmartManagement.HotelOverview.MVVM.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using HotelSmartManagement.Common.Database.Context;
+using HotelSmartManagement.HotelOverview.MVVM.Models;
 
 namespace HotelSmartManagement.Common.Database.Repositories
 {
     public class InventoryItemRepository : Repository<InventoryItem>
     {
-        public InventoryItemRepository(DbContext context) : base(context)
+        public InventoryItemRepository(HotelDbContext context) : base(context)
         {
         }
 
