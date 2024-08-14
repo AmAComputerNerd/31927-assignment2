@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using HotelSmartManagement.Common.MVVM.Models;
 
-namespace HotelSmartManagement.HotelManagement.MVVM.ViewModels
+namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
 {
-    public class AddEntityViewModel : ObservableRecipient
+    public class AddAnnouncementViewModel : ObservableRecipient
     {
         private Globals Globals { get; }
 
@@ -11,7 +11,7 @@ namespace HotelSmartManagement.HotelManagement.MVVM.ViewModels
         public Uri ImageUri { get => _imageUri; set => SetProperty(ref _imageUri, value); }
 
 #nullable disable // Reason: _imageUri is set when we set ImageUri.
-        public AddEntityViewModel(Globals globals)
+        public AddAnnouncementViewModel(Globals globals)
         {
 #nullable enable // Reason: _imageUri is set when we set ImageUri.
             IsActive = true;
