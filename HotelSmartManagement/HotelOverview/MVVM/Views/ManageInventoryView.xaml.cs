@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HotelSmartManagement.HotelManagement.MVVM.Views
+namespace HotelSmartManagement.HotelOverview.MVVM.Views
 {
     /// <summary>
     /// Interaction logic for HotelManagementDashboardView.xaml
     /// </summary>
-    public partial class HotelManagementDashboardView : UserControl
+    public partial class ManageInventoryView : UserControl
     {
-        public HotelManagementDashboardView()
+        public ManageInventoryView()
         {
             InitializeComponent();
         }
