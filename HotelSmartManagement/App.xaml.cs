@@ -6,8 +6,8 @@ using HotelSmartManagement.Common.MVVM.ViewModels;
 using HotelSmartManagement.Common.MVVM.Views;
 using HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels;
 using HotelSmartManagement.EmployeeSelfService.MVVM.Views;
-using HotelSmartManagement.HotelManagement.MVVM.ViewModels;
-using HotelSmartManagement.HotelManagement.MVVM.Views;
+using HotelSmartManagement.HotelOverview.MVVM.ViewModels;
+using HotelSmartManagement.HotelOverview.MVVM.Views;
 using HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels;
 using HotelSmartManagement.ReservationAndRooms.MVVM.Views;
 using Microsoft.Extensions.Configuration;
@@ -65,7 +65,12 @@ namespace HotelSmartManagement
             // Register ViewModels
             services.AddTransient<MainViewModel>();
             services.AddTransient<MenuViewModel>();
+
             services.AddTransient<HotelManagementDashboardViewModel>();
+            services.AddTransient<AddAnnouncementViewModel>();
+            services.AddTransient<AddEventViewModel>();
+            services.AddTransient<ManageInventoryViewModel>();
+
             services.AddTransient<EmployeeSelfServiceDashboardViewModel>();
             services.AddTransient<ReservationAndRoomsDashboardViewModel>();
 
@@ -77,13 +82,22 @@ namespace HotelSmartManagement
             services.AddTransient<EmployeeDetailsRepository>();
             services.AddTransient<LeaveRequestRepository>();
 
+            services.AddTransient<EventRepository>();
+            services.AddTransient<AnnouncementRepository>();
+            services.AddTransient<InventoryItemRepository>();
+
             // Register Services
             services.AddTransient<UserService>();
 
             // Register Views
             services.AddTransient<MainWindow>();
             services.AddTransient<MenuView>();
+
             services.AddTransient<HotelManagementDashboardView>();
+            services.AddTransient<AddAnnouncementView>();
+            services.AddTransient<AddEventView>();
+            services.AddTransient<ManageInventoryView>();
+
             services.AddTransient<EmployeeSelfServiceDashboardView>();
             services.AddTransient<ReservationAndRoomsDashboardView>();
         }
