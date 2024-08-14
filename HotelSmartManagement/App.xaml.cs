@@ -1,4 +1,6 @@
 ﻿using HotelSmartManagement.Common.Database.Context;
+using HotelSmartManagement.Common.Database.Repositories;
+using HotelSmartManagement.Common.Database.Services;
 using HotelSmartManagement.Common.MVVM.Models;
 using HotelSmartManagement.Common.MVVM.ViewModels;
 using HotelSmartManagement.Common.MVVM.Views;
@@ -71,8 +73,12 @@ namespace HotelSmartManagement
             services.AddDbContext<HotelDbContext>(); // ADD OPTIONS HERE!
 
             // Register Repositories
+            services.AddTransient<UserRepository>();
+            services.AddTransient<EmployeeDetailsRepository>();
+            services.AddTransient<LeaveRequestRepository>();
 
             // Register Services
+            services.AddTransient<UserService>();
 
             // Register Views
             services.AddTransient<MainWindow>();
