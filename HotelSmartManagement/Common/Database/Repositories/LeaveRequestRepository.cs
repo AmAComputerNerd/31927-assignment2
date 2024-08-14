@@ -1,11 +1,12 @@
-﻿using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
+﻿using HotelSmartManagement.Common.Database.Context;
+using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelSmartManagement.Common.Database.Repositories
 {
     public class LeaveRequestRepository : Repository<LeaveRequest>
     {
-        public LeaveRequestRepository(DbContext context) : base(context)
+        public LeaveRequestRepository(HotelDbContext context) : base(context)
         {
         }
 

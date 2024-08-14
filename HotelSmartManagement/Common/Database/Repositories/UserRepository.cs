@@ -1,11 +1,12 @@
-﻿using HotelSmartManagement.Common.MVVM.Models;
+﻿using HotelSmartManagement.Common.Database.Context;
+using HotelSmartManagement.Common.MVVM.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelSmartManagement.Common.Database.Repositories
 {
     public class UserRepository : Repository<User>
     {
-        public UserRepository(DbContext context) : base(context)
+        public UserRepository(HotelDbContext context) : base(context)
         {
         }
 

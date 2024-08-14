@@ -10,6 +10,7 @@ using HotelSmartManagement.HotelOverview.MVVM.ViewModels;
 using HotelSmartManagement.HotelOverview.MVVM.Views;
 using HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels;
 using HotelSmartManagement.ReservationAndRooms.MVVM.Views;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
@@ -75,7 +76,7 @@ namespace HotelSmartManagement
             services.AddTransient<ReservationAndRoomsDashboardViewModel>();
 
             // Register DbContext
-            services.AddDbContext<HotelDbContext>(); // ADD OPTIONS HERE!
+            services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
 
             // Register Repositories
             services.AddTransient<UserRepository>();

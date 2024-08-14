@@ -1,4 +1,5 @@
-﻿using HotelSmartManagement.Common.Database.Misc;
+﻿using HotelSmartManagement.Common.Database.Context;
+using HotelSmartManagement.Common.Database.Misc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -9,7 +10,7 @@ namespace HotelSmartManagement.Common.Database.Repositories
         protected readonly DbContext _context;
         protected readonly DbSet<T> _dbSet;
 
-        public Repository(DbContext context)
+        public Repository(HotelDbContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();
