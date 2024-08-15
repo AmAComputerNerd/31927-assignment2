@@ -30,4 +30,12 @@
         </Style.Setters>
     </Style>
 
+    <Style x:Key="WithSpacing" TargetType="UniformGrid">
+        <Style.Resources>
+            <Style TargetType="FrameworkElement">
+                <Setter Property="Margin" Value="10"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
 </ResourceDictionary>

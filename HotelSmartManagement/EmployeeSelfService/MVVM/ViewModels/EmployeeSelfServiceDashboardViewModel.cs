@@ -1,7 +1,9 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using HotelSmartManagement.Common.Database.Services;
 using HotelSmartManagement.Common.Events;
 using HotelSmartManagement.Common.MVVM.Models;
+using HotelSmartManagement.Common.MVVM.ViewModels;
 using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
 using System.Collections.ObjectModel;
 
@@ -26,6 +28,10 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
         public ObservableCollection<LeaveRequest> UserLeaveRequests { get => _userLeaveRequests; set => SetProperty(ref _userLeaveRequests, value); }
         public double UserTimeRecording { get => _userTimeRecording; set => SetProperty(ref _userTimeRecording, value); }
 
+        // Commands.
+        public RelayCommand OnMyProfile_Clicked { get; }
+        public RelayCommand OnMyEmployment_Clicked { get; }
+
 #pragma warning disable CS8618 // Reason: private fields are set through public properties.
         public EmployeeSelfServiceDashboardViewModel(Globals globals, UserService userService) : base(globals)
 #pragma warning restore CS8618 // Reason: private fields are set through public properties.
@@ -33,6 +39,8 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             _userService = userService;
 
             //ImageUri = Globals.GetProfilePictureUri();
+            OnMyProfile_Clicked = new RelayCommand(() => Messenger.Send(new ChangeViewEvent(typeof(EmployeeSelfServiceMyDetailsViewModel)), nameof(MainViewModel)));
+            OnMyEmployment_Clicked = new RelayCommand(() => Messenger.Send(new ChangeViewEvent(typeof(EmployeeSelfServiceMyDetailsViewModel)), nameof(MainViewModel)));
             RefreshUserBindings();
         }
 

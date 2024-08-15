@@ -33,10 +33,11 @@
         <TextBlock Style="{StaticResource SubTitle}">You have <Bold><Run Text="{Binding UserEmployeeDetails.LeaveBalanceInHours, FallbackValue=-1}"/> hours</Bold> of annual leave saved.</TextBlock>
         <StackPanel Orientation="Horizontal">
             <Button Content="My Profile"
-                    Padding="5"
-                    Margin="10,0,20,0"/>
+                    Padding="5" Margin="10,0,20,0"
+                    Command="{Binding OnMyProfile_Clicked}"/>
             <Button Content="My Employment"
-                    Padding="5"/>
+                    Padding="5"
+                    Command="{Binding OnMyEmployment_Clicked}"/>
         </StackPanel>
     </StackPanel>
 </UserControl>
