@@ -73,6 +73,8 @@ namespace HotelSmartManagement
             services.AddTransient<ManageInventoryViewModel>();
 
             services.AddTransient<EmployeeSelfServiceDashboardViewModel>();
+            services.AddTransient<EmployeeSelfServiceMyDetailsViewModel>();
+
             services.AddTransient<ReservationAndRoomsDashboardViewModel>();
 
             // Register DbContext
@@ -100,6 +102,8 @@ namespace HotelSmartManagement
             services.AddTransient<ManageInventoryView>();
 
             services.AddTransient<EmployeeSelfServiceDashboardView>();
+            services.AddTransient<EmployeeSelfServiceMyDetailsView>();
+
             services.AddTransient<ReservationAndRoomsDashboardView>();
         }
     }

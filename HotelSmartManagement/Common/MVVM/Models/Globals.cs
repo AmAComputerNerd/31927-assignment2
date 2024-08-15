@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
+using Microsoft.Extensions.Configuration;
+using System.Collections.ObjectModel;
 using System.IO;
 
 namespace HotelSmartManagement.Common.MVVM.Models
@@ -13,7 +15,42 @@ namespace HotelSmartManagement.Common.MVVM.Models
         {
             AzureBlobConnectionString = configuration.GetConnectionString("AzureBlobConnection") ?? throw new ArgumentException("Configuration does not have an AzureBlobConnection section.");
             Configuration = configuration;
-            CurrentUser = null;
+            //CurrentUser = null;
+            CurrentUser = new User()
+            {
+                Username = "Test123",
+                Password = "12345",
+                Email = "test12345@gmail.com",
+                ProfilePictureFileName = "test123.png",
+                EmployeeDetails = new EmployeeDetails()
+                {
+                    BankAccountNo = 1008_8392,
+                    BankAccountBSB = 027_893,
+                    JobPosition = "Senior Administrator",
+                    JobStatus = EmployeeStatus.FullTime,
+                    JobHoursPerWeek = 38,
+                    JobActualHoursThisWeek = 33,
+                    JobPayPerHour = 60,
+                    LeaveBalanceInHours = 24,
+                    LeaveRequests = new Collection<LeaveRequest>()
+                    {
+                        new LeaveRequest()
+                        {
+                            StartAt = DateTime.MinValue,
+                            EndAt = DateTime.Now,
+                            Description = "Hello there",
+                            IsApproved = true
+                        },
+                        new LeaveRequest()
+                        {
+                            StartAt = DateTime.Now,
+                            EndAt = DateTime.MaxValue,
+                            Description = "General Kenobi...",
+                            IsApproved = false
+                        }
+                    }
+                }
+            };
         }
 
         public Uri GetProfilePictureUri()
