@@ -1,29 +1,19 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using HotelSmartManagement.Common.MVVM.Models;
+﻿using HotelSmartManagement.Common.MVVM.Models;
 
 namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
 {
-    public class AddAnnouncementViewModel : ObservableRecipient
+    public class AddAnnouncementViewModel : ViewModelBase
     {
-        private Globals Globals { get; }
-
         private Uri _imageUri;
         public Uri ImageUri { get => _imageUri; set => SetProperty(ref _imageUri, value); }
 
-#nullable disable // Reason: _imageUri is set when we set ImageUri.
-        public AddAnnouncementViewModel(Globals globals)
+#pragma warning disable CS8618 // Reason: private fields are set through public properties.
+        public AddAnnouncementViewModel(Globals globals) : base(globals)
+#pragma warning restore CS8618 // Reason: private fields are set through public properties.
         {
-#nullable enable // Reason: _imageUri is set when we set ImageUri.
-            IsActive = true;
-
-            Globals = globals;
             //ImageUri = Globals.GetProfilePictureUri();
         }
 
-        protected override void OnActivated()
-        {
-            throw new NotImplementedException();
-        }
         public void OnCancel()
         {
             throw new NotImplementedException();

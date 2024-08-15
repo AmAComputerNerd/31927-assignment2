@@ -15,6 +15,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.Models
         public string JobPosition { get; set; }
         public EmployeeStatus JobStatus { get; set; }
         public int? JobHoursPerWeek { get; set; }
+        public int JobActualHoursThisWeek { get; set; }
         public double JobPayPerHour { get; set; }
         public double? LeaveBalanceInHours { get; set; }
         [InverseProperty(nameof(LeaveRequest.EmployeeDetails))]
