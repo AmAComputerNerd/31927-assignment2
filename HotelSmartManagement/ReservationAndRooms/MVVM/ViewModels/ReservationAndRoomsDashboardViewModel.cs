@@ -1,13 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HotelSmartManagement.Common.MVVM.Models;
 
 namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
 {
-    public class ReservationAndRoomsDashboardViewModel : ObservableObject
+    public class ReservationAndRoomsDashboardViewModel : ViewModelBase
     {
+        public ReservationAndRoomsDashboardViewModel(Globals globals) : base(globals)
+        {
+        }
     }
 }

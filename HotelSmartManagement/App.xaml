@@ -4,8 +4,8 @@
              xmlns:local="clr-namespace:HotelSmartManagement"
              xmlns:commonViews="clr-namespace:HotelSmartManagement.Common.MVVM.Views"
              xmlns:commonViewModels="clr-namespace:HotelSmartManagement.Common.MVVM.ViewModels"
-             xmlns:hotelViews="clr-namespace:HotelSmartManagement.HotelManagement.MVVM.Views"
-             xmlns:hotelViewModels="clr-namespace:HotelSmartManagement.HotelManagement.MVVM.ViewModels"
+             xmlns:hotelViews="clr-namespace:HotelSmartManagement.HotelOverview.MVVM.Views"
+             xmlns:hotelViewModels="clr-namespace:HotelSmartManagement.HotelOverview.MVVM.ViewModels"
              xmlns:employeeViews="clr-namespace:HotelSmartManagement.EmployeeSelfService.MVVM.Views"
              xmlns:employeeViewModels="clr-namespace:HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels"
              xmlns:reservationRoomsViews="clr-namespace:HotelSmartManagement.ReservationAndRooms.MVVM.Views"
@@ -30,6 +30,9 @@
             <!-- Employee Self-Service -->
             <DataTemplate DataType="{x:Type employeeViewModels:EmployeeSelfServiceDashboardViewModel}">
                 <employeeViews:EmployeeSelfServiceDashboardView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type employeeViewModels:EmployeeSelfServiceMyDetailsViewModel}">
+                <employeeViews:EmployeeSelfServiceMyDetailsView/>
             </DataTemplate>
             
             <!-- Reservation & Rooms -->
