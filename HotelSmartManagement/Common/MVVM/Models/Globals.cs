@@ -22,6 +22,20 @@ namespace HotelSmartManagement.Common.MVVM.Models
                 Password = "12345",
                 Email = "test12345@gmail.com",
                 ProfilePictureFileName = "test123.png",
+                CreatedJobs = new Collection<Job>(),
+                AssignedJobs = new Collection<Job>()
+                {
+                    new Job()
+                    {
+                        Title = "Clean the kitchen",
+                        Description = "The kitchen on Floor 1 is a mess. And we know you did it. Clean it up.",
+                        UrgencyLevel = JobUrgencyLevel.Medium,
+                        TaskType = JobType.Maintenance,
+                        Status = JobStatus.Pending,
+                        CreatedAtUtc = DateTime.Now,
+                    }
+                },
+                ClosedJobs = new Collection<Job>(),
                 EmployeeDetails = new EmployeeDetails()
                 {
                     BankAccountNo = 1008_8392,

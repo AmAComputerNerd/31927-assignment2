@@ -9,8 +9,125 @@
              d:DataContext="{d:DesignInstance Type={x:Type viewmodel:EmployeeSelfServiceMyDetailsViewModel}}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <ScrollViewer Grid.Row="0">
+            <StackPanel Background="WhiteSmoke">
+
+                <TextBlock Text="My Details"
+                           Style="{StaticResource Title}"/>
+                <UniformGrid Rows="4" Columns="2" Margin="0,0,200,0"
+                             extensions:UniformGridHelper.ChildMargin="10,5,0,5">
+                    
+                    <TextBlock Text="Full Name:"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Row="0" Grid.Column="0"/>
+                    <TextBox Text="John Doe"
+                             Grid.Row="0" Grid.Column="1"/>
+                    
+                    <TextBlock Text="Email Address:"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Row="1" Grid.Column="0"/>
+                    <TextBox Text="johndoe@gmail.com"
+                             Grid.Row="1" Grid.Column="1"/>
+                    
+                    <TextBlock Text="Password:"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Row="2" Grid.Column="0"/>
+                    <TextBox Text="***************"
+                             Grid.Row="2" Grid.Column="1"/>
+                    
+                    <TextBlock Text="Profile Picture:"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Row="3" Grid.Column="0"/>
+                    <Button Content="Upload Picture"
+                            Style="{StaticResource FancyButton}"
+                            Grid.Row="3" Grid.Column="1"/>
+                    
+                </UniformGrid>
+
+                <TextBlock Text="My Payment"
+                           Style="{StaticResource Heading}"/>
+                <UniformGrid Rows="2" Columns="2" Margin="0,0,200,0"
+                             extensions:UniformGridHelper.ChildMargin="10,5,0,5">
+                    
+                    <TextBlock Text="Account No:"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Row="0" Grid.Column="0"/>
+                    <TextBox Text="1072 93"
+                             Grid.Row="0" Grid.Column="1"/>
+                    
+                    <TextBlock Text="BSB:"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Row="1" Grid.Column="0"/>
+                    <TextBox Text="041937"
+                             Grid.Row="1" Grid.Column="1"/>
+                    
+                </UniformGrid>
+
+                <TextBlock Text="My Employment"
+                           Style="{StaticResource Heading}"/>
+                <UniformGrid Rows="3" Columns="2" Margin="0,0,200,0"
+                             extensions:UniformGridHelper.ChildMargin="10,5,0,5">
+                    
+                    <TextBlock Text="Position:"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Row="0" Grid.Column="0"/>
+                    <TextBox Text="Senior Manager"
+                             Grid.Row="0" Grid.Column="1"/>
+                    
+                    <TextBlock Text="Employed For:"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Row="1" Grid.Column="0"/>
+                    <TextBox Text="Full Time (38hr p/week)"
+                             Grid.Row="1" Grid.Column="1"/>
+                    
+                    <TextBlock Text="Pay Rate Per Hour"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Row="2" Grid.Column="0"/>
+                    <TextBox Text="$40 p/hour"
+                             Grid.Row="2" Grid.Column="1"/>
+                    
+                </UniformGrid>
+
+                <TextBlock Text="My Leave"
+                           Style="{StaticResource Heading}"/>
+                <UniformGrid Columns="2" Margin="0,0,200,0"
+                             extensions:UniformGridHelper.ChildMargin="10,5,0,5">
+                    
+                    <TextBlock Text="Annual Leave Balance:"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Column="0"/>
+                    <TextBox Text="14.29 hours"
+                             Grid.Column="1"/>
+                    
+                </UniformGrid>
+            
+            </StackPanel>
+        </ScrollViewer>
+        <UniformGrid Columns="2" Grid.Row="1" 
+                     HorizontalAlignment="Center" Margin="5"
+                     extensions:UniformGridHelper.ChildMargin="10,0">
+            
+            <Button Content="Save"
+                    Grid.Column="0"
+                    Padding="20,5"
+                    Command="{Binding OnSave_Clicked}" Style="{StaticResource FancyButton}"/>
+            <Button Content="Cancel"
+                    Grid.Column="1"
+                    Padding="20,5"
+                    Command="{Binding OnCancel_Clicked}" Style="{StaticResource FancyButton}"/>
+            
+        </UniformGrid>
+    </Grid>
+    <!--
     <ScrollViewer>
         <StackPanel Background="White">
+            
             <TextBlock Text="My Details"
                        Style="{StaticResource Title}"/>
             <UniformGrid Rows="4" Columns="2" Margin="0,0,200,0"
@@ -34,8 +151,10 @@
                            Style="{StaticResource SubTitle}"
                            Grid.Row="3" Grid.Column="0"/>
                 <Button Content="Upload Picture"
+                        Style="{StaticResource FancyButton}"
                         Grid.Row="3" Grid.Column="1"/>
             </UniformGrid>
+            
             <TextBlock Text="My Payment"
                        Style="{StaticResource Heading}"/>
             <UniformGrid Rows="2" Columns="2" Margin="0,0,200,0"
@@ -51,6 +170,7 @@
                 <TextBox Text="041937"
                          Grid.Row="1" Grid.Column="1"/>
             </UniformGrid>
+            
             <TextBlock Text="My Employment"
                        Style="{StaticResource Heading}"/>
             <UniformGrid Rows="3" Columns="2" Margin="0,0,200,0"
@@ -71,6 +191,7 @@
                 <TextBox Text="$40 p/hour"
                          Grid.Row="2" Grid.Column="1"/>
             </UniformGrid>
+            
             <TextBlock Text="My Leave"
                        Style="{StaticResource Heading}"/>
             <UniformGrid Columns="2" Margin="0,0,200,0"
@@ -83,4 +204,5 @@
             </UniformGrid>
         </StackPanel>
     </ScrollViewer>
+    -->
 </UserControl>

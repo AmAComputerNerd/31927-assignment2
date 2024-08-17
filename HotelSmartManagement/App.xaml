@@ -34,6 +34,12 @@
             <DataTemplate DataType="{x:Type employeeViewModels:EmployeeSelfServiceMyDetailsViewModel}">
                 <employeeViews:EmployeeSelfServiceMyDetailsView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type employeeViewModels:JobWindowNewJobViewModel}">
+                <employeeViews:JobWindowNewJobView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type employeeViewModels:JobWindowViewJobViewModel}">
+                <employeeViews:JobWindowViewJobView/>
+            </DataTemplate>
             
             <!-- Reservation & Rooms -->
             <DataTemplate DataType="{x:Type reservationRoomsViewModels:ReservationAndRoomsDashboardViewModel}">

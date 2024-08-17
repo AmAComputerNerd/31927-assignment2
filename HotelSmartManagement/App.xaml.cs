@@ -6,6 +6,7 @@ using HotelSmartManagement.Common.MVVM.ViewModels;
 using HotelSmartManagement.Common.MVVM.Views;
 using HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels;
 using HotelSmartManagement.EmployeeSelfService.MVVM.Views;
+using HotelSmartManagement.EmployeeSelfService.SubWindows;
 using HotelSmartManagement.HotelOverview.MVVM.ViewModels;
 using HotelSmartManagement.HotelOverview.MVVM.Views;
 using HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels;
@@ -74,6 +75,9 @@ namespace HotelSmartManagement
 
             services.AddTransient<EmployeeSelfServiceDashboardViewModel>();
             services.AddTransient<EmployeeSelfServiceMyDetailsViewModel>();
+            services.AddTransient<JobWindowViewModel>();
+            services.AddTransient<JobWindowNewJobViewModel>();
+            services.AddTransient<JobWindowViewJobViewModel>();
 
             services.AddTransient<ReservationAndRoomsDashboardViewModel>();
 
@@ -103,6 +107,9 @@ namespace HotelSmartManagement
 
             services.AddTransient<EmployeeSelfServiceDashboardView>();
             services.AddTransient<EmployeeSelfServiceMyDetailsView>();
+            services.AddTransient<JobWindow>();
+            services.AddTransient<JobWindowNewJobView>();
+            services.AddTransient<JobWindowViewJobView>();
 
             services.AddTransient<ReservationAndRoomsDashboardView>();
         }
