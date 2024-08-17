@@ -12,8 +12,14 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
     public class GuestDetails
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid UniqueId { get; set; }
 
+        [InverseProperty("Guest")]
+        public Reservation Reservation { get; set; }
+
+        public Guid GuestId { get; set; }
+
+        [ForeignKey(nameof(GuestId))]
         [InverseProperty(nameof(User.GuestDetails))]
         public User User { get; set; }
     }

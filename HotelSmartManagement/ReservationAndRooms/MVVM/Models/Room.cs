@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
 {
-    internal class Room
+    public class Room
     {
-        public RoomType Type { get; set; }
+        
 
     }
 }
