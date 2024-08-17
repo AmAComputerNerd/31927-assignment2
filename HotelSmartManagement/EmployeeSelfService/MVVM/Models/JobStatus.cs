@@ -2,10 +2,25 @@
 {
     public enum JobStatus
     {
+        /// <summary>
+        /// The job is pending allocation.
+        /// </summary>
         Pending,
+        /// <summary>
+        /// The job has been assigned to an employee.
+        /// </summary>
         Assigned,
+        /// <summary>
+        /// The job is currently being worked on.
+        /// </summary>
         InProgress,
+        /// <summary>
+        /// The job has been completed.
+        /// </summary>
         Completed,
+        /// <summary>
+        /// The job has been cancelled.
+        /// </summary>
         Cancelled
     }
 

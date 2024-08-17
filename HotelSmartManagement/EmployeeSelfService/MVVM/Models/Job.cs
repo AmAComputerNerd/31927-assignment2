@@ -7,6 +7,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.Models
 {
     public class Job : IDatabaseObject
     {
+#nullable disable // Reason: Model for EF - expected that these properties do not get assigned in the constructor.
         [Key]
         public Guid UniqueId { get; set; }
         public string Title { get; set; }
@@ -31,6 +32,6 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.Models
         [ForeignKey(nameof(ClosedById))]
         [InverseProperty(nameof(User.ClosedJobs))]
         public User? ClosedBy { get; set; }
-        
+#nullable enable // Reason: Model for EF - expected that these properties do not get assigned in the constructor.
     }
 }
