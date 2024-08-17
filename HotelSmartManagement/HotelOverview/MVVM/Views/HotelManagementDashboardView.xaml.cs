@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -23,6 +24,22 @@ namespace HotelSmartManagement.HotelOverview.MVVM.Views
         public HotelManagementDashboardView()
         {
             InitializeComponent();
+            Loaded += HotelManagementDashboardView_Loaded;
+        }
+        private void HotelManagementDashboardView_Loaded(object sender, RoutedEventArgs e)
+        {
+            TranslateTransform translateTransform = new TranslateTransform();
+            MarqueeText.RenderTransform = translateTransform;
+
+            DoubleAnimation animation = new DoubleAnimation
+            {
+                From = this.ActualWidth,
+                To = -MarqueeText.ActualWidth,
+                Duration = new Duration(TimeSpan.FromSeconds(10)),
+                RepeatBehavior = RepeatBehavior.Forever
+            };
+
+            translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
         }
     }
 }
