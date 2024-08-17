@@ -12,6 +12,7 @@
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -19,7 +20,11 @@
         <TextBlock Text="Hotel Overview Dashboard" 
                    Style="{StaticResource Title}" Grid.Row="0" />
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="10,0,10,0">
+            <TextBlock x:Name="MarqueeText" FontSize="24" Text="This is a scrolling text!" />
+        </Grid>
+
+        <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -57,7 +62,7 @@
                 </ScrollViewer>
             </Border>
         </Grid>
-        <DockPanel Grid.Row="2">
+        <DockPanel Grid.Row="3">
             <UniformGrid Columns="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" extensions:UniformGridHelper.ChildMargin="10">
                 <Button Content="Hello 1" />
                 <Button Content="Hello 2" />
