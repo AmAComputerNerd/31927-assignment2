@@ -5,11 +5,38 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HotelSmartManagement.HotelOverview.MVVM.Views"
              xmlns:viewmodel="clr-namespace:HotelSmartManagement.HotelOverview.MVVM.ViewModels"
+             xmlns:extensions="clr-namespace:HotelSmartManagement.Common.XamlExtensions"
              d:DataContext="{d:DesignInstance Type=viewmodel:AddEventViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Aqua">
-        <TextBlock Text="Test"
-                   Style="{StaticResource SubTitle}"/>
+    <Grid Background="White" >
+        <TextBlock Text="New Event"
+                       Style="{StaticResource Title}"/>
+        <StackPanel VerticalAlignment="Center" >
+            <Grid VerticalAlignment="Center" Margin="0,0,0,50">
+                <UniformGrid Rows="3" Columns="2" VerticalAlignment="Center" Margin="0,0,200,0"
+                             extensions:UniformGridHelper.ChildMargin="10,5,0,5">
+                    <TextBlock Text="Event Title:"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Row="0" Grid.Column="0"/>
+                    <TextBox Text="John Doe"
+                             Grid.Row="0" Grid.Column="1"/>
+                    <TextBlock Text="Areas Affected:"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Row="1" Grid.Column="0"/>
+                    <ComboBox Text="johndoe@gmail.com"
+                             Grid.Row="1" Grid.Column="1"/>
+                    <TextBlock Text="Event Details"
+                               Style="{StaticResource SubTitle}"
+                               Grid.Row="2" Grid.Column="0"/>
+                    <TextBox Text="***************"
+                             Grid.Row="2" Grid.Column="1"/>
+                </UniformGrid>
+            </Grid>
+            <UniformGrid HorizontalAlignment="Center">
+                <Button Content='Save &amp; Close' Margin="10" Padding="5"/>
+                <Button Content="Cancel" Margin="10"/>
+            </UniformGrid>
+        </StackPanel>
     </Grid>
 </UserControl>
