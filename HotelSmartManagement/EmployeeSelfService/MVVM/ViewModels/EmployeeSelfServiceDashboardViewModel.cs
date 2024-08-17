@@ -5,7 +5,9 @@ using HotelSmartManagement.Common.Events;
 using HotelSmartManagement.Common.MVVM.Models;
 using HotelSmartManagement.Common.MVVM.ViewModels;
 using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
+using HotelSmartManagement.EmployeeSelfService.SubWindows;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
 {
@@ -29,8 +31,9 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
         public double UserTimeRecording { get => _userTimeRecording; set => SetProperty(ref _userTimeRecording, value); }
 
         // Commands.
-        public RelayCommand OnMyProfile_Clicked { get; }
-        public RelayCommand OnMyEmployment_Clicked { get; }
+        public AsyncRelayCommand OnMyProfile_Clicked { get; }
+        public AsyncRelayCommand OnMyEmployment_Clicked { get; }
+        public AsyncRelayCommand OnAnyTask_Clicked { get; }
 
 #pragma warning disable CS8618 // Reason: private fields are set through public properties.
         public EmployeeSelfServiceDashboardViewModel(Globals globals, UserService userService) : base(globals)
@@ -39,8 +42,26 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             _userService = userService;
 
             //ImageUri = Globals.GetProfilePictureUri();
-            OnMyProfile_Clicked = new RelayCommand(() => Messenger.Send(new ChangeViewEvent(typeof(EmployeeSelfServiceMyDetailsViewModel)), nameof(MainViewModel)));
-            OnMyEmployment_Clicked = new RelayCommand(() => Messenger.Send(new ChangeViewEvent(typeof(EmployeeSelfServiceMyDetailsViewModel)), nameof(MainViewModel)));
+            OnMyProfile_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(EmployeeSelfServiceMyDetailsViewModel)), nameof(MainViewModel))));
+            OnMyEmployment_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(EmployeeSelfServiceMyDetailsViewModel)), nameof(MainViewModel))));
+            OnAnyTask_Clicked = new AsyncRelayCommand(async () =>
+            {
+                var someRandomJob = new Job()
+                {
+                    Title = "Some Random Job",
+                    Description = "This is a test of the Jobs system.",
+                    UrgencyLevel = JobUrgencyLevel.Critical,
+                    Status = JobStatus.Assigned,
+                    TaskType = JobType.Reservation,
+                    CreatedBy = Globals.CurrentUser ?? throw new ArgumentNullException("CurrentUser was null while a menu requiring a log-in was open."),
+                    CreatedById = Globals.CurrentUser.UniqueId,
+                    CreatedAtUtc = DateTime.UtcNow,
+                    AssignedTo = Globals.CurrentUser,
+                    AssignedToId = Globals.CurrentUser.UniqueId,
+                };
+                Window window = await Messenger.Send(CreateOrDestroySubWindowEvent.CreateWindow(typeof(JobWindow), typeof(JobWindowViewModel), someRandomJob)).Response;
+                window.Show();
+            });
             RefreshUserBindings();
         }
 
@@ -55,6 +76,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             {
                 ImageUri = Globals.GetProfilePictureUri();
             }
+            Messenger.Send(CreateOrDestroySubWindowEvent.DestroyWindow(typeof(JobWindow), typeof(JobWindowViewModel)));
             RefreshUserBindings();
         }
 
