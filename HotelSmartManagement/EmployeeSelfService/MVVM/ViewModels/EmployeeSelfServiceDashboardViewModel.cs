@@ -93,7 +93,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             RefreshUserBindings();
         }
 
-        private async void JobChanged(JobChangedEvent @event)
+        private void JobChanged(JobChangedEvent @event)
         {
             // Retrieve the job from the database
             var jobFromDb = _jobService.GetJob(@event.JobId);
