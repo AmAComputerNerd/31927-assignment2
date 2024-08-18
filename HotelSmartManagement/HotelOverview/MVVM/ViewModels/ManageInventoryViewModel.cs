@@ -17,7 +17,7 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
         private ObservableCollection<InventoryItem> inventoryItems;
 
         // Public properties.
-        public ObservableCollection<InventoryItem> InventoryItems {  get; set; }
+        public ObservableCollection<InventoryItem> InventoryItems { get; set; }
         // Commands
         public ICommand IncreaseQuantityCommand { get; }
         public ICommand DecreaseQuantityCommand { get; }

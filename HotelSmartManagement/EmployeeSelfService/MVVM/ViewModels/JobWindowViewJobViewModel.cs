@@ -62,9 +62,9 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             _userService = userService;
             _jobService = jobService;
 
-            OnPlay_Clicked = new AsyncRelayCommand(ToggleJobPlaying);
+            OnPlay_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => ToggleJobPlaying()));
             OnCloseJob_Clicked = new AsyncRelayCommand(CloseJob);
-            OnSaveJob_Clicked = new AsyncRelayCommand(SaveJob);
+            OnSaveJob_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => SaveJob()));
             OnCancelJob_Clicked = new AsyncRelayCommand(CancelJob);
         }
 
@@ -74,7 +74,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             RefreshBindings();
         }
 
-        private async Task ToggleJobPlaying()
+        private void ToggleJobPlaying()
         {
             if (CurrentJob?.Status == JobStatus.InProgress)
             {
@@ -116,7 +116,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
                 return;
             }
             // Close the job.
-            await ApplyPropertiesToJob();
+            ApplyPropertiesToJob();
             CurrentJob.Status = JobStatus.Completed;
             CurrentJob.ClosedBy = Globals.CurrentUser;
             CurrentJob.ClosedAtUtc = DateTime.Now;
@@ -126,7 +126,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             await Messenger.Send(CreateOrDestroySubWindowEvent.DestroyWindow(typeof(JobWindow), typeof(JobWindowViewModel)));
         }
 
-        private async Task SaveJob()
+        private void SaveJob()
         {
             // Check that a job with this ID still exists.
             if (_jobService.GetJob(CurrentJob?.UniqueId ?? throw new ArgumentException("User logged out at an inopportune time.")) == null)
@@ -136,7 +136,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
                 return;
             }
             // Save the job.
-            await ApplyPropertiesToJob();
+            ApplyPropertiesToJob();
             _jobService.UpdateJob(CurrentJob);
             // Send a message to update job displays.
             Messenger.Send(new JobChangedEvent(CurrentJob.UniqueId));
@@ -152,7 +152,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
                 return;
             }
             // Cancel the job.
-            await ApplyPropertiesToJob();
+            ApplyPropertiesToJob();
             CurrentJob.Status = JobStatus.Cancelled;
             CurrentJob.ClosedBy = Globals.CurrentUser;
             CurrentJob.ClosedAtUtc = DateTime.Now;
@@ -162,7 +162,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             await Messenger.Send(CreateOrDestroySubWindowEvent.DestroyWindow(typeof(JobWindow), typeof(JobWindowViewModel)));
         }
 
-        private async Task ApplyPropertiesToJob()
+        private void ApplyPropertiesToJob()
         {
             try
             {
@@ -172,7 +172,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
                 job.TaskType = GetSelectedType();
                 if (SelectedEmployeeUsername != null)
                 {
-                    job.AssignedTo = await _userService.GetUser(SelectedEmployeeUsername);
+                    job.AssignedTo = _userService.GetUser(SelectedEmployeeUsername);
                 }
                 _jobService.UpdateJob(job);
             } 

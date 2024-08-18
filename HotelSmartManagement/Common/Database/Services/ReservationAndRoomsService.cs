@@ -4,12 +4,7 @@ using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using iText.Layout.Properties;
 
 namespace HotelSmartManagement.Common.Database.Services
 {
@@ -25,6 +20,7 @@ namespace HotelSmartManagement.Common.Database.Services
             _roomRepository = roomRepository;
             _reservationRepository = reservationRepository;
         }
+
         #region Add To Database
         public void AddReservation(string reference, DateTime startDate, DateTime endDate, string requests, Guest guest, Room room)
         {
@@ -33,9 +29,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _reservationRepository.Save();
         }
 
-        public void AddRoom(RoomType roomType, int size, int capacity, List<string> amenities, List<string> photos, string layout)
+        public void AddRoom(RoomType roomType, int size, int capacity, string description, List<string> amenities, List<string> photos, string layout)
         {
-            Room room = new Room() { UniqueId = new Guid(), Type = roomType, Size = size, Capacity = capacity, Amenities = amenities, Photos = photos, Layout = layout };
+            Room room = new Room() { UniqueId = new Guid(), Type = roomType, Size = size, Capacity = capacity, Description = description, Amenities = amenities, Photos = photos, Layout = layout };
             _roomRepository.Add(room);
             _roomRepository.Save();
         }
@@ -69,14 +65,19 @@ namespace HotelSmartManagement.Common.Database.Services
             return _reservationRepository.GetBy(reservation => reservation.Reference == reference) ?? throw new NullReferenceException("Reservation was empty.");
         }
 
+        public IEnumerable<Reservation> GetAllReservations()
+        {
+            return _reservationRepository.GetAll();
+        }
+
         public Room GetRoom(Guid id)
         {
             return _roomRepository.GetBy(room => room.UniqueId == id) ?? throw new NullReferenceException("Room was empty.");
         }
 
-        public Room GetRoom(RoomType type)
+        public Room GetRoom(int type)
         {
-            return _roomRepository.GetBy(room => room.Type == type) ?? throw new NullReferenceException("Room was empty.");
+            return _roomRepository.GetBy(room => (int)room.Type == type) ?? throw new NullReferenceException("Room was empty.");
         }
         #endregion
 
@@ -105,15 +106,21 @@ namespace HotelSmartManagement.Common.Database.Services
         public void RemoveReservation(Guid id)
         {
             var reservation = _reservationRepository.GetBy(reservation => reservation.UniqueId == id);
-            _reservationRepository.Delete(reservation);
-            _reservationRepository.Save();
+            if (reservation != null)
+            {
+                _reservationRepository.Delete(reservation);
+                _reservationRepository.Save();
+            }
         }
 
         public void RemoveReservation(string reference)
         {
             var reservation = _reservationRepository.GetBy(reservation => reservation.Reference == reference);
-            _reservationRepository.Delete(reservation);
-            _reservationRepository.Save();
+            if (reservation != null)
+            {
+                _reservationRepository.Delete(reservation);
+                _reservationRepository.Save();
+            }
         }
         #endregion
 
@@ -124,12 +131,21 @@ namespace HotelSmartManagement.Common.Database.Services
                 using (var pdf = new PdfDocument(writer))
                 {
                     var document = new Document(pdf);
-                    document.Add(new Paragraph("Reservation Details"));
-                    document.Add(new Paragraph($"Reference: {reservation.Reference}"));
-                    document.Add(new Paragraph($"Guest: {reservation.Guest?.FullName}"));
-                    document.Add(new Paragraph($"Start Date: {reservation.StartDate:d}"));
-                    document.Add(new Paragraph($"End Date: {reservation.EndDate:d}"));
-                    document.Add(new Paragraph($"Requests: {reservation.Requests}"));
+
+                    document.Add(new Paragraph("YOUR RESERVATION").SetBold().SetFontSize(30).SetTextAlignment(TextAlignment.CENTER).SetMarginBottom(2f));
+                    Table table = new Table(UnitValue.PERCENT).UseAllAvailableWidth();
+                    table.AddCell("Reference");
+                    table.AddCell($"{reservation.Reference}");
+                    table.AddCell("Guest");
+                    table.AddCell($"{reservation.Guest?.FullName}");
+                    table.AddCell("Start Date");
+                    table.AddCell($"{reservation.StartDate:d}");
+                    table.AddCell("End Date");
+                    table.AddCell($"{reservation.EndDate:d}");
+                    table.AddCell("Special Requests");
+                    table.AddCell($"{reservation.Requests}");
+                    document.Add(table);
+                    document.Add(new Paragraph("For any further enquiries, contact hotel concierge. This PDF reservation was generated upon request by the Hotel Smart Management System.").SetMarginTop(2f).SetFontSize(8).SetItalic());
                 }
             }
 
