@@ -76,6 +76,8 @@ namespace HotelSmartManagement
             services.AddTransient<EmployeeSelfServiceMyDetailsViewModel>();
 
             services.AddTransient<ReservationAndRoomsDashboardViewModel>();
+            services.AddTransient<ReservationDetailsViewModel>();
+            services.AddTransient<RoomDetailsViewModel>();
 
             // Register DbContext
             services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
@@ -89,8 +91,13 @@ namespace HotelSmartManagement
             services.AddTransient<AnnouncementRepository>();
             services.AddTransient<InventoryItemRepository>();
 
+            services.AddTransient<GuestRepository>();
+            services.AddTransient<ReservationRepository>();
+            services.AddTransient<RoomRepository>();
+
             // Register Services
             services.AddTransient<UserService>();
+            services.AddTransient<ReservationAndRoomsService>();
 
             // Register Views
             services.AddTransient<MainWindow>();
@@ -105,6 +112,8 @@ namespace HotelSmartManagement
             services.AddTransient<EmployeeSelfServiceMyDetailsView>();
 
             services.AddTransient<ReservationAndRoomsDashboardView>();
+            services.AddTransient<ReservationDetailsView>();
+            services.AddTransient<RoomDetailsView>();
         }
     }
 
