@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelSmartManagement.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20240818122332_ChangedToDateAffected")]
+    [Migration("20240818124621_ChangedToDateAffected")]
     partial class ChangedToDateAffected
     {
         /// <inheritdoc />
@@ -37,10 +37,10 @@ namespace HotelSmartManagement.Migrations
                     b.Property<Guid>("EmployeeDetailsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("ProfilePictureFileName")
+                    b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")

@@ -6,9 +6,9 @@ namespace HotelSmartManagement.Common.Database.Services
 {
     public class UserService
     {
-        private readonly UserRepository _userRepository;
-        private readonly EmployeeDetailsRepository _employeeDetailsRepository;
-        private readonly LeaveRequestRepository _leaveRequestRepository;
+        private UserRepository _userRepository;
+        private EmployeeDetailsRepository _employeeDetailsRepository;
+        private LeaveRequestRepository _leaveRequestRepository;
 
         public UserService(UserRepository userRepository, EmployeeDetailsRepository employeeDetailsRepository, LeaveRequestRepository leaveRequestRepository)
         {
@@ -34,9 +34,32 @@ namespace HotelSmartManagement.Common.Database.Services
 
             return newUser.UniqueId;
         }
+        public Guid? NewEmployeeDetails(Guid userId) => NewEmployeeDetails(userId, 0, 0, "Cleaner", EmployeeStatus.PartTime, 30, 25.93, 0);
+        public Guid? NewEmployeeDetails(Guid userId, int bankAccountNo, int bankAccountBSB, string jobPosition, EmployeeStatus jobStatus, int hoursPerWeek, double jobPayPerHour, double leaveBalanceInHours)
+        {
+            var user = _userRepository.GetById(userId);
+            if (user == null)
+            {
+                // There isn't a user with that ID.
+                return null;
+            }
+
+            var newEmployeeDetails = new EmployeeDetails() { BankAccountNo = bankAccountNo, BankAccountBSB = bankAccountBSB, JobPosition = jobPosition, JobStatus = jobStatus, JobHoursPerWeek = hoursPerWeek, JobActualHoursThisWeek = 0, JobPayPerHour = jobPayPerHour, LeaveBalanceInHours = leaveBalanceInHours, UserId = userId };
+            _employeeDetailsRepository.Add(newEmployeeDetails);
+            _employeeDetailsRepository.Save();
+
+            return newEmployeeDetails.UniqueId;
+        }
         public Guid? NewLeaveRequest(Guid userId, DateTime startAt, DateTime endAt, string description)
         {
-            var employeeDetails = GetEmployeeDetailsFromUser(userId);
+            var user = _userRepository.GetById(userId);
+            if (user == null)
+            {
+                // The user doesn't have an EmployeeDetails object, so we can't create a LeaveRequest for them.
+                // This might be because (hypothetically) the user is not an employee, or that the user ID passed in is invalid.
+                return null;
+            }
+            var employeeDetails = user.EmployeeDetails;
             if (employeeDetails == null)
             {
                 // The user doesn't have an EmployeeDetails object, so we can't create a LeaveRequest for them.
@@ -52,7 +75,14 @@ namespace HotelSmartManagement.Common.Database.Services
         }
         public Guid? NewPreApprovedLeaveRequest(Guid userId, DateTime startAt, DateTime endAt, string description)
         {
-            var employeeDetails = GetEmployeeDetailsFromUser(userId);
+            var user = _userRepository.GetById(userId);
+            if (user == null)
+            {
+                // The user doesn't have an EmployeeDetails object, so we can't create a LeaveRequest for them.
+                // This might be because (hypothetically) the user is not an employee, or that the user ID passed in is invalid.
+                return null;
+            }
+            var employeeDetails = user.EmployeeDetails;
             if (employeeDetails == null)
             {
                 // The user doesn't have an EmployeeDetails object, so we can't create a LeaveRequest for them.
@@ -65,6 +95,11 @@ namespace HotelSmartManagement.Common.Database.Services
             _leaveRequestRepository.Save();
 
             return newLeaveRequest.UniqueId;
+        }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _userRepository.GetAll();
         }
 
         public User? GetUser(string username)
@@ -86,7 +121,7 @@ namespace HotelSmartManagement.Common.Database.Services
         }
         public EmployeeDetails? GetEmployeeDetailsFromUser(string username)
         {
-            return  _employeeDetailsRepository.GetBy(details => details.User.Username == username);
+            return _employeeDetailsRepository.GetBy(details => details.User.Username == username);
         }
 
         public LeaveRequest? GetLeaveRequest(Guid leaveRequestId)

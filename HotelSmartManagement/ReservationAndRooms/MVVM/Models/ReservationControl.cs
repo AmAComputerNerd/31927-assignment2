@@ -12,6 +12,7 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
                 typeof(Reservation),
                 typeof(ReservationControl), 
                 new FrameworkPropertyMetadata(null));
+#pragma warning restore CS8618 // Reason: custom control, doesn't have a constructor
 
         public Reservation Reservation
         {

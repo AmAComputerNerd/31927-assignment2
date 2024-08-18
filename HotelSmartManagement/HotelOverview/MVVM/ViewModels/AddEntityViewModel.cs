@@ -1,30 +1,33 @@
 ﻿using HotelSmartManagement.Common.MVVM.Models;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
 {
-    public class AddEntityViewModel : ViewModelBase
+    public abstract class AddEntityViewModel : ViewModelWithMessenging
     {
-        private Uri _imageUri;
-        public Uri ImageUri { get => _imageUri; set => SetProperty(ref _imageUri, value); }
+        public override string Name => nameof(AddEntityViewModel);
 
+        private string _title;
+        private string _details;
+
+        public string Title { get => _title; set => SetProperty(ref _title, value); }
+        public string Details { get => _details; set => SetProperty(ref _details, value); }
+        public string ErrorMessage { get; set; }
 #pragma warning disable CS8618 // Reason: private fields are set through public properties.
         public AddEntityViewModel(Globals globals) : base(globals)
 #pragma warning restore CS8618 // Reason: private fields are set through public properties.
         {
-            //ImageUri = Globals.GetProfilePictureUri();
+            ErrorMessage = string.Empty;
         }
-
-        public void OnCancel()
+        public abstract void OnSave();
+        public virtual bool ValidateFields()
         {
-            throw new NotImplementedException();
-        }
-        public void OnSave()
-        {
-            throw new NotImplementedException();
-        }
-        public void ValidateFields()
-        {
-            throw new NotImplementedException();
+            if (Title == string.Empty || Details == string.Empty)
+            {
+                ErrorMessage = "Please fill out all fields.";
+                return false;
+            }
+            return true;
         }
     }
 }

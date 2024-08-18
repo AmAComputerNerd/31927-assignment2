@@ -25,7 +25,7 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
         [NotMapped]
         public string TierBackground
         {
-            get { return Tier; }
+            get { return Tier ?? ""; }
             set
             {
                 switch(value)

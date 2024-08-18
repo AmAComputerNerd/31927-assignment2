@@ -10,13 +10,19 @@ namespace HotelSmartManagement.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.RenameColumn(
+                name: "DateCreated",
+                table: "Events",
+                newName: "DateAffected");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.RenameColumn(
+                name: "DateAffected",
+                table: "Events",
+                newName: "DateCreated");
         }
     }
 }
