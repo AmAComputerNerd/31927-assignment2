@@ -24,8 +24,8 @@
                     <TextBlock Text="Announcement Category:"
                            Style="{StaticResource SubTitle}"
                            Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Text="johndoe@gmail.com"
-                         Grid.Row="1" Grid.Column="1"/>
+                    <ComboBox Text="johndoe@gmail.com"
+                            Grid.Row="1" Grid.Column="1"/>
                     <TextBlock Text="Announcement Details"
                            Style="{StaticResource SubTitle}"
                            Grid.Row="2" Grid.Column="0"/>
