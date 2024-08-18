@@ -16,8 +16,8 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
 
         public Reservation Reservation
         {
-            get => (Reservation)GetValue(ReservationProperty);
-            set => SetValue(ReservationProperty, value);
+            get { return (Reservation)GetValue(ReservationProperty); }
+            set { SetValue(ReservationProperty, value); }
         }
 
         static ReservationControl()
