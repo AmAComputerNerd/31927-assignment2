@@ -27,15 +27,28 @@
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Inventory Items" HorizontalAlignment="Center" Margin="5" FontWeight="Bold" />
             <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="2" Margin="5">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <Rectangle Height="100" Width="100" Fill="Red" Margin="10"/>
-                        <Rectangle Height="100" Width="100" Fill="Green" Margin="10"/>
-                        <Rectangle Height="100" Width="100" Fill="Blue" Margin="10"/>
-                        <Rectangle Height="100" Width="100" Fill="Yellow" Margin="10"/>
-                    </StackPanel>
+                    <Grid>
+                        <ListBox ItemsSource="{Binding InventoryItems}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" Width="100" />
+                                        <TextBlock Text="{Binding Quantity}" Width="50" />
+                                        <Button Content="+" Width="30" Command="{Binding DataContext.IncreaseQuantityCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}" />
+                                        <Button Content="-" Width="30" Command="{Binding DataContext.DecreaseQuantityCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
                 </ScrollViewer>
             </Border>
         </Grid>
-        <Button Content='Close' Margin="10" Padding="20,5" Grid.Row="2" HorizontalAlignment="Center"/>
+        <Button Content='Close' Margin="10" 
+                Padding="20,5" Grid.Row="2" 
+                HorizontalAlignment="Center"
+                Style="{StaticResource FancyButton}"
+                Command="{Binding OnClose_Clicked}"
+                />
     </Grid>
 </UserControl>

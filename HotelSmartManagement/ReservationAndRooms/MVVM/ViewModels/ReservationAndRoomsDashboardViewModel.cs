@@ -16,7 +16,6 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         public override string Name => nameof(ReservationAndRoomsDashboardViewModel);
 
         // Private
-        private Uri _imageUri;
         private ObservableCollection<Reservation> _globalReservations;
         private ReservationAndRoomsService _service;
         private IServiceProvider _serviceProvider;
@@ -36,7 +35,9 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
             }
         }
 
+#pragma warning disable CS8618 // Reason: fields set through properties.
         public ReservationAndRoomsDashboardViewModel(IServiceProvider serviceProvider, ReservationAndRoomsService service, Globals globals) : base(globals)
+#pragma warning restore CS8618 // Reason: fields set through properties.
         {
             _service = service;
             _serviceProvider = serviceProvider;

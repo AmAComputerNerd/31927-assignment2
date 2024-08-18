@@ -12,6 +12,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.Models
         public Guid UniqueId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public double TimeLoggedWorking { get; set; }
         public JobUrgencyLevel UrgencyLevel { get; set; }
         public JobType TaskType { get; set; }
         public JobStatus Status { get; set; }

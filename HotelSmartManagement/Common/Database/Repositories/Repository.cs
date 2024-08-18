@@ -8,7 +8,7 @@ namespace HotelSmartManagement.Common.Database.Repositories
     public abstract class Repository<T> : IRepository<T> where T : class, IDatabaseObject
     {
         protected readonly DbContext _context;
-        protected readonly DbSet<T> _dbSet;
+        protected DbSet<T> _dbSet;
 
         public Repository(HotelDbContext context)
         {

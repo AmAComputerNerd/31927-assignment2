@@ -20,7 +20,9 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
 {
     public class ReservationControl : Control, INotifyPropertyChanged
     {
+#pragma warning disable CS8618 // Reason: custom control, doesn't have a constructor
         private Reservation _reservation;
+#pragma warning restore CS8618 // Reason: custom control, doesn't have a constructor
 
         public Reservation Reservation
         {

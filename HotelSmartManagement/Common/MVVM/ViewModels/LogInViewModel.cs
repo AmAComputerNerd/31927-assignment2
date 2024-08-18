@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using HotelSmartManagement.Common.Database.Services;
 using HotelSmartManagement.Common.Events;
 using HotelSmartManagement.Common.MVVM.Models;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,6 +11,7 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
 {
     public class LogInViewModel : ViewModelBase
     {
+        private readonly IServiceProvider _serviceProvider;
         private readonly UserService _userService;
         private string _title;
         private string _username;
@@ -44,8 +46,11 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
 
         public AsyncRelayCommand OnLogInRegister_Clicked { get; }
 
-        public LogInViewModel(UserService userService, Globals globals) : base(globals)
+#pragma warning disable CS8618 // Reason: all fields are set through properties.
+        public LogInViewModel(IServiceProvider serviceProvider, UserService userService, Globals globals) : base(globals)
+#pragma warning restore CS8618 // Reason: all fields are set through properties.
         {
+            _serviceProvider = serviceProvider;
             _userService = userService;
             Username = string.Empty;
             Password = string.Empty;
@@ -54,20 +59,20 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
             // Set Password and ConfirmPassword to the PasswordBox.Password property.
             OnPassword_Changed = new RelayCommand<PasswordBox>(param => Password = param?.Password ?? throw new ArgumentException("Password wasn't passed into the OnPassword_Changed command correctly!"));
             OnConfirmPassword_Changed = new RelayCommand<PasswordBox>(param => ConfirmPassword = param?.Password ?? throw new ArgumentException("ConfirmPassword wasn't passed into the OnConfirmPassword_Changed command correctly!"));
-            OnLogInRegister_Clicked = new AsyncRelayCommand(async () =>
+            OnLogInRegister_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => 
             {
                 if (IsRegister)
                 {
-                    await Register();
+                    Register();
                 }
                 else
                 {
-                    await LogIn();
+                    LogIn();
                 }
-            });
+            }));
         }
 
-        private async Task LogIn()
+        private void LogIn()
         {
             // Validate input.
             var user = _userService.GetUser(Username);
@@ -90,7 +95,7 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
             WeakReferenceMessenger.Default.Send(new ChangeViewEvent(typeof(MenuViewModel)), nameof(MainViewModel));
         }
 
-        private async Task Register()
+        private void Register()
         {
             // Validate input.
             if (Password.Length < 3)
@@ -119,6 +124,8 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
                 MessageBox.Show("Username must be unique.", "Registration Failed", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            // Create a matching user details object.
+            var employeeDetailsId = _userService.NewEmployeeDetails((Guid)id) ?? throw new ArgumentException("Something went wrong - we can't generate an EmployeeDetails model!");
             // User created successfully.
             var user = _userService.GetUser((Guid)id);
             Globals.CurrentUser = user;
