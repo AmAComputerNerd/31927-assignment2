@@ -10,6 +10,7 @@ namespace HotelSmartManagement.HotelOverview.MVVM.Models
         public Guid UniqueId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public Area AreaAffected { get; set; }
         public DateTime DateCreated { get; set; }
         
 #nullable enable // Reason: Model for EF - expected that these properties do not get assigned in the constructor.
