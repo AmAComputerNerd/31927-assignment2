@@ -6,6 +6,7 @@ using HotelSmartManagement.Common.MVVM.ViewModels;
 using HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels;
 using HotelSmartManagement.HotelOverview.MVVM.ViewModels;
 using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 
 namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
@@ -17,21 +18,33 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         // Private
         private Uri _imageUri;
         private ObservableCollection<Reservation> _globalReservations;
+        private ReservationAndRoomsService _service;
+        private IServiceProvider _serviceProvider;
 
         // Public
-        public Uri ImageUri { get => _imageUri; set => SetProperty(ref _imageUri, value); }
         public ObservableCollection<Reservation> GlobalReservations { get => _globalReservations; set => SetProperty(ref _globalReservations, value); }
 
         // Commands
         public RelayCommand<Reservation> OnReservation_Clicked { get; }
         public RelayCommand<string> OnRoomDetails_Clicked { get; }
 
-        public ReservationAndRoomsDashboardViewModel(ReservationAndRoomsService service, Globals globals) : base(globals)
+        protected ReservationAndRoomsService ReservationAndRoomsService
         {
+            get
+            {
+                return _serviceProvider.GetRequiredService<ReservationAndRoomsService>();
+            }
+        }
+
+        public ReservationAndRoomsDashboardViewModel(IServiceProvider serviceProvider, ReservationAndRoomsService service, Globals globals) : base(globals)
+        {
+            _service = service;
+            _serviceProvider = serviceProvider;
+
             OnReservation_Clicked = new RelayCommand<Reservation>((reservation) =>
             {
                 _ = reservation ?? throw new ArgumentException("Invalid reservation selection!");
-                var reservationDetailsViewModel = new ReservationDetailsViewModel(globals, reservation);
+                var reservationDetailsViewModel = new ReservationDetailsViewModel(service, globals, reservation);
                 Messenger.Send(new ChangeViewEvent(reservationDetailsViewModel), nameof(MainViewModel));
             });
 
@@ -41,5 +54,16 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
                 Messenger.Send(new ChangeViewEvent(roomDetailsViewModel), nameof(MainViewModel));
             });
         }
+
+        //private async void SeedData()
+        //{
+        //    var service = _serviceProvider.GetRequiredService<ReservationAndRoomsService>();
+        //    service.DeleteAllReservations();
+        //    service.DeleteAllGuests();
+        //    service.DeleteAllRooms();
+        //    service.AddRoom(RoomType.Standard, 10, 10, new List<string> { "Bla" }, new List<string> { "Bla" }, "Bla");
+        //    service.AddGuest("John", "Does", "Gold", DateTime.Now, 5);
+        //    service.AddReservation("EEE", DateTime.Now, DateTime.Now, "None", service.GetGuest("John", "Does"), service.GetRoom(RoomType.Standard));
+        //}
     }
 }

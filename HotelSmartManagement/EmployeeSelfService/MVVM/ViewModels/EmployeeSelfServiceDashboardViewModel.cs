@@ -96,7 +96,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
         private async void JobChanged(JobChangedEvent @event)
         {
             // Retrieve the job from the database
-            var jobFromDb = await _jobService.GetJob(@event.JobId);
+            var jobFromDb = _jobService.GetJob(@event.JobId);
 
             if (jobFromDb == null)
             {

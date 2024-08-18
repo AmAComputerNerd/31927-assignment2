@@ -16,36 +16,36 @@ namespace HotelSmartManagement.Common.Database.Repositories
             _dbSet = context.Set<T>();
         }
 
-        public async void Add(T entity)
+        public void Add(T entity)
         {
-            await _dbSet.AddAsync(entity);
+            _dbSet.Add(entity);
         }
 
-        public async void AddRange(IEnumerable<T> entities)
+        public void AddRange(IEnumerable<T> entities)
         {
-            await _dbSet.AddRangeAsync(entities);
+            _dbSet.AddRange(entities);
         }
 
-        public async void AddRange(params T[] entities)
+        public void AddRange(params T[] entities)
         {
-            await _dbSet.AddRangeAsync(entities);
+            _dbSet.AddRange(entities);
         }
 
         public abstract IQueryable<T> AsQueryable();
 
-        public async Task<bool> Contains(T entity)
+        public bool Contains(T entity)
         {
-            return await _dbSet.ContainsAsync(entity);
+            return _dbSet.Contains(entity);
         }
 
-        public async Task<bool> ContainsAny(Expression<Func<T, bool>> predicate)
+        public bool ContainsAny(Expression<Func<T, bool>> predicate)
         {
-            return await _dbSet.FirstOrDefaultAsync(predicate) != null;
+            return _dbSet.FirstOrDefault(predicate) != null;
         }
 
-        public async Task<bool> ContainsById(Guid entityId)
+        public bool ContainsById(Guid entityId)
         {
-            return await _dbSet.FindAsync(entityId) != null;
+            return _dbSet.Find(entityId) != null;
         }
 
         public void Delete(T entity)
@@ -60,9 +60,9 @@ namespace HotelSmartManagement.Common.Database.Repositories
             return matchingEntities.Count();
         }
 
-        public async void DeleteById(Guid id)
+        public void DeleteById(Guid id)
         {
-            var entityWithId = await _dbSet.FindAsync(id);
+            var entityWithId = _dbSet.Find(id);
             if (entityWithId != null)
             {
                 _dbSet.Remove(entityWithId);
@@ -79,24 +79,24 @@ namespace HotelSmartManagement.Common.Database.Repositories
             _dbSet.RemoveRange(entities);
         }
 
-        public IAsyncEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll()
         {
-            return AsQueryable().AsAsyncEnumerable();
+            return AsQueryable().AsEnumerable();
         }
 
-        public Task<T?> GetBy(Expression<Func<T, bool>> predicate)
+        public T? GetBy(Expression<Func<T, bool>> predicate)
         {
-            return AsQueryable().FirstOrDefaultAsync(predicate);
+            return AsQueryable().FirstOrDefault(predicate);
         }
 
-        public Task<T?> GetById(Guid id)
+        public T? GetById(Guid id)
         {
-            return AsQueryable().FirstOrDefaultAsync(entity => entity.UniqueId == id);
+            return AsQueryable().FirstOrDefault(entity => entity.UniqueId == id);
         }
 
-        public async void Save()
+        public void Save()
         {
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public void Update(T entity)

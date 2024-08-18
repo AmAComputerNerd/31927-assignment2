@@ -20,12 +20,13 @@
 
         <TabControl Grid.Row="1" TabStripPlacement="Left">
             <TabItem Header="Info" Height="40">
-                <Grid Background="LightGray">
+                <Grid Background="Beige">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="300"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Content for Tab 1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    
+                    <TextBlock Grid.Column="0" Text="{Binding Room.Amenities, FallbackValue=No room information!}" HorizontalAlignment="Left" Margin="5"/>
 
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
+using System.Net;
 using System.Net.Mail;
 using System.Windows;
 
@@ -32,7 +33,27 @@ namespace HotelSmartManagement.Common.Helpers
             await SendEmailAsync(toEmail, subject, body.Replace("{{verificationCode}}", verificationCode.ToString()));
         }
 
-        private static async Task SendEmailAsync(string toEmail, string subject, string content)
+        public static async Task SendReservationEmailASync(Reservation reservation, string toEmail, string attachment)
+        {
+            var subject = "Your Requested Reservation - Hotel Smart Management System";
+            var body = $@"
+            <html>
+                <body style='font-family: Arial, sans-serif;'>
+                    <div style='background-color: #f9f9f9; padding: 20px;'>
+                        <h2 style='color: #3498db;'>Hotel Smart Management System</h2>
+                        <p>Dear Staff Member,</p>
+                        <p>You requested a copy of {reservation.Guest.FullName}'s reservation under reference {reservation.Reference}.</p>
+                        <p>This has been attached below.</p>
+                        <br/>
+                        <p>Best regards,<br/>Hotel Smart Management System Team</p>
+                    </div>
+                </body>
+            </html>";
+
+            await SendEmailAsync(toEmail, subject, body, new List<string>() { attachment });
+        }
+
+        private static async Task SendEmailAsync(string toEmail, string subject, string content, List<string>? attachments = null)
         {
             try
             {
@@ -44,6 +65,15 @@ namespace HotelSmartManagement.Common.Helpers
                     IsBodyHtml = true
                 };
                 message.To.Add(toEmail);
+
+                if (attachments != null)
+                {
+                    foreach (string attachment in attachments)
+                    {
+                        Attachment newAttachment = new Attachment(attachment);
+                        message.Attachments.Add(newAttachment);
+                    }
+                }
 
                 using (var smtpClient = new SmtpClient(_smtpServer, _smtpPort))
                 {
