@@ -15,7 +15,6 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
 
         private HotelOverviewService _hotelOverviewService;
         private ObservableCollection<InventoryItem> inventoryItems;
-        private double _userTimeRecording;
 
         // Public properties.
         public ObservableCollection<InventoryItem> InventoryItems {  get; set; }
