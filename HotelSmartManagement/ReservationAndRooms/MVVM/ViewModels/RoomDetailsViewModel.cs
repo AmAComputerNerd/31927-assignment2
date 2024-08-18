@@ -11,13 +11,24 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
 
         // Private
         private Room _room;
+        private ReservationAndRoomsService _service;
         private ReservationAndRoomsService _reservationAndRoomsService;
 
         public Room Room { get => _room; set => SetProperty(ref _room, value); }
 
-        public RoomDetailsViewModel(Globals globals, string roomType) : base(globals)
+        public RoomDetailsViewModel(ReservationAndRoomsService service, Globals globals) : base(globals)
         {
-            // _room = GetRoom(roomType)
+            _service = service;
+        }
+
+        public RoomDetailsViewModel(ReservationAndRoomsService service, Globals globals, string roomType) : base(globals)
+        {
+            _service = service;
+            SetRoom(roomType);
+        }
+        public async void SetRoom(string roomType)
+        {
+            _room = await _service.GetRoom((RoomType)int.Parse(roomType));
         }
     }
 }
