@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HotelSmartManagement.EmployeeSelfService.MVVM.Views"
+             xmlns:extensions="clr-namespace:HotelSmartManagement.Common.XamlExtensions"
              xmlns:viewmodel="clr-namespace:HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodel:EmployeeSelfServiceDashboardViewModel}"
              mc:Ignorable="d" 
@@ -12,38 +13,94 @@
         <StackPanel Background="AliceBlue">
             <TextBlock Text="Employee Self-Service" 
                        Style="{StaticResource Title}"/>
-            <TextBlock Style="{StaticResource SubTitle}">Welcome <Bold><Run Text="{Binding CurrentUser.Username, FallbackValue=VS_DESIGNER}"/></Bold>. You have <Bold>{numOfJobs} jobs</Bold> pending (highest urgency level: {highestUrgencyLevel}).</TextBlock>
-            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled"
-                          HorizontalAlignment="Left" Margin="10,10,0,0" Width="400">
-                <UniformGrid Rows="4">
-                    <Button MinHeight="50"
-                            Background="Yellow"
-                            Command="{Binding OnAnyTask_Clicked}"/>
-                    <Button MinHeight="50"
-                            Background="Wheat"
-                            Command="{Binding OnAnyTask_Clicked}"/>
-                    <Button MinHeight="50"
-                            Background="Wheat"
-                            Command="{Binding OnAnyTask_Clicked}"/>
-                    <Button MinHeight="50"
-                            Background="White"
-                            Command="{Binding OnAnyTask_Clicked}"/>
+            <TextBlock Style="{StaticResource SubTitle}">Welcome <Bold><Run Text="{Binding Username, FallbackValue=VS_DESIGNER}"/></Bold>. You have <Bold><Run Text="{Binding NumberOfAssignedJobs, FallbackValue=69}"/> jobs</Bold> pending (highest urgency level: <Run Text="{Binding HighestUrgencyLevelOfAssignedJobs, FallbackValue=-1}"/>).</TextBlock>
+
+            <Grid Margin="10,10,0,0">
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled"
+                              Grid.Column="0">
+                    
+                    <StackPanel MinWidth="500">
+                        
+                        <RadioButton MinHeight="50"
+                                     Background="Yellow"
+                                     Style="{StaticResource StickyButton}"/>
+                        <RadioButton MinHeight="50"
+                                     Background="Wheat"
+                                     Style="{StaticResource StickyButton}"/>
+                        <RadioButton MinHeight="50"
+                                     Background="Wheat"
+                                     Style="{StaticResource StickyButton}"/>
+                        <RadioButton MinHeight="50"
+                                     Background="White"
+                                     Style="{StaticResource StickyButton}"/>
+                        
+                    </StackPanel>
+                    
+                </ScrollViewer>
+
+                <UniformGrid Rows="4" Grid.Column="1"
+                             HorizontalAlignment="Center"
+                             extensions:UniformGridHelper.ChildPadding="20,5">
+                    
+                    <Button Content="View Job"
+                            FontSize="16"
+                            Style="{StaticResource FancyButton}" Command="{Binding OnViewJob_Clicked}"/>
+                    <Button Content="Add Job"
+                            FontSize="16"
+                            Style="{StaticResource FancyButton}" Command="{Binding OnAddJob_Clicked}"/>
+                    <Button Content="Close Job"
+                            FontSize="16"
+                            Style="{StaticResource FancyButton}" Command="{Binding OnCloseJob_Clicked}"/>
+                    <Button Content="Cancel Job"
+                            FontSize="16"
+                            Style="{StaticResource FancyButton}" Command="{Binding OnCancelJob_Clicked}"/>
+                    
                 </UniformGrid>
-            </ScrollViewer>
-            <TextBlock Text="Employment At-A-Glance"
-               Style="{StaticResource Heading}"/>
-            <TextBlock Style="{StaticResource SubTitle}">You are currently employed at <Bold><Run Text="{Binding UserEmployeeDetails.JobHoursPerWeek, FallbackValue=-1}"/> hours p/week</Bold>.</TextBlock>
-            <TextBlock Style="{StaticResource SubTitle}">Thus far, you average <Bold><Run Text="{Binding UserEmployeeDetails.JobActualHoursThisWeek, FallbackValue=-1}"/> hours p/week</Bold> (Time Recording: <Run Text="{Binding UserTimeRecording, FallbackValue=69.420}"/>%)</TextBlock>
-            <TextBlock/>
-            <TextBlock Style="{StaticResource SubTitle}">You have <Bold><Run Text="{Binding UserEmployeeDetails.LeaveBalanceInHours, FallbackValue=-1}"/> hours</Bold> of annual leave saved.</TextBlock>
-            <StackPanel Orientation="Horizontal">
-                <Button Content="My Profile"
-                        Padding="5" Margin="10,0,20,0" Style="{StaticResource FancyButton}"
-                        Command="{Binding OnMyProfile_Clicked}"/>
-                <Button Content="My Employment"
-                        Padding="5" Style="{StaticResource FancyButton}"
-                        Command="{Binding OnMyEmployment_Clicked}"/>
-            </StackPanel>
+            
+            </Grid>
+
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    
+                    <TextBlock Text="Employment At-A-Glance"
+                               Style="{StaticResource Heading}"/>
+                    <TextBlock Style="{StaticResource SubTitle}">You are currently employed at <Bold><Run Text="{Binding JobHoursPerWeek, FallbackValue=-1}"/> hours p/week</Bold>.</TextBlock>
+                    <TextBlock Style="{StaticResource SubTitle}">Thus far, you average <Bold><Run Text="{Binding JobActualHoursThisWeek, FallbackValue=-1}"/> hours p/week</Bold> (Time Recording: <Run Text="{Binding UserTimeRecording, FallbackValue=69.420}"/>%)</TextBlock>
+                    <TextBlock/>
+                    <TextBlock Style="{StaticResource SubTitle}">You have <Bold><Run Text="{Binding LeaveBalanceInHours, FallbackValue=-1}"/> hours</Bold> of annual leave saved.</TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="My Profile"
+                                Padding="5" Margin="10,0,20,0"
+                                Style="{StaticResource FancyButton}" Command="{Binding OnMyProfile_Clicked}"/>
+                        <Button Content="My Employment"
+                                Padding="5"
+                                Style="{StaticResource FancyButton}" Command="{Binding OnMyEmployment_Clicked}"/>
+                    </StackPanel>
+                
+                </StackPanel>
+
+                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" 
+                        CornerRadius="10" Margin="20,10">
+
+                    <TextBlock Text="No announcements at this time."
+                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                </Border>
+
+            </Grid>
+            
         </StackPanel>
     </ScrollViewer>
 </UserControl>

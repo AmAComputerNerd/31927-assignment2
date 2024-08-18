@@ -24,7 +24,7 @@
         <Style.Setters>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Literata"/>
-            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontSize" Value="22"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Margin" Value="10,5,5,5"/>
         </Style.Setters>
@@ -82,4 +82,50 @@
         </Style.Setters>
     </Style>
 
+    <Style x:Key="StickyButton"
+           BasedOn="{StaticResource {x:Type ToggleButton}}"
+           TargetType="RadioButton">
+
+        <Style.Setters>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"
+                                              RecognizesAccessKey="True"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+
+        </Style.Setters>
+
+        <Style.Triggers>
+
+            <!--Theming triggers for the IsMouseOver event.-->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderThickness" Value="2"/>
+            </Trigger>
+
+        </Style.Triggers>
+
+    </Style>
+    
 </ResourceDictionary>

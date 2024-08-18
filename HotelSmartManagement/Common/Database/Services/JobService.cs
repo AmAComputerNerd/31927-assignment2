@@ -80,7 +80,7 @@ namespace HotelSmartManagement.Common.Database.Services
 
         public async void UpdateJob(Job job)
         {
-            if (!await _jobRepository.Contains(job))
+            if (await _jobRepository.Contains(job))
             {
                 _jobRepository.Update(job);
             }
