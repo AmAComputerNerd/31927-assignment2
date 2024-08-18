@@ -1,6 +1,7 @@
 ﻿using HotelSmartManagement.Common.MVVM.Models;
 using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
 using HotelSmartManagement.HotelOverview.MVVM.Models;
+using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelSmartManagement.Common.Database.Context
