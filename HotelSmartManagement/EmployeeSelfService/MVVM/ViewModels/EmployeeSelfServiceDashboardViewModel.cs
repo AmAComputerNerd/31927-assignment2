@@ -6,7 +6,6 @@ using HotelSmartManagement.Common.MVVM.Models;
 using HotelSmartManagement.Common.MVVM.ViewModels;
 using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
 using HotelSmartManagement.EmployeeSelfService.SubWindows;
-using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -19,7 +18,6 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
         // Private fields.
         private readonly UserService _userService;
         private readonly JobService _jobService;
-        private Uri _imageUri;
         private string _username;
         private double _jobHoursPerWeek;
         private double _jobActualHoursThisWeek;
@@ -76,7 +74,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
                 var window = await Messenger.Send(CreateOrDestroySubWindowEvent.CreateWindow(typeof(JobWindow), typeof(JobWindowViewModel)));
                 window.Show();
             });
-            OnCloseJob_Clicked = new AsyncRelayCommand(() => Task.Run(() =>
+            OnCloseJob_Clicked = new AsyncRelayCommand(async () => await Task.Run(() =>
             {
                 if (SelectedJob == null)
                 {
@@ -90,7 +88,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
                 _jobService.UpdateJob(SelectedJob);
                 Messenger.Send(new JobChangedEvent(SelectedJob.UniqueId));
             }));
-            OnCancelJob_Clicked = new AsyncRelayCommand(async () =>
+            OnCancelJob_Clicked = new AsyncRelayCommand(async () => await Task.Run(() =>
             {
                 if (SelectedJob == null)
                 {
@@ -103,7 +101,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
                 // Update the job in the database.
                 _jobService.UpdateJob(SelectedJob);
                 Messenger.Send(new JobChangedEvent(SelectedJob.UniqueId));
-            });
+            }));
             RefreshUserBindings();
         }
 

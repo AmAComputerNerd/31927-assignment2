@@ -1,12 +1,6 @@
 ﻿using HotelSmartManagement.Common.Database.Misc;
-using HotelSmartManagement.Common.MVVM.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
 {
@@ -31,7 +25,7 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
         [NotMapped]
         public string TierBackground
         {
-            get { return Tier; }
+            get { return Tier ?? ""; }
             set
             {
                 switch(value)

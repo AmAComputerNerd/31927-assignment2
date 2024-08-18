@@ -50,7 +50,9 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
         public AsyncRelayCommand OnAddRequest_Clicked { get; }
         public AsyncRelayCommand OnDeleteRequest_Clicked { get; }
 
+#pragma warning disable CS8618 // Reason: all fields are set through RefreshBindings();
         public EmployeeSelfServiceMyDetailsViewModel(UserService userService, Globals globals) : base(globals)
+#pragma warning restore CS8618 // Reason: all fields are set through RefreshBindings();
         {
             _userService = userService;
 
@@ -85,7 +87,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
                 else
                 {
                     // Create a new leave request.
-                    id = await _userService.NewLeaveRequest(currentUser.UniqueId, DateTime.MinValue, DateTime.MaxValue, "Dummy leave request");
+                    id = _userService.NewLeaveRequest(currentUser.UniqueId, DateTime.MinValue, DateTime.MaxValue, "Dummy leave request");
                 }
 
                 if (id == null)
@@ -213,7 +215,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             BankAccountNo = Globals.CurrentUser?.EmployeeDetails?.BankAccountNo ?? 0;
             BankAccountBsb = Globals.CurrentUser?.EmployeeDetails?.BankAccountBSB ?? 0;
             JobPosition = Globals.CurrentUser?.EmployeeDetails?.JobPosition ?? "Unknown";
-            EmployeeStatus = Globals.CurrentUser?.EmployeeDetails?.JobStatus.ToFriendlyString() ?? "Unknown";
+            EmployeeStatus = Globals.CurrentUser?.EmployeeDetails?.JobStatus.ToFriendlyString(Globals.CurrentUser?.EmployeeDetails?.JobHoursPerWeek ?? 0) ?? "Unknown";
             JobHoursPerWeek = Globals.CurrentUser?.EmployeeDetails?.JobHoursPerWeek ?? 0;
             JobPayPerHour = Globals.CurrentUser?.EmployeeDetails?.JobPayPerHour ?? 0;
             LeaveBalanceInHours = Globals.CurrentUser?.EmployeeDetails?.LeaveBalanceInHours ?? 0;

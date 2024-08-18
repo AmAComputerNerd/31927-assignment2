@@ -14,10 +14,9 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
         public override string Name => nameof(ManageInventoryViewModel);
 
         private HotelOverviewService _hotelOverviewService;
-        private ObservableCollection<InventoryItem> inventoryItems;
 
         // Public properties.
-        public ObservableCollection<InventoryItem> InventoryItems {  get; set; }
+        public ObservableCollection<InventoryItem> InventoryItems { get; set; }
         // Commands
         public ICommand IncreaseQuantityCommand { get; }
         public ICommand DecreaseQuantityCommand { get; }

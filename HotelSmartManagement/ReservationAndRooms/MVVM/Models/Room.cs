@@ -1,10 +1,5 @@
 ﻿using HotelSmartManagement.Common.Database.Misc;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
 {
@@ -18,6 +13,8 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
         public int Size { get; set; }
 
         public int Capacity { get; set; }
+
+        public string Description { get; set; }
 
         public List<string>? Amenities { get; set; }
 
