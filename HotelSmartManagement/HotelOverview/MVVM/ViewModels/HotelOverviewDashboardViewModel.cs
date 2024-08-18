@@ -44,7 +44,7 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
         async private void RefreshUserBindings()
         {
             InventoryItems = new ObservableCollection<InventoryItem>(_hotelOverviewService.GetAllInventory() as ICollection<InventoryItem> ?? Array.Empty<InventoryItem>());
-            Announcements = new ObservableCollection<Announcement>(_hotelOverviewService.GetAllAnnouncements() as ICollection<Announcement> ?? Array.Empty<Announcement>());
+            Announcements = new ObservableCollection<Announcement>(_hotelOverviewService.GetAllAnnouncements().Where(a => a.IsResolved) as ICollection<Announcement> ?? Array.Empty<Announcement>());
             Events = string.Empty;
             await foreach (var e in _hotelOverviewService.GetAllEvents())
             {
