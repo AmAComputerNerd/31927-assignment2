@@ -26,7 +26,7 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         public RelayCommand<Reservation> OnReservation_Clicked { get; }
         public RelayCommand<string> OnRoomDetails_Clicked { get; }
 
-        public ReservationAndRoomsDashboardViewModel(Globals globals) : base(globals)
+        public ReservationAndRoomsDashboardViewModel(ReservationAndRoomsService service, Globals globals) : base(globals)
         {
             OnReservation_Clicked = new RelayCommand<Reservation>((reservation) =>
             {
@@ -37,7 +37,7 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
 
             OnRoomDetails_Clicked = new RelayCommand<string>((roomType) =>
             {
-                var roomDetailsViewModel = new RoomDetailsViewModel(globals, roomType);
+                var roomDetailsViewModel = new RoomDetailsViewModel(service, globals, roomType);
                 Messenger.Send(new ChangeViewEvent(roomDetailsViewModel), nameof(MainViewModel));
             });
         }
