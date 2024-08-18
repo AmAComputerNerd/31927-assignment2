@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace HotelSmartManagement.Common.Events
+﻿namespace HotelSmartManagement.Common.Events
 {
     public class JobChangedEvent
     {

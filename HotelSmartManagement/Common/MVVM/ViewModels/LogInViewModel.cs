@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using HotelSmartManagement.Common.Database.Services;
 using HotelSmartManagement.Common.Events;
 using HotelSmartManagement.Common.MVVM.Models;
-using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
 
