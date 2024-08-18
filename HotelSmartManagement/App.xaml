@@ -30,7 +30,7 @@
             </DataTemplate>
             
             <!-- Hotel Management / Overview -->
-            <DataTemplate DataType="{x:Type hotelViewModels:HotelManagementDashboardViewModel}">
+            <DataTemplate DataType="{x:Type hotelViewModels:HotelOverviewDashboardViewModel}">
                 <hotelViews:HotelManagementDashboardView/>
             </DataTemplate>
             

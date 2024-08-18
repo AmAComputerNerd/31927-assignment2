@@ -39,46 +39,46 @@ namespace HotelSmartManagement.Common.Database.Services
 
         public async Task<Announcement?> GetAnnouncement(string announcementTitle)
         {
-            return await _announcementRepository.GetBy(announcement => announcement.Title == announcementTitle);
+            return _announcementRepository.GetBy(announcement => announcement.Title == announcementTitle);
         }
         public async Task<Announcement?> GetAnnouncement(Guid guid)
         {
-            return await _announcementRepository.GetById(guid);
+            return _announcementRepository.GetById(guid);
         }
-        public IAsyncEnumerable<Announcement> GetAllAnnouncements()
+        public IEnumerable<Announcement> GetAllAnnouncements()
         {
             return _announcementRepository.GetAll();
         }
 
         public async Task<Event?> GetEvent(Guid eventId)
         {
-            return await _eventRepository.GetById(eventId);
+            return _eventRepository.GetById(eventId);
         }
         public async Task<Event?> GetEvent(string eventTitle)
         {
-            return await _eventRepository.GetBy(eventT => eventT.Title == eventTitle);
+            return _eventRepository.GetBy(eventT => eventT.Title == eventTitle);
         }
-        public IAsyncEnumerable<Event> GetAllEvents()
+        public IEnumerable<Event> GetAllEvents()
         {
             return _eventRepository.GetAll();
         }
 
         public async Task<InventoryItem?> GetInventoryItem(Guid inventoryItemId)
         {
-            return await _inventoryItemRepository.GetById(inventoryItemId);
+            return _inventoryItemRepository.GetById(inventoryItemId);
         }
         public async Task<InventoryItem?> GetInventoryItem(string itemName)
         {
-            return await _inventoryItemRepository.GetBy(inventoryItem => inventoryItem.Name == itemName);
+            return _inventoryItemRepository.GetBy(inventoryItem => inventoryItem.Name == itemName);
         }
-        public IAsyncEnumerable<InventoryItem> GetAllInventory()
+        public IEnumerable<InventoryItem> GetAllInventory()
         {
             return _inventoryItemRepository.GetAll();
         }
 
         public async void UpdateAnnouncement(Announcement announcement)
         {
-            if (!await _announcementRepository.Contains(announcement))
+            if (!_announcementRepository.Contains(announcement))
             {
                 _announcementRepository.Update(announcement);
             }
@@ -90,7 +90,7 @@ namespace HotelSmartManagement.Common.Database.Services
         }
         public async void UpdateEvent(Event eventT)
         {
-            if (!await _eventRepository.Contains(eventT))
+            if (!_eventRepository.Contains(eventT))
             {
                 _eventRepository.Update(eventT);
             }
@@ -102,7 +102,7 @@ namespace HotelSmartManagement.Common.Database.Services
         }
         public async void UpdateInventoryItem(InventoryItem inventoryItem)
         {
-            if (!await _inventoryItemRepository.Contains(inventoryItem))
+            if (!_inventoryItemRepository.Contains(inventoryItem))
             {
                 _inventoryItemRepository.Update(inventoryItem);
             }
@@ -120,7 +120,7 @@ namespace HotelSmartManagement.Common.Database.Services
         }
         public async void DeleteAllAnnouncements()
         {
-            var allAnnouncements = await _announcementRepository.GetAll().ToListAsync();
+            var allAnnouncements = _announcementRepository.GetAll().ToList();
             _announcementRepository.DeleteRange(allAnnouncements);
             _announcementRepository.Save();
         }
@@ -131,7 +131,7 @@ namespace HotelSmartManagement.Common.Database.Services
         }
         public async void DeleteAllEvent()
         {
-            var allEvent = await _eventRepository.GetAll().ToListAsync();
+            var allEvent = _eventRepository.GetAll().ToList();
             _eventRepository.DeleteRange(allEvent);
             _eventRepository.Save();
         }
@@ -142,7 +142,7 @@ namespace HotelSmartManagement.Common.Database.Services
         }
         public async void DeleteAllInventoryItems()
         {
-            var allInventoryItems = await _inventoryItemRepository.GetAll().ToListAsync();
+            var allInventoryItems = _inventoryItemRepository.GetAll().ToList();
             _inventoryItemRepository.DeleteRange(allInventoryItems);
             _inventoryItemRepository.Save();
         }
