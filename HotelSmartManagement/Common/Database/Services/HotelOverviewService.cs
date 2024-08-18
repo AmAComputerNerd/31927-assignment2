@@ -37,48 +37,57 @@ namespace HotelSmartManagement.Common.Database.Services
             return newEvent.UniqueId;
         }
 
-        public async Task<Announcement?> GetAnnouncement(string announcementTitle)
+        public Guid? NewItem(string name, int quantity)
         {
-            return await _announcementRepository.GetBy(announcement => announcement.Title == announcementTitle);
+            var newItem = new InventoryItem { Name = name, Quantity = quantity };
+            _inventoryItemRepository.Add(newItem);
+            _inventoryItemRepository.Save();
+
+            return newItem.UniqueId;
         }
-        public async Task<Announcement?> GetAnnouncement(Guid guid)
+
+        public Announcement? GetAnnouncement(string announcementTitle)
         {
-            return await _announcementRepository.GetById(guid);
+            return  _announcementRepository.GetBy(announcement => announcement.Title == announcementTitle);
+        }
+        public Announcement? GetAnnouncement(Guid guid)
+        {
+            return _announcementRepository.GetById(guid);
         }
         public IEnumerable<Announcement> GetAllAnnouncements()
         {
             return _announcementRepository.GetAll();
         }
 
-        public async Task<Event?> GetEvent(Guid eventId)
+        public Event? GetEvent(Guid eventId)
         {
-            return await _eventRepository.GetById(eventId);
+            return _eventRepository.GetById(eventId);
         }
-        public async Task<Event?> GetEvent(string eventTitle)
+        public Event? GetEvent(string eventTitle)
         {
-            return await _eventRepository.GetBy(eventT => eventT.Title == eventTitle);
+            return _eventRepository.GetBy(eventT => eventT.Title == eventTitle);
         }
         public IEnumerable<Event> GetAllEvents()
         {
             return _eventRepository.GetAll();
         }
 
-        public async Task<InventoryItem?> GetInventoryItem(Guid inventoryItemId)
+        public InventoryItem? GetInventoryItem(Guid inventoryItemId)
         {
-            return await _inventoryItemRepository.GetById(inventoryItemId);
+            return _inventoryItemRepository.GetById(inventoryItemId);
         }
-        public async Task<InventoryItem?> GetInventoryItem(string itemName)
+        public InventoryItem? GetInventoryItem(string itemName)
         {
-            return await _inventoryItemRepository.GetBy(inventoryItem => inventoryItem.Name == itemName);
+            return _inventoryItemRepository.GetBy(inventoryItem => inventoryItem.Name == itemName);
         }
         public IEnumerable<InventoryItem> GetAllInventory()
         {
             return _inventoryItemRepository.GetAll();
         }
 
-        public async void UpdateAnnouncement(Announcement announcement)
+        public  void UpdateAnnouncement(Announcement announcement)
         {
-            if (!await _announcementRepository.Contains(announcement))
+            if (! _announcementRepository.Contains(announcement))
             {
                 _announcementRepository.Update(announcement);
             }
@@ -88,9 +97,9 @@ namespace HotelSmartManagement.Common.Database.Services
             }
             _announcementRepository.Save();
         }
-        public async void UpdateEvent(Event eventT)
+        public  void UpdateEvent(Event eventT)
         {
-            if (!await _eventRepository.Contains(eventT))
+            if (! _eventRepository.Contains(eventT))
             {
                 _eventRepository.Update(eventT);
             }
@@ -100,9 +109,9 @@ namespace HotelSmartManagement.Common.Database.Services
             }
             _eventRepository.Save();
         }
-        public async void UpdateInventoryItem(InventoryItem inventoryItem)
+        public  void UpdateInventoryItem(InventoryItem inventoryItem)
         {
-            if (!await _inventoryItemRepository.Contains(inventoryItem))
+            if (! _inventoryItemRepository.Contains(inventoryItem))
             {
                 _inventoryItemRepository.Update(inventoryItem);
             }

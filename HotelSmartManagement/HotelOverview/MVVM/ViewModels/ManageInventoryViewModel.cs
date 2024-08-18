@@ -29,7 +29,7 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
 #pragma warning restore CS8618 // Reason: private fields are set through public properties.
         {
             _hotelOverviewService = hotelOverviewService;
-            //InventoryItems = new ObservableCollection<InventoryItem>(_hotelOverviewService.GetAllInventory() as ICollection<InventoryItem> ?? Array.Empty<InventoryItem>());
+            InventoryItems = new ObservableCollection<InventoryItem>(_hotelOverviewService.GetAllInventory() ?? Array.Empty<InventoryItem>());
 
             IncreaseQuantityCommand = new RelayCommand<InventoryItem>(IncreaseQuantity);
             DecreaseQuantityCommand = new RelayCommand<InventoryItem>(DecreaseQuantity);
