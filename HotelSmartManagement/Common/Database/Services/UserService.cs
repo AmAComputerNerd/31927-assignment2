@@ -18,9 +18,8 @@ namespace HotelSmartManagement.Common.Database.Services
             _leaveRequestRepository = leaveRequestRepository;
         }
 
-        public async Task<Guid?> NewUser(string username, string password) => await NewUser(username, password, "", "unknown-user.png");
-        public async Task<Guid?> NewUser(string username, string password, string email) => await NewUser(username, password, email, "unknown-user.png");
-        public async Task<Guid?> NewUser(string username, string password, string email, string profilePictureFileName)
+        public async Task<Guid?> NewUser(string username, string password) => await NewUser(username, password, "");
+        public async Task<Guid?> NewUser(string username, string password, string email)
         {
             if (await _userRepository.ContainsAny(user => user.Username == username))
             {
@@ -29,7 +28,7 @@ namespace HotelSmartManagement.Common.Database.Services
                 return null;
             }
 
-            var newUser = new User { Username = username, Password = password, Email = email, ProfilePictureFileName = profilePictureFileName };
+            var newUser = new User { Username = username, Password = password, Email = email, IsVerified = false };
             _userRepository.Add(newUser);
             _userRepository.Save();
 
@@ -105,7 +104,7 @@ namespace HotelSmartManagement.Common.Database.Services
 
         public async void UpdateUser(User user)
         {
-            if (!await _userRepository.Contains(user))
+            if (await _userRepository.Contains(user))
             {
                 _userRepository.Update(user);
             }
@@ -117,7 +116,7 @@ namespace HotelSmartManagement.Common.Database.Services
         }
         public async void UpdateEmployeeDetails(EmployeeDetails employeeDetails)
         {
-            if (!await _employeeDetailsRepository.Contains(employeeDetails))
+            if (await _employeeDetailsRepository.Contains(employeeDetails))
             {
                 _employeeDetailsRepository.Update(employeeDetails);
             }
@@ -129,7 +128,7 @@ namespace HotelSmartManagement.Common.Database.Services
         }
         public async void UpdateLeaveRequest(LeaveRequest leaveRequest)
         {
-            if (!await _leaveRequestRepository.Contains(leaveRequest))
+            if (await _leaveRequestRepository.Contains(leaveRequest))
             {
                 _leaveRequestRepository.Update(leaveRequest);
             }

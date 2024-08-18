@@ -7,7 +7,7 @@
         xmlns:extensions="clr-namespace:HotelSmartManagement.Common.XamlExtensions"
         xmlns:viewmodel="clr-namespace:HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels"
         mc:Ignorable="d"
-        Title="TaskWindow" Height="500" Width="445">
+        Title="Hotel Smart Management System > Manage Job" Height="500" Width="445">
 
     <Window.DataContext>
         <!-- Disclaimer: the change below throws an error in the Designor, but in normal use this will work perfectly fine and is required for dependency injection to work. -->

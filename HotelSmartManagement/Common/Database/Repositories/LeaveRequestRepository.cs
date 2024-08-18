@@ -14,8 +14,7 @@ namespace HotelSmartManagement.Common.Database.Repositories
         {
             return _dbSet
                 .Include(leave => leave.EmployeeDetails)
-                    .ThenInclude(details => details.User)
-                        .ThenInclude(user => user.EmployeeDetails);
+                    .ThenInclude(details => details.User);
         }
     }
 }
