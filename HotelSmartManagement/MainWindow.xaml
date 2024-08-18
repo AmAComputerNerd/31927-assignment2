@@ -17,6 +17,14 @@
 
     <Grid>
         <ContentControl Content="{Binding CurrentView}"/>
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Button Content="Home"
+                    Visibility="{Binding HomeVisibility}"
+                    Command="{Binding OnHome_Clicked}" Style="{StaticResource FancyButton}"/>
+            <Button Content="Log Out"
+                    Visibility="{Binding HomeVisibility}"
+                    Command="{Binding OnLogOut_Clicked}" Style="{StaticResource FancyButton}"/>
+        </StackPanel>
     </Grid>
     
 </Window>

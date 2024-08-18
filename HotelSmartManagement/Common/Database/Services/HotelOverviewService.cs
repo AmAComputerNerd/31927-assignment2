@@ -30,7 +30,7 @@ namespace HotelSmartManagement.Common.Database.Services
         public Guid? NewEvent(string eventTitle, string description) { return NewEvent(eventTitle, description, Area.Other); }
         public Guid? NewEvent(string eventTitle, string description, Area area)
         {
-            var newEvent = new Event { Title = eventTitle, Description = description, AreaAffected = area, DateCreated = DateTime.Now };
+            var newEvent = new Event { Title = eventTitle, Description = description, AreaAffected = area, DateAffected = DateTime.Now };
             _eventRepository.Add(newEvent);
             _eventRepository.Save();
 

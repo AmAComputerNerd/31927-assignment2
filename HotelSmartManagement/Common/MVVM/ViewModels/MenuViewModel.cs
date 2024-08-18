@@ -10,29 +10,29 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
 {
     public class MenuViewModel : ViewModelBase
     {
-        public RelayCommand EmployeeSelfService_Selected { get; }
-        public RelayCommand HotelManagement_Selected { get; }
-        public RelayCommand ReservationAndRooms_Selected { get; }
-        public RelayCommand Logout_Clicked { get; }
+        public AsyncRelayCommand EmployeeSelfService_Selected { get; }
+        public AsyncRelayCommand HotelManagement_Selected { get; }
+        public AsyncRelayCommand ReservationAndRooms_Selected { get; }
+        public AsyncRelayCommand Logout_Clicked { get; }
 
         public MenuViewModel(Globals globals) : base(globals)
         {
-            EmployeeSelfService_Selected = new RelayCommand(() =>
+            EmployeeSelfService_Selected = new AsyncRelayCommand(async () => await Task.Run(() =>
             {
                 WeakReferenceMessenger.Default.Send(new ChangeViewEvent(typeof(EmployeeSelfServiceDashboardViewModel)), nameof(MainViewModel));
-            });
-            HotelManagement_Selected = new RelayCommand(() =>
+            }));
+            HotelManagement_Selected = new AsyncRelayCommand(async () => await Task.Run(() =>
             {
                 WeakReferenceMessenger.Default.Send(new ChangeViewEvent(typeof(HotelOverviewDashboardViewModel)), nameof(MainViewModel));
-            });
-            ReservationAndRooms_Selected = new RelayCommand(() =>
+            }));
+            ReservationAndRooms_Selected = new AsyncRelayCommand(async () => await Task.Run(() =>
             {
                 WeakReferenceMessenger.Default.Send(new ChangeViewEvent(typeof(ReservationAndRoomsDashboardViewModel)), nameof(MainViewModel));
-            });
-            Logout_Clicked = new RelayCommand(() =>
+            }));
+            Logout_Clicked = new AsyncRelayCommand(async () => await Task.Run(() =>
             {
                 // Do something to do with logging out.
-            });
+            }));
         }
     }
 }
