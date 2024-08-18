@@ -37,20 +37,15 @@ namespace HotelSmartManagement.Common.Database.Services
             return newEvent.UniqueId;
         }
 
-        public Guid? NewItem(string name, int quantity)
+        public async Task<Announcement?> GetAnnouncement(string announcementTitle)
         {
-            var newItem = new InventoryItem { Name = name, Quantity = quantity };
-            _inventoryItemRepository.Add(newItem);
-            _inventoryItemRepository.Save();
-
-            return newItem.UniqueId;
+            return _announcementRepository.GetBy(announcement => announcement.Title == announcementTitle);
         }
-
-        public Announcement? GetAnnouncement(string announcementTitle)
+        public async Task<Announcement?> GetAnnouncement(Guid guid)
         {
-            return  _announcementRepository.GetBy(announcement => announcement.Title == announcementTitle);
+            return _announcementRepository.GetById(guid);
         }
-        public Announcement? GetAnnouncement(Guid guid)
+        public IEnumerable<Announcement> GetAllAnnouncements()
         {
             return _announcementRepository.GetById(guid);
         }

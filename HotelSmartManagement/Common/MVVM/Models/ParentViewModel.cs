@@ -1,4 +1,5 @@
 ﻿using HotelSmartManagement.Common.Events;
+using HotelSmartManagement.Common.Helpers;
 
 namespace HotelSmartManagement.Common.MVVM.Models
 {
@@ -23,7 +24,7 @@ namespace HotelSmartManagement.Common.MVVM.Models
         {
             if (CurrentView?.GetType() != @event.ViewModel)
             {
-                var viewModel = ServiceProvider.GetService(@event.ViewModel) ?? throw new ArgumentException($"ChangeViewEvent message provided an argument of type {@event.ViewModel}, but this ViewModel wasn't registered in the ServiceProvider.");
+                var viewModel = ServiceProvider.GetViewModel(@event.ViewModel, @event.ParamsToInitialise) ?? throw new ArgumentException($"ChangeViewEvent message provided an argument of type {@event.ViewModel}, but this ViewModel wasn't registered in the ServiceProvider.");
                 CurrentView = viewModel;
             }
         }
