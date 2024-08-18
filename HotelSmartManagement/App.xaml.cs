@@ -70,7 +70,7 @@ namespace HotelSmartManagement
             services.AddTransient<VerifyEmailViewModel>();
             services.AddTransient<MenuViewModel>();
 
-            services.AddTransient<HotelManagementDashboardViewModel>();
+            services.AddTransient<HotelOverviewDashboardViewModel>();
             services.AddTransient<AddAnnouncementViewModel>();
             services.AddTransient<AddEventViewModel>();
             services.AddTransient<ManageInventoryViewModel>();

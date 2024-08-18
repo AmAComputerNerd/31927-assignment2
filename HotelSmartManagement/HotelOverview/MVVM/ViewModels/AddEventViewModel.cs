@@ -1,8 +1,12 @@
-﻿using HotelSmartManagement.Common.MVVM.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using HotelSmartManagement.Common.Database.Services;
+using HotelSmartManagement.Common.MVVM.Models;
+using HotelSmartManagement.HotelOverview.MVVM.Models;
+using System.Collections.ObjectModel;
 
 namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
 {
-    public class AddEventViewModel : ViewModelBase
+    public class AddEventViewModel : ViewModelWithMessenging
     {
         public override string Name => nameof(AddEventViewModel);
 
