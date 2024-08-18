@@ -46,7 +46,7 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
         private void RefreshUserBindings()
         {
             InventoryItems = new ObservableCollection<InventoryItem>(_hotelOverviewService.GetAllInventory() ?? Array.Empty<InventoryItem>());
-            Announcements = new ObservableCollection<Announcement>(_hotelOverviewService.GetAllAnnouncements() ?? Array.Empty<Announcement>());
+            Announcements = new ObservableCollection<Announcement>(_hotelOverviewService.GetAllAnnouncements().Where(a => !a.IsResolved) ?? Array.Empty<Announcement>());
             Events = string.Empty;
             var eventList = _hotelOverviewService.GetAllEvents().Where(x => x.DateAffected.Date == DateTime.Today.Date).ToList();
             if (eventList.Count() > 0)

@@ -87,7 +87,7 @@ namespace HotelSmartManagement.Common.Database.Services
 
         public  void UpdateAnnouncement(Announcement announcement)
         {
-            if (! _announcementRepository.Contains(announcement))
+            if (_announcementRepository.Contains(announcement))
             {
                 _announcementRepository.Update(announcement);
             }
@@ -99,7 +99,7 @@ namespace HotelSmartManagement.Common.Database.Services
         }
         public  void UpdateEvent(Event eventT)
         {
-            if (! _eventRepository.Contains(eventT))
+            if (_eventRepository.Contains(eventT))
             {
                 _eventRepository.Update(eventT);
             }
@@ -111,7 +111,7 @@ namespace HotelSmartManagement.Common.Database.Services
         }
         public  void UpdateInventoryItem(InventoryItem inventoryItem)
         {
-            if (! _inventoryItemRepository.Contains(inventoryItem))
+            if (_inventoryItemRepository.Contains(inventoryItem))
             {
                 _inventoryItemRepository.Update(inventoryItem);
             }

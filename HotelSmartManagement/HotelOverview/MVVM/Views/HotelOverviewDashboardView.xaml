@@ -68,7 +68,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding Title}" Width="100" />
-                                        <CheckBox Width="30" Command="{Binding IsResolved}" />
+                                        <CheckBox Width="30" Command="{Binding DataContext.ResolveCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
