@@ -13,8 +13,11 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
 
         public JobWindowViewModel(IServiceProvider serviceProvider, Globals globals, Job job) : base(serviceProvider, globals)
         {
-            // We need to pass this Job into the TaskWindowViewTaskViewModel so that it can display the correct information.
             CurrentView = serviceProvider.GetService<JobWindowViewJobViewModel>();
+            // We need to pass this Job into the TaskWindowViewTaskViewModel so that it can display the correct information.
+            // And since we can't use DI for this, we can call the Initialise method on the IViewModel - this is a method designed to provide after-construction initialisation for volatile objects.
+            var viewModel = CurrentView as IViewModel;
+            viewModel?.Initialise(job);
         }
 
         public override string Name => nameof(JobWindowViewModel);

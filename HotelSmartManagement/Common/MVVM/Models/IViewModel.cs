@@ -2,6 +2,7 @@
 {
     public interface IViewModel
     {
+        void Initialise(params object[] args);
         Globals Globals { get; }
     }
 }
