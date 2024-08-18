@@ -5,6 +5,7 @@ using HotelSmartManagement.Common.MVVM.Models;
 using HotelSmartManagement.Common.MVVM.ViewModels;
 using HotelSmartManagement.HotelOverview.MVVM.Models;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
 {
@@ -27,6 +28,7 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
         public AsyncRelayCommand OnManageInventoryButton_Clicked { get; }
         public AsyncRelayCommand OnAddEventButton_Clicked { get; }
         public AsyncRelayCommand OnAddAnnouncementButton_Clicked { get; }
+        public ICommand ResolveCommand { get; }
 
 #pragma warning disable CS8618 // Reason: private fields are set through public properties.
         public HotelOverviewDashboardViewModel(Globals globals, HotelOverviewService hotelOverviewService) : base(globals)
@@ -37,6 +39,7 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
             OnManageInventoryButton_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(ManageInventoryViewModel)), nameof(MainViewModel))));
             OnAddEventButton_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(AddEventViewModel)), nameof(MainViewModel))));
             OnAddAnnouncementButton_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(AddAnnouncementViewModel)), nameof(MainViewModel))));
+            ResolveCommand = new RelayCommand<Announcement>(Resolve);
             RefreshUserBindings();
         }
 
@@ -54,6 +57,11 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
                     Events += " | " + eventList[i].Title + ": " + eventList[i].Description + " - affecting " + eventList[i].AreaAffected.ToFriendlyString();
                 }
             }
+        }
+        private void Resolve(Announcement announcement)
+        {
+            announcement.IsResolved = true;
+            _hotelOverviewService.UpdateAnnouncement(announcement);
         }
     }
 }

@@ -45,6 +45,7 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
             if (item != null)
             {
                 item.Quantity++;
+                _hotelOverviewService.UpdateInventoryItem(item);
             }
         }
 
@@ -53,6 +54,7 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
             if (item != null && item.Quantity > 0)
             {
                 item.Quantity--;
+                _hotelOverviewService.UpdateInventoryItem(item);
             }
         }
     }
