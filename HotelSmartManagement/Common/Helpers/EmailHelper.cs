@@ -74,7 +74,7 @@ namespace HotelSmartManagement.Common.Helpers
                     <div style='background-color: #f9f9f9; padding: 20px;'>
                         <h2 style='color: #3498db;'>Hotel Smart Management System</h2>
                         <p>Dear Staff Member,</p>
-                        <p>You requested a copy of {reservation.Guest.FullName}'s reservation under reference {reservation.Reference}.</p>
+                        <p>You requested a copy of {reservation?.Guest?.FullName ?? "Unknown"}'s reservation under reference {reservation?.Reference ?? "Unknown"}.</p>
                         <p>This has been attached below.</p>
                         <br/>
                         <p>Best regards,<br/>Hotel Smart Management System Team</p>

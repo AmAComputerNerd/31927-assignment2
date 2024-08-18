@@ -1,8 +1,6 @@
 ﻿using HotelSmartManagement.Common.Database.Repositories;
 using HotelSmartManagement.Common.MVVM.Models;
 using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
-using iText.Signatures.Validation.V1.Report;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace HotelSmartManagement.Common.Database.Services
 {
@@ -36,8 +34,8 @@ namespace HotelSmartManagement.Common.Database.Services
 
             return newUser.UniqueId;
         }
-        public async Task<Guid?> NewEmployeeDetails(Guid userId) => await NewEmployeeDetails(userId, 0, 0, "Cleaner", EmployeeStatus.PartTime, 30, 25.93, 0);
-        public async Task<Guid?> NewEmployeeDetails(Guid userId, int bankAccountNo, int bankAccountBSB, string jobPosition, EmployeeStatus jobStatus, int hoursPerWeek, double jobPayPerHour, double leaveBalanceInHours)
+        public Guid? NewEmployeeDetails(Guid userId) => NewEmployeeDetails(userId, 0, 0, "Cleaner", EmployeeStatus.PartTime, 30, 25.93, 0);
+        public Guid? NewEmployeeDetails(Guid userId, int bankAccountNo, int bankAccountBSB, string jobPosition, EmployeeStatus jobStatus, int hoursPerWeek, double jobPayPerHour, double leaveBalanceInHours)
         {
             var user = _userRepository.GetById(userId);
             if (user == null)
@@ -52,7 +50,7 @@ namespace HotelSmartManagement.Common.Database.Services
 
             return newEmployeeDetails.UniqueId;
         }
-        public async Task<Guid?> NewLeaveRequest(Guid userId, DateTime startAt, DateTime endAt, string description)
+        public Guid? NewLeaveRequest(Guid userId, DateTime startAt, DateTime endAt, string description)
         {
             var user = _userRepository.GetById(userId);
             if (user == null)
@@ -104,7 +102,7 @@ namespace HotelSmartManagement.Common.Database.Services
             return _userRepository.GetAll();
         }
 
-        public async Task<User?> GetUser(string username)
+        public User? GetUser(string username)
         {
             return _userRepository.GetBy(user => user.Username == username);
         }

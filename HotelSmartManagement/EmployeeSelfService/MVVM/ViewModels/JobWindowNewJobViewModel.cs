@@ -117,14 +117,14 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             }
         }
 
-        private async Task<Guid?> GetSelectedEmployeeId()
+        private Guid? GetSelectedEmployeeId()
         {
             if (SelectedEmployeeUsername == null)
             {
                 return null;
             }
 
-            var user = await _userService.GetUser(SelectedEmployeeUsername);
+            var user = _userService.GetUser(SelectedEmployeeUsername);
             return user?.UniqueId;
         }
 
@@ -141,7 +141,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
                 }
 
             // Create a new job.
-            var id = _jobService.NewJob(JobTitle, JobDescription, GetSelectedUrgency(), GetSelectedType(), user.UniqueId, await GetSelectedEmployeeId()) ?? throw new ArgumentException("Somehow, the id is null! Check JobService - maybe something's gone wrong with NewJob.");
+            var id = _jobService.NewJob(JobTitle, JobDescription, GetSelectedUrgency(), GetSelectedType(), user.UniqueId, GetSelectedEmployeeId()) ?? throw new ArgumentException("Somehow, the id is null! Check JobService - maybe something's gone wrong with NewJob.");
             Messenger.Send(new JobChangedEvent(id));
 
                 // Close the window.
