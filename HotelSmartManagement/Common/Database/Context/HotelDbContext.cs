@@ -1,6 +1,7 @@
 ﻿using HotelSmartManagement.Common.MVVM.Models;
 using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
 using HotelSmartManagement.HotelOverview.MVVM.Models;
+using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelSmartManagement.Common.Database.Context
@@ -14,6 +15,9 @@ namespace HotelSmartManagement.Common.Database.Context
         public DbSet<Announcement> Announcements { get; }
         public DbSet<Event> Events { get; }
         public DbSet<InventoryItem> InventoryItems { get; }
+        public DbSet<Reservation> Reservations { get; }
+        public DbSet<Guest> Guests { get; }
+        public DbSet<Room> Rooms { get; }
 
 #pragma warning disable CS8618 // Reason: DbSets are populated by EF.
         public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options) { }
