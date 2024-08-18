@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using HotelSmartManagement.Common.Events;
 using HotelSmartManagement.Common.Helpers;
 using HotelSmartManagement.Common.MVVM.Models;
@@ -9,13 +10,39 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
 {
     public class MainViewModel : ParentViewModel
     {
+        private Visibility _homeVisibility;
+        private Visibility _logOutVisibility;
+
         public override string Name => nameof(MainViewModel);
         protected List<Window> CreatedWindows { get; set; }
 
+        public Visibility HomeVisibility { get => _homeVisibility; set => SetProperty(ref _homeVisibility, value); }
+        public Visibility LogOutVisibility { get => _logOutVisibility; set => SetProperty(ref _logOutVisibility, value); }
+
+        public AsyncRelayCommand OnHome_Clicked { get; }
+        public AsyncRelayCommand OnLogOut_Clicked { get; }
+
         public MainViewModel(IServiceProvider serviceProvider, Globals globals) : base(serviceProvider, globals)
         {
-            CurrentView = ServiceProvider.GetRequiredService<MenuViewModel>();
+            CurrentView = ServiceProvider.GetRequiredService<LogInViewModel>();
             CreatedWindows = new List<Window>();
+            HomeVisibility = Visibility.Collapsed;
+            LogOutVisibility = Visibility.Collapsed;
+            OnHome_Clicked = new AsyncRelayCommand(async () => await Task.Run(() =>
+            {
+                if (CurrentView.GetType() != typeof(LogInViewModel) && CurrentView.GetType() != typeof(VerifyEmailViewModel))
+                {
+                    Messenger.Send(new ChangeViewEvent(typeof(MenuViewModel)), nameof(MainViewModel));
+                }
+            }));
+            OnLogOut_Clicked = new AsyncRelayCommand(async () => await Task.Run(() =>
+            {
+                if (CurrentView.GetType() != typeof(LogInViewModel) && CurrentView.GetType() != typeof(VerifyEmailViewModel))
+                {
+                    Globals.CurrentUser = null;
+                    Messenger.Send(new ChangeViewEvent(typeof(LogInViewModel)), nameof(MainViewModel));
+                }
+            }));
         }
 
         protected override void OnActivated()
@@ -32,6 +59,14 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
                     OnDestroySubWindow(message);
                 }
             });
+        }
+
+        protected override void OnChildViewChanged(ChangeViewEvent @event)
+        {
+            base.OnChildViewChanged(@event);
+            var shouldBeHidden = @event.ViewModel == typeof(LogInViewModel) || @event.ViewModel == typeof(VerifyEmailViewModel);
+            HomeVisibility = shouldBeHidden ? Visibility.Collapsed : Visibility.Visible;
+            LogOutVisibility = shouldBeHidden ? Visibility.Collapsed : Visibility.Visible;
         }
 
         protected void OnCreateSubWindow(CreateOrDestroySubWindowEvent @event)

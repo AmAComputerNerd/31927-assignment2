@@ -14,7 +14,7 @@ namespace HotelSmartManagement.Common.MVVM.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public string ProfilePictureFileName { get; set; }
+        public bool IsVerified { get; set; }
 
         public Guid EmployeeDetailsId { get; set; }
         [InverseProperty(nameof(EmployeeDetails.User))]

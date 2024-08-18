@@ -4,6 +4,7 @@ using HotelSmartManagement.Common.Database.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelSmartManagement.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240818055531_RemovePFPAndAddVerification")]
+    partial class RemovePFPAndAddVerification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,9 +173,6 @@ namespace HotelSmartManagement.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -195,9 +195,6 @@ namespace HotelSmartManagement.Migrations
                     b.Property<Guid>("UniqueId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AreaAffected")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -228,96 +225,6 @@ namespace HotelSmartManagement.Migrations
                     b.HasKey("UniqueId");
 
                     b.ToTable("InventoryItems");
-                });
-
-            modelBuilder.Entity("HotelSmartManagement.ReservationAndRooms.MVVM.Models.Guest", b =>
-                {
-                    b.Property<Guid>("UniqueId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Stays")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Tier")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UniqueId");
-
-                    b.ToTable("Guests");
-                });
-
-            modelBuilder.Entity("HotelSmartManagement.ReservationAndRooms.MVVM.Models.Reservation", b =>
-                {
-                    b.Property<Guid>("UniqueId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("GuestId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Reference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Requests")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("RoomId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("UniqueId");
-
-                    b.HasIndex("GuestId")
-                        .IsUnique()
-                        .HasFilter("[GuestId] IS NOT NULL");
-
-                    b.HasIndex("RoomId");
-
-                    b.ToTable("Reservations");
-                });
-
-            modelBuilder.Entity("HotelSmartManagement.ReservationAndRooms.MVVM.Models.Room", b =>
-                {
-                    b.Property<Guid>("UniqueId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Amenities")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Layout")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Photos")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Size")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("UniqueId");
-
-                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("HotelSmartManagement.EmployeeSelfService.MVVM.Models.EmployeeDetails", b =>
@@ -365,21 +272,6 @@ namespace HotelSmartManagement.Migrations
                     b.Navigation("EmployeeDetails");
                 });
 
-            modelBuilder.Entity("HotelSmartManagement.ReservationAndRooms.MVVM.Models.Reservation", b =>
-                {
-                    b.HasOne("HotelSmartManagement.ReservationAndRooms.MVVM.Models.Guest", "Guest")
-                        .WithOne("Reservation")
-                        .HasForeignKey("HotelSmartManagement.ReservationAndRooms.MVVM.Models.Reservation", "GuestId");
-
-                    b.HasOne("HotelSmartManagement.ReservationAndRooms.MVVM.Models.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId");
-
-                    b.Navigation("Guest");
-
-                    b.Navigation("Room");
-                });
-
             modelBuilder.Entity("HotelSmartManagement.Common.MVVM.Models.User", b =>
                 {
                     b.Navigation("AssignedJobs");
@@ -394,11 +286,6 @@ namespace HotelSmartManagement.Migrations
             modelBuilder.Entity("HotelSmartManagement.EmployeeSelfService.MVVM.Models.EmployeeDetails", b =>
                 {
                     b.Navigation("LeaveRequests");
-                });
-
-            modelBuilder.Entity("HotelSmartManagement.ReservationAndRooms.MVVM.Models.Guest", b =>
-                {
-                    b.Navigation("Reservation");
                 });
 #pragma warning restore 612, 618
         }

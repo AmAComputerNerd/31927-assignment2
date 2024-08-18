@@ -22,7 +22,6 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         private IServiceProvider _serviceProvider;
 
         // Public
-        public Uri ImageUri { get => _imageUri; set => SetProperty(ref _imageUri, value); }
         public ObservableCollection<Reservation> GlobalReservations { get => _globalReservations; set => SetProperty(ref _globalReservations, value); }
 
         // Commands
@@ -41,7 +40,6 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         {
             _service = service;
             _serviceProvider = serviceProvider;
-            SeedData();
 
             OnReservation_Clicked = new RelayCommand<Reservation>((reservation) =>
             {
@@ -57,15 +55,15 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
             });
         }
 
-        private async void SeedData()
-        {
-            var service = _serviceProvider.GetRequiredService<ReservationAndRoomsService>();
-            await service.DeleteAllReservations();
-            await service.DeleteAllGuests();
-            await service.DeleteAllRooms();
-            await service.AddRoom(RoomType.Standard, 10, 10, new List<string> { "Bla" }, new List<string> { "Bla" }, "Bla");
-            await service.AddGuest("John", "Does", "Gold", DateTime.Now, 5);
-            await service.AddReservation("EEE", DateTime.Now, DateTime.Now, "None", await service.GetGuest("John", "Does"), await service.GetRoom(RoomType.Standard));
-        }
+        //private async void SeedData()
+        //{
+        //    var service = _serviceProvider.GetRequiredService<ReservationAndRoomsService>();
+        //    service.DeleteAllReservations();
+        //    service.DeleteAllGuests();
+        //    service.DeleteAllRooms();
+        //    service.AddRoom(RoomType.Standard, 10, 10, new List<string> { "Bla" }, new List<string> { "Bla" }, "Bla");
+        //    service.AddGuest("John", "Does", "Gold", DateTime.Now, 5);
+        //    service.AddReservation("EEE", DateTime.Now, DateTime.Now, "None", service.GetGuest("John", "Does"), service.GetRoom(RoomType.Standard));
+        //}
     }
 }

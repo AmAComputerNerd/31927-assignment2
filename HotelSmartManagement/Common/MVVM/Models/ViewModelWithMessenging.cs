@@ -13,6 +13,11 @@ namespace HotelSmartManagement.Common.MVVM.Models
             Globals = globals;
         }
 
+        public virtual void Initialise(params object[] args)
+        {
+            // Do nothing.
+        }
+
         protected override void OnActivated()
         {
             base.OnActivated();

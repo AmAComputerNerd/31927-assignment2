@@ -25,7 +25,8 @@
                         <ColumnDefinition Width="300"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Content for Tab 1" HorizontalAlignment="Left" Margin="5"/>
+                    
+                    <TextBlock Grid.Column="0" Text="{Binding Room.Amenities, FallbackValue=No room information!}" HorizontalAlignment="Left" Margin="5"/>
 
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>

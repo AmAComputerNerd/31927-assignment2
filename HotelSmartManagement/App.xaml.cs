@@ -66,6 +66,8 @@ namespace HotelSmartManagement
 
             // Register ViewModels
             services.AddTransient<MainViewModel>();
+            services.AddTransient<LogInViewModel>();
+            services.AddTransient<VerifyEmailViewModel>();
             services.AddTransient<MenuViewModel>();
 
             services.AddTransient<HotelManagementDashboardViewModel>();
@@ -90,6 +92,7 @@ namespace HotelSmartManagement
             services.AddTransient<UserRepository>();
             services.AddTransient<EmployeeDetailsRepository>();
             services.AddTransient<LeaveRequestRepository>();
+            services.AddTransient<JobRepository>();
 
             services.AddTransient<EventRepository>();
             services.AddTransient<AnnouncementRepository>();
@@ -101,10 +104,13 @@ namespace HotelSmartManagement
 
             // Register Services
             services.AddTransient<UserService>();
+            services.AddTransient<JobService>();
             services.AddTransient<ReservationAndRoomsService>();
 
             // Register Views
             services.AddTransient<MainWindow>();
+            services.AddTransient<LogInView>();
+            services.AddTransient<VerifyEmailView>();
             services.AddTransient<MenuView>();
 
             services.AddTransient<HotelManagementDashboardView>();
