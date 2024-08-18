@@ -15,7 +15,6 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
         private HotelOverviewService _hotelOverviewService;
         private AnnouncementCategory _announcementCategory;
         private ObservableCollection<string> _announcementCategories;
-        private double _userTimeRecording;
 
         // Public properties.
         public AnnouncementCategory Category { get => _announcementCategory; set => SetProperty(ref _announcementCategory, value); }

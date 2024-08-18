@@ -16,7 +16,6 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
         private HotelOverviewService _hotelOverviewService;
         private Area _areaAffected;
         private ObservableCollection<Area> _areaTypes;
-        private double _userTimeRecording;
 
         // Public properties.
         public Area AreaAffected { get => _areaAffected; set => SetProperty(ref _areaAffected, value); }

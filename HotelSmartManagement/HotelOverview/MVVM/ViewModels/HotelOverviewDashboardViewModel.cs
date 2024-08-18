@@ -17,7 +17,6 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
         private string _events;
         private ObservableCollection<InventoryItem> _inventoryItems;
         private ObservableCollection<Announcement> _announcements;
-        private double _userTimeRecording;
 
         // Public properties.
         public string Events { get => _events; set => SetProperty(ref _events, value); }
