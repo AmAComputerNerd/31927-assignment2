@@ -12,21 +12,24 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         // Private
         private Room _room;
         private ReservationAndRoomsService _service;
-        private ReservationAndRoomsService _reservationAndRoomsService;
 
         public Room Room { get => _room; set => SetProperty(ref _room, value); }
 
+#pragma warning disable CS8618 // Reason: fields are set through public properties, or defined in Initialise().
         public RoomDetailsViewModel(ReservationAndRoomsService service, Globals globals) : base(globals)
+#pragma warning restore CS8618 // Reason: fields are set through public properties, or defined in Initialise().
         {
             _service = service;
         }
 
+#pragma warning disable CS8618 // Reason: fields are set through public properties, or defined in Initialise().
         public RoomDetailsViewModel(ReservationAndRoomsService service, Globals globals, string roomType) : base(globals)
+#pragma warning restore CS8618 // Reason: fields are set through public properties, or defined in Initialise().
         {
             _service = service;
             SetRoom(roomType);
         }
-        public async void SetRoom(string roomType)
+        public void SetRoom(string roomType)
         {
             _room = _service.GetRoom((RoomType)int.Parse(roomType));
         }

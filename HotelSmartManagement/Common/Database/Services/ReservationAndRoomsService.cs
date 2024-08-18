@@ -105,15 +105,21 @@ namespace HotelSmartManagement.Common.Database.Services
         public void RemoveReservation(Guid id)
         {
             var reservation = _reservationRepository.GetBy(reservation => reservation.UniqueId == id);
-            _reservationRepository.Delete(reservation);
-            _reservationRepository.Save();
+            if (reservation != null)
+            {
+                _reservationRepository.Delete(reservation);
+                _reservationRepository.Save();
+            }
         }
 
         public void RemoveReservation(string reference)
         {
             var reservation = _reservationRepository.GetBy(reservation => reservation.Reference == reference);
-            _reservationRepository.Delete(reservation);
-            _reservationRepository.Save();
+            if (reservation != null)
+            {
+                _reservationRepository.Delete(reservation);
+                _reservationRepository.Save();
+            }
         }
         #endregion
 
