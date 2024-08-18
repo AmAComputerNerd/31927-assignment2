@@ -30,7 +30,7 @@
             </DataTemplate>
             
             <!-- Hotel Management / Overview -->
-            <DataTemplate DataType="{x:Type hotelViewModels:HotelManagementDashboardViewModel}">
+            <DataTemplate DataType="{x:Type hotelViewModels:HotelOverviewDashboardViewModel}">
                 <hotelViews:HotelManagementDashboardView/>
             </DataTemplate>
             
@@ -51,6 +51,12 @@
             <!-- Reservation & Rooms -->
             <DataTemplate DataType="{x:Type reservationRoomsViewModels:ReservationAndRoomsDashboardViewModel}">
                 <reservationRoomsViews:ReservationAndRoomsDashboardView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type reservationRoomsViewModels:ReservationDetailsViewModel}">
+                <reservationRoomsViews:ReservationDetailsView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type reservationRoomsViewModels:RoomDetailsViewModel}">
+                <reservationRoomsViews:RoomDetailsView/>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

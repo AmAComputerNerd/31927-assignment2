@@ -15,6 +15,7 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
 
         // Private
         private Reservation _reservation;
+        private ReservationAndRoomsService _service;
 
         // Public
         public Reservation Reservation { get => _reservation; set => SetProperty(ref _reservation, value); }
@@ -23,12 +24,12 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         public RelayCommand OnDeleteReservation_Clicked { get; }
         public RelayCommand OnExportAsPDF_Clicked { get; }
 
-
-        public ReservationDetailsViewModel(Globals globals, Reservation reservation) : base(globals)
+        public ReservationDetailsViewModel(ReservationAndRoomsService service, Globals globals, Reservation reservation) : base(globals)
         {
             _reservation = reservation;
+            _service = service;
             OnExportAsPDF_Clicked = new RelayCommand(() => ReservationAndRoomsService.ExportReservationAsPDF(reservation, ""));
-            // OnDeleteReservation_Clicked
+            OnDeleteReservation_Clicked = new RelayCommand(() => _service.RemoveReservation(reservation.UniqueId));
         }
     }
 }

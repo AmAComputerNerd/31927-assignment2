@@ -18,10 +18,10 @@ namespace HotelSmartManagement.Common.Database.Services
             _leaveRequestRepository = leaveRequestRepository;
         }
 
-        public async Task<Guid?> NewUser(string username, string password) => await NewUser(username, password, "");
-        public async Task<Guid?> NewUser(string username, string password, string email)
+        public Guid? NewUser(string username, string password) => NewUser(username, password, "");
+        public Guid? NewUser(string username, string password, string email)
         {
-            if (await _userRepository.ContainsAny(user => user.Username == username))
+            if (_userRepository.ContainsAny(user => user.Username == username))
             {
                 // We already have a user registered with that username, so we shouldn't add another user with this username.
                 // The reason we don't use the Username as the key is that PKs shouldn't be a string.
@@ -34,9 +34,9 @@ namespace HotelSmartManagement.Common.Database.Services
 
             return newUser.UniqueId;
         }
-        public async Task<Guid?> NewLeaveRequest(Guid userId, DateTime startAt, DateTime endAt, string description)
+        public Guid? NewLeaveRequest(Guid userId, DateTime startAt, DateTime endAt, string description)
         {
-            var employeeDetails = await GetEmployeeDetailsFromUser(userId);
+            var employeeDetails = GetEmployeeDetailsFromUser(userId);
             if (employeeDetails == null)
             {
                 // The user doesn't have an EmployeeDetails object, so we can't create a LeaveRequest for them.
@@ -50,9 +50,9 @@ namespace HotelSmartManagement.Common.Database.Services
 
             return newLeaveRequest.UniqueId;
         }
-        public async Task<Guid?> NewPreApprovedLeaveRequest(Guid userId, DateTime startAt, DateTime endAt, string description)
+        public Guid? NewPreApprovedLeaveRequest(Guid userId, DateTime startAt, DateTime endAt, string description)
         {
-            var employeeDetails = await GetEmployeeDetailsFromUser(userId);
+            var employeeDetails = GetEmployeeDetailsFromUser(userId);
             if (employeeDetails == null)
             {
                 // The user doesn't have an EmployeeDetails object, so we can't create a LeaveRequest for them.
@@ -67,44 +67,44 @@ namespace HotelSmartManagement.Common.Database.Services
             return newLeaveRequest.UniqueId;
         }
 
-        public async Task<User?> GetUser(string username)
+        public User? GetUser(string username)
         {
-            return await _userRepository.GetBy(user => user.Username == username);
+            return _userRepository.GetBy(user => user.Username == username);
         }
-        public async Task<User?> GetUser(Guid guid)
+        public User? GetUser(Guid guid)
         {
-            return await _userRepository.GetById(guid);
-        }
-
-        public async Task<EmployeeDetails?> GetEmployeeDetails(Guid employeeDetailsId)
-        {
-            return await _employeeDetailsRepository.GetById(employeeDetailsId);
-        }
-        public async Task<EmployeeDetails?> GetEmployeeDetailsFromUser(Guid userId)
-        {
-            return await _employeeDetailsRepository.GetBy(details => details.User.UniqueId == userId);
-        }
-        public async Task<EmployeeDetails?> GetEmployeeDetailsFromUser(string username)
-        {
-            return await _employeeDetailsRepository.GetBy(details => details.User.Username == username);
+            return _userRepository.GetById(guid);
         }
 
-        public async Task<LeaveRequest?> GetLeaveRequest(Guid leaveRequestId)
+        public EmployeeDetails? GetEmployeeDetails(Guid employeeDetailsId)
         {
-            return await _leaveRequestRepository.GetById(leaveRequestId);
+            return _employeeDetailsRepository.GetById(employeeDetailsId);
         }
-        public IAsyncEnumerable<LeaveRequest> GetLeaveRequestsForUser(Guid userId)
+        public EmployeeDetails? GetEmployeeDetailsFromUser(Guid userId)
+        {
+            return _employeeDetailsRepository.GetBy(details => details.User.UniqueId == userId);
+        }
+        public EmployeeDetails? GetEmployeeDetailsFromUser(string username)
+        {
+            return  _employeeDetailsRepository.GetBy(details => details.User.Username == username);
+        }
+
+        public LeaveRequest? GetLeaveRequest(Guid leaveRequestId)
+        {
+            return _leaveRequestRepository.GetById(leaveRequestId);
+        }
+        public IEnumerable<LeaveRequest> GetLeaveRequestsForUser(Guid userId)
         {
             return _leaveRequestRepository.GetAll().Where(leaveRequest => leaveRequest.EmployeeDetails.User.UniqueId == userId);
         }
-        public IAsyncEnumerable<LeaveRequest> GetLeaveRequestsForUser(string username)
+        public IEnumerable<LeaveRequest> GetLeaveRequestsForUser(string username)
         {
             return _leaveRequestRepository.GetAll().Where(leaveRequest => leaveRequest.EmployeeDetails.User.Username == username);
         }
 
-        public async void UpdateUser(User user)
+        public void UpdateUser(User user)
         {
-            if (await _userRepository.Contains(user))
+            if (_userRepository.Contains(user))
             {
                 _userRepository.Update(user);
             }
@@ -114,9 +114,9 @@ namespace HotelSmartManagement.Common.Database.Services
             }
             _userRepository.Save();
         }
-        public async void UpdateEmployeeDetails(EmployeeDetails employeeDetails)
+        public void UpdateEmployeeDetails(EmployeeDetails employeeDetails)
         {
-            if (await _employeeDetailsRepository.Contains(employeeDetails))
+            if (_employeeDetailsRepository.Contains(employeeDetails))
             {
                 _employeeDetailsRepository.Update(employeeDetails);
             }
@@ -126,9 +126,9 @@ namespace HotelSmartManagement.Common.Database.Services
             }
             _employeeDetailsRepository.Save();
         }
-        public async void UpdateLeaveRequest(LeaveRequest leaveRequest)
+        public void UpdateLeaveRequest(LeaveRequest leaveRequest)
         {
-            if (await _leaveRequestRepository.Contains(leaveRequest))
+            if (_leaveRequestRepository.Contains(leaveRequest))
             {
                 _leaveRequestRepository.Update(leaveRequest);
             }
@@ -144,9 +144,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _userRepository.Delete(user);
             _userRepository.Save();
         }
-        public async void DeleteAllUsers()
+        public void DeleteAllUsers()
         {
-            var allUsers = await _userRepository.GetAll().ToListAsync();
+            var allUsers = _userRepository.GetAll().ToList();
             _userRepository.DeleteRange(allUsers);
             _userRepository.Save();
         }
@@ -155,9 +155,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _employeeDetailsRepository.Delete(employeeDetails);
             _employeeDetailsRepository.Save();
         }
-        public async void DeleteAllEmployeeDetails()
+        public void DeleteAllEmployeeDetails()
         {
-            var allEmployeeDetails = await _employeeDetailsRepository.GetAll().ToListAsync();
+            var allEmployeeDetails = _employeeDetailsRepository.GetAll().ToList();
             _employeeDetailsRepository.DeleteRange(allEmployeeDetails);
             _employeeDetailsRepository.Save();
         }
@@ -166,9 +166,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _leaveRequestRepository.Delete(leaveRequest);
             _leaveRequestRepository.Save();
         }
-        public async void DeleteAllLeaveRequests()
+        public void DeleteAllLeaveRequests()
         {
-            var allLeaveRequests = await _leaveRequestRepository.GetAll().ToListAsync();
+            var allLeaveRequests = _leaveRequestRepository.GetAll().ToList();
             _leaveRequestRepository.DeleteRange(allLeaveRequests);
             _leaveRequestRepository.Save();
         }
