@@ -19,17 +19,17 @@
                     <TextBlock Text="Announcement Title:"
                            Style="{StaticResource SubTitle}"
                            Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="John Doe"
+                    <TextBox Text="{Binding Title}"
                          Grid.Row="0" Grid.Column="1"/>
                     <TextBlock Text="Announcement Category:"
                            Style="{StaticResource SubTitle}"
                            Grid.Row="1" Grid.Column="0"/>
-                    <ComboBox Text="johndoe@gmail.com"
+                    <ComboBox Text="{Binding AnnouncementCategories}"
                             Grid.Row="1" Grid.Column="1"/>
                     <TextBlock Text="Announcement Details"
                            Style="{StaticResource SubTitle}"
                            Grid.Row="2" Grid.Column="0"/>
-                    <TextBox Text="***************"
+                    <TextBox Text="{Binding Details}"
                          Grid.Row="2" Grid.Column="1"/>
                 </UniformGrid>
             </Grid>
@@ -38,7 +38,7 @@
                         Margin="10" Padding="5"
                         Style="{StaticResource FancyButton}"
                         Command="{Binding OnSaveClose_Clicked}"/>
-                <Button Content="Cancel" 
+                <Button Content="Cancel"
                         Margin="10" Padding="5"
                         Style="{StaticResource FancyButton}"
                         Command="{Binding OnCancel_Clicked}"/>

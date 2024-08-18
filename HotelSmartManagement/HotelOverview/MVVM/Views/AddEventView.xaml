@@ -32,6 +32,11 @@
                                Grid.Row="2" Grid.Column="0"/>
                     <TextBox Text="{Binding Details}"
                              Grid.Row="2" Grid.Column="1"/>
+                    <TextBlock Text="Event Details"
+                        Style="{StaticResource SubTitle}"
+                        Grid.Row="2" Grid.Column="0"/>
+                    <DatePickerTextBox Text="{Binding DateAffected}"
+                        Grid.Row="2" Grid.Column="1"/> 
                 </UniformGrid>
             </Grid>
             <UniformGrid HorizontalAlignment="Center">
