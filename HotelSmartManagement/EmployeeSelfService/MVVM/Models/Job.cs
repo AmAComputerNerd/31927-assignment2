@@ -21,6 +21,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.Models
         [ForeignKey(nameof(CreatedById))]
         [InverseProperty(nameof(User.CreatedJobs))]
         public User CreatedBy { get; set; }
+#nullable enable // Reason: Model for EF - expected that these properties do not get assigned in the constructor.
 
         public Guid? AssignedToId { get; set; }
         [ForeignKey(nameof(AssignedToId))]
@@ -32,6 +33,5 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.Models
         [ForeignKey(nameof(ClosedById))]
         [InverseProperty(nameof(User.ClosedJobs))]
         public User? ClosedBy { get; set; }
-#nullable enable // Reason: Model for EF - expected that these properties do not get assigned in the constructor.
     }
 }

@@ -53,6 +53,20 @@ namespace HotelSmartManagement.Common.Database.Services
             return await _roomRepository.GetBy(room => room.Type == type) ?? throw new NullReferenceException("Room was empty.");
         }
 
+        public async void RemoveReservation(Guid id)
+        {
+            var reservation = await GetReservation(id);
+            _reservationRepository.Delete(reservation);
+            _reservationRepository.Save();
+        }
+
+        public async void RemoveReservation(string reference)
+        {
+            var reservation = await GetReservation(reference);
+            _reservationRepository.Delete(reservation);
+            _reservationRepository.Save();
+        }
+
         public static void ExportReservationAsPDF(Reservation reservation, string filePath)
         {
             using (var writer = new PdfWriter(filePath))

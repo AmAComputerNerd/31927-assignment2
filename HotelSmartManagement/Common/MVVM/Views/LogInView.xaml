@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="HotelSmartManagement.Common.MVVM.Views.LogInView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HotelSmartManagement.Common.MVVM.Views"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:extensions="clr-namespace:HotelSmartManagement.Common.XamlExtensions"
+             xmlns:viewmodel="clr-namespace:HotelSmartManagement.Common.MVVM.ViewModels"
+             d:DataContext="{d:DesignInstance Type={x:Type viewmodel:LogInViewModel}}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="WhiteSmoke"
+          VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="{Binding Title, FallbackValue=Log In}"
+                   Style="{StaticResource Title}"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <TextBlock Text="Are you an existing user, or a new user?"
+                       VerticalAlignment="Center"
+                       Style="{StaticResource SubTitle}"/>
+            <UniformGrid Columns="2">
+                <RadioButton Content="Existing User"
+                             IsChecked="{Binding IsLogIn}"
+                             Margin="10,0,0,0"
+                             Background="MediumAquamarine" Style="{StaticResource StickyButton}"/>
+                <RadioButton Content="New User"
+                             IsChecked="{Binding IsRegister}"
+                             Margin="10,0,0,0"
+                             Background="MediumAquamarine"  Style="{StaticResource StickyButton}"/>
+            </UniformGrid>
+        </StackPanel>
+        <UniformGrid Grid.Row="2" Rows="8"
+                     extensions:UniformGridHelper.ChildMargin="10,2">
+            <TextBlock Text="Username"
+                       Style="{StaticResource Heading}"/>
+            <TextBox Text="{Binding Username}"
+                     FontSize="16"/>
+            <TextBlock Text="Password"
+                       Style="{StaticResource Heading}"/>
+            <PasswordBox x:Name="Password" FontSize="16">
+                <behaviors:Interaction.Triggers>
+                    <behaviors:EventTrigger EventName="PasswordChanged">
+                        <!-- Pass the PasswordBox itself as the CommandParameter -->
+                        <behaviors:InvokeCommandAction Command="{Binding OnPassword_Changed}" 
+                                                       CommandParameter="{Binding ElementName=Password}"/>
+                    </behaviors:EventTrigger>
+                </behaviors:Interaction.Triggers>
+            </PasswordBox>
+            <TextBlock Text="Confirm Password"
+                       Visibility="{Binding ConfirmPasswordVisibility, FallbackValue=Collapsed}"
+                       Style="{StaticResource Heading}"/>
+            <PasswordBox x:Name="ConfirmPassword" FontSize="16" Visibility="{Binding ConfirmPasswordVisibility, FallbackValue=Collapsed}">
+                <behaviors:Interaction.Triggers>
+                    <behaviors:EventTrigger EventName="PasswordChanged">
+                        <!-- Pass the PasswordBox itself as the CommandParameter -->
+                        <behaviors:InvokeCommandAction Command="{Binding OnConfirmPassword_Changed}" 
+                                                       CommandParameter="{Binding ElementName=ConfirmPassword}"/>
+                    </behaviors:EventTrigger>
+                </behaviors:Interaction.Triggers>
+            </PasswordBox>
+            <TextBlock Text="Email"
+                       Visibility="{Binding ConfirmPasswordVisibility, FallbackValue=Collapsed}"
+                       Style="{StaticResource Heading}"/>
+            <TextBox Text="{Binding Email}"
+                     FontSize="16"
+                     Visibility="{Binding ConfirmPasswordVisibility, FallbackValue=Collapsed}"/>
+        </UniformGrid>
+        <Button Grid.Row="3" Content="{Binding Title, FallbackValue=Log In}"
+                Margin="10" FontSize="16" VerticalAlignment="Bottom"
+                Style="{StaticResource FancyButton}" Command="{Binding OnLogInRegister_Clicked}"/>
+    </Grid>
+</UserControl>
