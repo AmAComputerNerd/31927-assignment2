@@ -47,14 +47,18 @@ namespace HotelSmartManagement.Common.Database.Services
         }
         public IEnumerable<Announcement> GetAllAnnouncements()
         {
+            return _announcementRepository.GetById(guid);
+        }
+        public IEnumerable<Announcement> GetAllAnnouncements()
+        {
             return _announcementRepository.GetAll();
         }
 
-        public async Task<Event?> GetEvent(Guid eventId)
+        public Event? GetEvent(Guid eventId)
         {
             return _eventRepository.GetById(eventId);
         }
-        public async Task<Event?> GetEvent(string eventTitle)
+        public Event? GetEvent(string eventTitle)
         {
             return _eventRepository.GetBy(eventT => eventT.Title == eventTitle);
         }
@@ -63,11 +67,11 @@ namespace HotelSmartManagement.Common.Database.Services
             return _eventRepository.GetAll();
         }
 
-        public async Task<InventoryItem?> GetInventoryItem(Guid inventoryItemId)
+        public InventoryItem? GetInventoryItem(Guid inventoryItemId)
         {
             return _inventoryItemRepository.GetById(inventoryItemId);
         }
-        public async Task<InventoryItem?> GetInventoryItem(string itemName)
+        public InventoryItem? GetInventoryItem(string itemName)
         {
             return _inventoryItemRepository.GetBy(inventoryItem => inventoryItem.Name == itemName);
         }
@@ -76,9 +80,9 @@ namespace HotelSmartManagement.Common.Database.Services
             return _inventoryItemRepository.GetAll();
         }
 
-        public async void UpdateAnnouncement(Announcement announcement)
+        public  void UpdateAnnouncement(Announcement announcement)
         {
-            if (!_announcementRepository.Contains(announcement))
+            if (_announcementRepository.Contains(announcement))
             {
                 _announcementRepository.Update(announcement);
             }
@@ -88,9 +92,9 @@ namespace HotelSmartManagement.Common.Database.Services
             }
             _announcementRepository.Save();
         }
-        public async void UpdateEvent(Event eventT)
+        public  void UpdateEvent(Event eventT)
         {
-            if (!_eventRepository.Contains(eventT))
+            if (_eventRepository.Contains(eventT))
             {
                 _eventRepository.Update(eventT);
             }
@@ -100,9 +104,9 @@ namespace HotelSmartManagement.Common.Database.Services
             }
             _eventRepository.Save();
         }
-        public async void UpdateInventoryItem(InventoryItem inventoryItem)
+        public  void UpdateInventoryItem(InventoryItem inventoryItem)
         {
-            if (!_inventoryItemRepository.Contains(inventoryItem))
+            if (_inventoryItemRepository.Contains(inventoryItem))
             {
                 _inventoryItemRepository.Update(inventoryItem);
             }
@@ -118,9 +122,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _announcementRepository.Delete(announcement);
             _announcementRepository.Save();
         }
-        public async void DeleteAllAnnouncements()
+        public void DeleteAllAnnouncements()
         {
-            var allAnnouncements = _announcementRepository.GetAll().ToList();
+            var allAnnouncements = _announcementRepository.GetAll();
             _announcementRepository.DeleteRange(allAnnouncements);
             _announcementRepository.Save();
         }
@@ -129,9 +133,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _eventRepository.Delete(eventT);
             _eventRepository.Save();
         }
-        public async void DeleteAllEvent()
+        public void DeleteAllEvent()
         {
-            var allEvent = _eventRepository.GetAll().ToList();
+            var allEvent = _eventRepository.GetAll();
             _eventRepository.DeleteRange(allEvent);
             _eventRepository.Save();
         }
@@ -140,9 +144,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _inventoryItemRepository.Delete(inventoryItem);
             _inventoryItemRepository.Save();
         }
-        public async void DeleteAllInventoryItems()
+        public void DeleteAllInventoryItems()
         {
-            var allInventoryItems = _inventoryItemRepository.GetAll().ToList();
+            var allInventoryItems = _inventoryItemRepository.GetAll();
             _inventoryItemRepository.DeleteRange(allInventoryItems);
             _inventoryItemRepository.Save();
         }
