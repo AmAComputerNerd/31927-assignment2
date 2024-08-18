@@ -64,9 +64,12 @@
         </Grid>
         <DockPanel Grid.Row="3">
             <UniformGrid Columns="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" extensions:UniformGridHelper.ChildMargin="10">
-                <Button Content="Hello 1" />
-                <Button Content="Hello 2" />
-                <Button Content="Hello 3" />
+                <Button Content="Manage Inventory" 
+                        Command="{Binding OnManageInventoryButton_Clicked}"/>
+                <Button Content="Add Event" 
+                        Command="{Binding OnAddEventButton_Clicked}"/>
+                <Button Content="Add Announcement" 
+                        Command="{Binding OnAddAnnouncementButton_Clicked}"/>
             </UniformGrid>
         </DockPanel>
     </Grid>
