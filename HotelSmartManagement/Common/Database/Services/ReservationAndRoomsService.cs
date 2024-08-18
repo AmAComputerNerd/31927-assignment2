@@ -22,7 +22,39 @@ namespace HotelSmartManagement.Common.Database.Services
             _roomRepository = roomRepository;
             _reservationRepository = reservationRepository;
         }
+        #region Add To Database
+        public Task AddReservation(string reference, DateTime startDate, DateTime endDate, string requests, Guest guest, Room room)
+        {
+            return Task.Run(() =>
+            {
+                Reservation reservation = new Reservation() { UniqueId = new Guid(), Reference = reference, StartDate = startDate, EndDate = endDate, Requests = requests, Guest = guest, Room = room };
+                _reservationRepository.Add(reservation);
+                _reservationRepository.Save();
+            });
+        }
 
+        public Task AddRoom(RoomType roomType, int size, int capacity, List<string> amenities, List<string> photos, string layout)
+        {
+            return Task.Run(() =>
+            {
+                Room room = new Room() { UniqueId = new Guid(), Type = roomType, Size = size, Capacity = capacity, Amenities = amenities, Photos = photos, Layout = layout };
+                _roomRepository.Add(room);
+                _roomRepository.Save();
+            });
+        }
+
+        public Task AddGuest(string firstName, string lastName, string tier, DateTime creationDate, int stays)
+        {
+            return Task.Run(() =>
+            {
+                Guest guest = new Guest() { UniqueId = new Guid(), FirstName = firstName, LastName = lastName, Tier = tier, CreationDate = creationDate, Stays = stays };
+                _guestRepository.Add(guest);
+                _guestRepository.Save();
+            });
+        }
+        #endregion
+
+        #region Query Database
         public async Task<Guest> GetGuest(Guid id)
         {
             return await _guestRepository.GetBy(guest => guest.UniqueId == id) ?? throw new NullReferenceException("Guest was empty.");
@@ -52,20 +84,50 @@ namespace HotelSmartManagement.Common.Database.Services
         {
             return await _roomRepository.GetBy(room => room.Type == type) ?? throw new NullReferenceException("Room was empty.");
         }
+        #endregion
 
-        public async void RemoveReservation(Guid id)
+        #region Delete From Database
+        public async Task DeleteAllReservations()
+        {
+            IAsyncEnumerable<Reservation> reservations = _reservationRepository.GetAll();
+            await foreach (Reservation reservation in reservations)
+            {
+                _reservationRepository.Delete(reservation);
+            }
+        }
+
+        public async Task DeleteAllRooms()
+        {
+            IAsyncEnumerable<Room> rooms = _roomRepository.GetAll();
+            await foreach (Room room in rooms)
+            {
+                _roomRepository.Delete(room);
+            }
+        }
+
+        public async Task DeleteAllGuests()
+        {
+            IAsyncEnumerable<Guest> guests = _guestRepository.GetAll();
+            await foreach (Guest guest in guests)
+            {
+                _guestRepository.Delete(guest);
+            }
+        }
+
+        public async Task RemoveReservation(Guid id)
         {
             var reservation = await GetReservation(id);
             _reservationRepository.Delete(reservation);
             _reservationRepository.Save();
         }
 
-        public async void RemoveReservation(string reference)
+        public async Task RemoveReservation(string reference)
         {
             var reservation = await GetReservation(reference);
             _reservationRepository.Delete(reservation);
             _reservationRepository.Save();
         }
+        #endregion
 
         public static void ExportReservationAsPDF(Reservation reservation, string filePath)
         {
