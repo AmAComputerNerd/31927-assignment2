@@ -31,9 +31,18 @@
             
             <!-- Hotel Management / Overview -->
             <DataTemplate DataType="{x:Type hotelViewModels:HotelOverviewDashboardViewModel}">
-                <hotelViews:HotelManagementDashboardView/>
+                <hotelViews:HotelOverviewDashboardView/>
             </DataTemplate>
-            
+            <DataTemplate DataType="{x:Type hotelViewModels:AddAnnouncementViewModel}">
+                <hotelViews:AddAnnouncementView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type hotelViewModels:AddEventViewModel}">
+                <hotelViews:AddEventView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type hotelViewModels:ManageInventoryViewModel}">
+                <hotelViews:ManageInventoryView/>
+            </DataTemplate>
+
             <!-- Employee Self-Service -->
             <DataTemplate DataType="{x:Type employeeViewModels:EmployeeSelfServiceDashboardViewModel}">
                 <employeeViews:EmployeeSelfServiceDashboardView/>
