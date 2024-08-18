@@ -2,6 +2,10 @@
 using HotelSmartManagement.HotelOverview.MVVM.ViewModels;
 using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
 using HotelSmartManagement.Common.Database.Services;
+using System.Configuration;
+using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
+using HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels;
+using HotelSmartManagement.EmployeeSelfService.MVVM.Views;
 
 namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
 {
@@ -12,7 +16,6 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         // Private
         private Room _room;
         private ReservationAndRoomsService _service;
-        private ReservationAndRoomsService _reservationAndRoomsService;
 
         public Room Room { get => _room; set => SetProperty(ref _room, value); }
 
@@ -21,14 +24,13 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
             _service = service;
         }
 
-        public RoomDetailsViewModel(ReservationAndRoomsService service, Globals globals, string roomType) : base(globals)
+        public override void Initialise(params object[] args)
         {
-            _service = service;
-            SetRoom(roomType);
-        }
-        public async void SetRoom(string roomType)
-        {
-            _room = _service.GetRoom((RoomType)int.Parse(roomType));
+            if (args.Length != 1 || args[0] is not string roomType)
+            {
+                throw new ArgumentException($"{nameof(RoomDetailsViewModel)} requires one argument of type string to be passed to the Initialise method.");
+            }
+            Room = _service.GetRoom(int.Parse(roomType));
         }
     }
 }

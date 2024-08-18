@@ -20,42 +20,31 @@
 
         <TabControl Grid.Row="1" TabStripPlacement="Left">
             <TabItem Header="Info" Height="40">
-                <Grid Background="Beige">
+                <Grid Background="WhiteSmoke">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="350"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Column="0" Text="{Binding Room.Amenities, FallbackValue=No room information!}" HorizontalAlignment="Left" Margin="5"/>
 
-                    <Grid Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="200" />
-                            <RowDefinition Height="200" />
-                        </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding Room.Description, FallbackValue=No room information!}" HorizontalAlignment="Left" Margin="5"/>
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Image Grid.Row="0" Grid.Column="0" Stretch="UniformToFill" Source="\ReservationAndRooms\MVVM\Views\Assets\StockHotelExterior.jpg"/>
-                        <Image Grid.Row="1" Grid.Column="0" Stretch="UniformToFill" Source="\ReservationAndRooms\MVVM\Views\Assets\StockHotelExterior.jpg"/>
-                        <Image Grid.Row="0" Grid.Column="1" Stretch="UniformToFill" Source="\ReservationAndRooms\MVVM\Views\Assets\StockHotelExterior.jpg"/>
-                        <Image Grid.Row="1" Grid.Column="1" Stretch="UniformToFill" Source="\ReservationAndRooms\MVVM\Views\Assets\StockHotelExterior.jpg"/>
-                    </Grid>
+                    <Image Margin="10" Grid.Column="1" Stretch="UniformToFill">
+                        <Image.Source>
+                            <BitmapImage UriSource="https://plus.unsplash.com/premium_photo-1661964402307-02267d1423f5?q=80&amp;w=1546&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
+                        </Image.Source>
+                    </Image>
                 </Grid>
             </TabItem>
 
             <TabItem Header="Amentities" Height="40">
-                <Grid Background="LightBlue">
-                    <TextBlock Text="Content for Tab 2" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="Layout" Height="40">
-                <Grid Background="LightGreen">
-                    <TextBlock Text="Content for Tab 3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Grid Background="WhiteSmoke">
+                    <ListBox ItemsSource="{Binding Room.Amenities}" Margin="10">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="14"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </Grid>
             </TabItem>
         </TabControl>

@@ -33,9 +33,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _reservationRepository.Save();
         }
 
-        public void AddRoom(RoomType roomType, int size, int capacity, List<string> amenities, List<string> photos, string layout)
+        public void AddRoom(RoomType roomType, int size, int capacity, string description, List<string> amenities, List<string> photos, string layout)
         {
-            Room room = new Room() { UniqueId = new Guid(), Type = roomType, Size = size, Capacity = capacity, Amenities = amenities, Photos = photos, Layout = layout };
+            Room room = new Room() { UniqueId = new Guid(), Type = roomType, Size = size, Capacity = capacity, Description = description, Amenities = amenities, Photos = photos, Layout = layout };
             _roomRepository.Add(room);
             _roomRepository.Save();
         }
@@ -69,14 +69,19 @@ namespace HotelSmartManagement.Common.Database.Services
             return _reservationRepository.GetBy(reservation => reservation.Reference == reference) ?? throw new NullReferenceException("Reservation was empty.");
         }
 
+        public IEnumerable<Reservation> GetAllReservations()
+        {
+            return _reservationRepository.GetAll();
+        }
+
         public Room GetRoom(Guid id)
         {
             return _roomRepository.GetBy(room => room.UniqueId == id) ?? throw new NullReferenceException("Room was empty.");
         }
 
-        public Room GetRoom(RoomType type)
+        public Room GetRoom(int type)
         {
-            return _roomRepository.GetBy(room => room.Type == type) ?? throw new NullReferenceException("Room was empty.");
+            return _roomRepository.GetBy(room => (int)room.Type == type) ?? throw new NullReferenceException("Room was empty.");
         }
         #endregion
 

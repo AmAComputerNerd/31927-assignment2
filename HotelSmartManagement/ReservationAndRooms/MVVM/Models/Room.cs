@@ -19,6 +19,8 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
 
         public int Capacity { get; set; }
 
+        public string Description { get; set; }
+
         public List<string>? Amenities { get; set; }
 
         public List<string>? Photos { get; set; }

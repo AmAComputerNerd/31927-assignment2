@@ -1,54 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.Input;
 using System.Windows;
 using System.Windows.Controls;
-using CommunityToolkit.Mvvm.Input;
-using HotelSmartManagement.Common.Database.Services;
-using HotelSmartManagement.Common.Events;
-using HotelSmartManagement.Common.MVVM.Models;
-using HotelSmartManagement.Common.MVVM.ViewModels;
-using HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels;
-using HotelSmartManagement.HotelOverview.MVVM.ViewModels;
-using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
-using System.Collections.ObjectModel;
 
 namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
 {
-    public class ReservationControl : Control, INotifyPropertyChanged
+    public class ReservationControl : Control
     {
-        private Reservation _reservation;
+        public static readonly DependencyProperty ReservationProperty =
+            DependencyProperty.Register(
+                "Reservation", 
+                typeof(Reservation),
+                typeof(ReservationControl), 
+                new FrameworkPropertyMetadata(null));
+
+        public static readonly DependencyProperty OnReservationClickedProperty =
+            DependencyProperty.Register(
+                "OnReservationClicked",
+                typeof(RelayCommand<Reservation>),
+                typeof(ReservationControl),
+                new FrameworkPropertyMetadata(null));
 
         public Reservation Reservation
         {
-            get => _reservation;
-            set
-            {
-                if (_reservation != value)
-                {
-                    _reservation = value;
-                    OnPropertyChanged(nameof(Room));
-                }
-            }
+            get => (Reservation)GetValue(ReservationProperty);
+            set => SetValue(ReservationProperty, value);
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public static readonly DependencyProperty OnReservation_ClickedProperty =
-        DependencyProperty.Register(nameof(OnReservation_Clicked), typeof(IRelayCommand), typeof(ReservationControl), new PropertyMetadata(null));
-
-        public IRelayCommand OnReservation_Clicked
+        public RelayCommand<Reservation> OnReservationClickedCommand
         {
-            get => (IRelayCommand)GetValue(OnReservation_ClickedProperty);
-            set => SetValue(OnReservation_ClickedProperty, value);
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get => (RelayCommand<Reservation>)GetValue(OnReservationClickedProperty);
+            set => SetValue(OnReservationClickedProperty, value);
         }
 
         static ReservationControl()
