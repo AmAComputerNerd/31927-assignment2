@@ -1,6 +1,5 @@
 ﻿using HotelSmartManagement.Common.Database.Repositories;
 using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace HotelSmartManagement.Common.Database.Services
 {

@@ -32,7 +32,7 @@
                                Grid.Row="2" Grid.Column="0"/>
                     <TextBox Text="{Binding Details}"
                              Grid.Row="2" Grid.Column="1"/>
-                    <TextBlock Text="Event Details"
+                    <TextBlock Text="Date Affected"
                         Style="{StaticResource SubTitle}"
                         Grid.Row="2" Grid.Column="0"/>
                     <DatePickerTextBox Text="{Binding DateAffected}"

@@ -13,7 +13,7 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
 
         // Private
         private List<Reservation> _reservations;
-        private ReservationAndRoomsService _service;
+        private readonly ReservationAndRoomsService _service;
 
         // Public
         public List<Reservation> Reservations { get => _reservations; set => SetProperty(ref _reservations, value); }
@@ -22,7 +22,9 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         public RelayCommand<string> OnReservation_Clicked { get; }
         public RelayCommand<string> OnRoomDetails_Clicked { get; }
 
+#pragma warning disable CS8618 // Reason: fields are set through properties.
         public ReservationAndRoomsDashboardViewModel(ReservationAndRoomsService service, Globals globals) : base(globals)
+#pragma warning restore CS8618 // Reason: fields are set through properties.
         {
             _service = service;
 

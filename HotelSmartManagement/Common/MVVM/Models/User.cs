@@ -1,6 +1,5 @@
 ﻿using HotelSmartManagement.Common.Database.Misc;
 using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
-using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

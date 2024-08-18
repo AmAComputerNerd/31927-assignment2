@@ -1,4 +1,4 @@
-﻿#nullable disable
+﻿#nullable disable // Reason: ICommand has nullable parameters, where as we are using non-nullable reference types.
 using System.Windows.Input;
 
 public class RelayCommand<T> : ICommand
@@ -28,3 +28,4 @@ public class RelayCommand<T> : ICommand
         remove { CommandManager.RequerySuggested -= value; }
     }
 }
+#nullable enable // Reason: ICommand has nullable parameters, where as we are using non-nullable reference types.

@@ -23,7 +23,6 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         }
 
         public override void Initialise(params object[] args)
-#pragma warning restore CS8618 // Reason: fields are set through public properties, or defined in Initialise().
         {
             if (args.Length != 1 || args[0] is not string roomType)
             {

@@ -1,5 +1,4 @@
 ﻿using HotelSmartManagement.Common.Database.Context;
-using HotelSmartManagement.HotelOverview.MVVM.Models;
 using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
 
 namespace HotelSmartManagement.Common.Database.Repositories

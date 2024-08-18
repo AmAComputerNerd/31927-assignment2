@@ -1,6 +1,4 @@
-﻿using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
-using Microsoft.Extensions.Configuration;
-using System.Collections.ObjectModel;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace HotelSmartManagement.Common.MVVM.Models
 {

@@ -19,7 +19,9 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         // Commands
         public RelayCommand OnExportAsPDF_Clicked { get; }
 
+#pragma warning disable CS8618 // Reason: fields are set through properties.
         public ReservationDetailsViewModel(ReservationAndRoomsService service, Globals globals) : base(globals)
+#pragma warning restore CS8618 // Reason: fields are set through properties.
         {
             _service = service;
             OnExportAsPDF_Clicked = new RelayCommand(() => ReservationAndRoomsService.ExportReservationAsPDF(Reservation, "reservation.pdf"));

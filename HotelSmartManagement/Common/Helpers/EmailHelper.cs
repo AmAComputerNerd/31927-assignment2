@@ -1,6 +1,5 @@
 ﻿using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
 using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
-using iText.Kernel.Pdf.Canvas.Parser.ClipperLib;
 using System.Net;
 using System.Net.Mail;
 using System.Windows;

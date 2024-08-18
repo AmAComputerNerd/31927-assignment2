@@ -14,7 +14,9 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
 
         public int Capacity { get; set; }
 
+#nullable disable // Reason: Model for EF - expected that these properties do not get assigned in the constructor.
         public string Description { get; set; }
+#nullable enable // Reason: Model for EF - expected that these properties do not get assigned in the constructor.
 
         public List<string>? Amenities { get; set; }
 
