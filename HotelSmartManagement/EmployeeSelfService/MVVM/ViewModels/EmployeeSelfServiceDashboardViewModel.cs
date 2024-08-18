@@ -6,6 +6,7 @@ using HotelSmartManagement.Common.MVVM.Models;
 using HotelSmartManagement.Common.MVVM.ViewModels;
 using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
 using HotelSmartManagement.EmployeeSelfService.SubWindows;
+using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -25,6 +26,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
         private double _leaveBalanceInHours;
         private double _userTimeRecording;
         private ObservableCollection<Job> _assignedJobs;
+        private Job? _selectedJob;
         private int _numberOfAssignedJobs;
         private int _highestUrgencyLevelOfAssignedJobs;
 
@@ -35,6 +37,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
         public double LeaveBalanceInHours { get => _leaveBalanceInHours; set => SetProperty(ref _leaveBalanceInHours, value); }
         public double UserTimeRecording { get => _userTimeRecording; set => SetProperty(ref _userTimeRecording, value); }
         public ObservableCollection<Job> AssignedJobs { get => _assignedJobs; set => SetProperty(ref _assignedJobs, value); }
+        public Job? SelectedJob { get => _selectedJob; set => SetProperty(ref _selectedJob, value); }
         public int NumberOfAssignedJobs { get => _numberOfAssignedJobs; set => SetProperty(ref _numberOfAssignedJobs, value); }
         public int HighestUrgencyLevelOfAssignedJobs { get => _highestUrgencyLevelOfAssignedJobs; set => SetProperty(ref _highestUrgencyLevelOfAssignedJobs, value); }
 
@@ -57,26 +60,49 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             OnMyEmployment_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(EmployeeSelfServiceMyDetailsViewModel)), nameof(MainViewModel))));
             OnViewJob_Clicked = new AsyncRelayCommand(async () =>
             {
-                // Get the selected job.
                 // Send a CreateOrDestroySubWindowEvent to create a new JobWindow, with the argument of the selected job.
+                if (SelectedJob == null)
+                {
+                    // No job selected, display a message box.
+                    MessageBox.Show("Please select a job to view!", "No Job Selected", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+                var window = await Messenger.Send(CreateOrDestroySubWindowEvent.CreateWindow(typeof(JobWindow), typeof(JobWindowViewModel), SelectedJob));
+                window.Show();
             });
             OnAddJob_Clicked = new AsyncRelayCommand(async () =>
             {
                 // Send a CreateOrDestroySubWindowEvent to create a new JobWindow with no argument to indicate we are adding a new job.
-                var window = await Messenger.Send(CreateOrDestroySubWindowEvent.CreateWindow(typeof(JobWindow), typeof(JobWindowViewModel))).Response;
+                var window = await Messenger.Send(CreateOrDestroySubWindowEvent.CreateWindow(typeof(JobWindow), typeof(JobWindowViewModel)));
                 window.Show();
             });
-            OnCloseJob_Clicked = new AsyncRelayCommand(async () =>
+            OnCloseJob_Clicked = new AsyncRelayCommand(() => Task.Run(() =>
             {
-                // Get the selected job.
+                if (SelectedJob == null)
+                {
+                    // No job selected, display a message box.
+                    MessageBox.Show("Please select a job to close!", "No Job Selected", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
                 // Set its status to JobStatus.Closed.
+                SelectedJob.Status = JobStatus.Completed;
                 // Update the job in the database.
-            });
+                _jobService.UpdateJob(SelectedJob);
+                Messenger.Send(new JobChangedEvent(SelectedJob.UniqueId));
+            }));
             OnCancelJob_Clicked = new AsyncRelayCommand(async () =>
             {
-                // Get the selected job.
+                if (SelectedJob == null)
+                {
+                    // No job selected, display a message box.
+                    MessageBox.Show("Please select a job to cancel!", "No Job Selected", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
                 // Set its status to JobStatus.Cancelled.
+                SelectedJob.Status = JobStatus.Cancelled;
                 // Update the job in the database.
+                _jobService.UpdateJob(SelectedJob);
+                Messenger.Send(new JobChangedEvent(SelectedJob.UniqueId));
             });
             RefreshUserBindings();
         }
@@ -93,57 +119,67 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             RefreshUserBindings();
         }
 
-        private async void JobChanged(JobChangedEvent @event)
+        private void JobChanged(JobChangedEvent @event)
         {
-            // Retrieve the job from the database
-            var jobFromDb = _jobService.GetJob(@event.JobId);
-
-            if (jobFromDb == null)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                // Job was deleted
-                // Attempt to find and remove the job from the assigned jobs
-                var jobToRemove = AssignedJobs.FirstOrDefault(j => j.UniqueId == @event.JobId);
-                if (jobToRemove != null)
-                {
-                    AssignedJobs.Remove(jobToRemove);
-                }
-            }
-            else
-            {
-                // Job exists in the database
-                var existingJob = AssignedJobs.FirstOrDefault(j => j.UniqueId == jobFromDb.UniqueId);
+                // Retrieve the job from the database
+                var jobFromDb = _jobService.GetJob(@event.JobId);
 
-                if (existingJob != null)
+                if (jobFromDb == null)
                 {
-                    // Job is already in the assigned jobs list
-                    if (jobFromDb.Status == JobStatus.Assigned && jobFromDb.AssignedTo?.UniqueId == Globals.CurrentUser?.UniqueId)
+                    // Job was deleted
+                    var jobToRemove = AssignedJobs.FirstOrDefault(j => j.UniqueId == @event.JobId);
+                    if (jobToRemove != null)
                     {
-                        // Job status and assignment haven't changed, update the job
-                        var index = AssignedJobs.IndexOf(existingJob);
-                        AssignedJobs[index] = jobFromDb;
-                    }
-                    else
-                    {
-                        // Job status or assignment has changed, remove the job
-                        AssignedJobs.Remove(existingJob);
+                        AssignedJobs.Remove(jobToRemove);
                     }
                 }
-                else if (jobFromDb.Status == JobStatus.Assigned && jobFromDb.AssignedTo?.UniqueId == Globals.CurrentUser?.UniqueId)
+                else
                 {
-                    // Job is not in the list but is assigned to the current user, add it
-                    AssignedJobs.Add(jobFromDb);
+                    var existingJob = AssignedJobs.FirstOrDefault(j => j.UniqueId == jobFromDb.UniqueId);
+
+                    if (existingJob != null)
+                    {
+                        if ((jobFromDb.Status == JobStatus.Assigned || jobFromDb.Status == JobStatus.InProgress) && jobFromDb.AssignedTo?.UniqueId == Globals.CurrentUser?.UniqueId)
+                        {
+                            AssignedJobs.Remove(existingJob);
+                            AssignedJobs.Add(jobFromDb);
+                        }
+                        else
+                        {
+                            AssignedJobs.Remove(existingJob);
+                        }
+                    }
+                    else if (jobFromDb.Status == JobStatus.Assigned && jobFromDb.AssignedTo?.UniqueId == Globals.CurrentUser?.UniqueId)
+                    {
+                        AssignedJobs.Add(jobFromDb);
+                    }
                 }
-            }
+            });
+            RefreshUserBindings(true);
+            
         }
 
-        private void RefreshUserBindings()
+        private void RefreshUserBindings(bool doLimitedUpdate = false)
         {
-            Username = Globals.CurrentUser?.Username ?? "DESIGNER";
-            JobHoursPerWeek = Globals.CurrentUser?.EmployeeDetails?.JobHoursPerWeek ?? 0;
-            JobActualHoursThisWeek = Globals.CurrentUser?.EmployeeDetails?.JobActualHoursThisWeek ?? 0;
-            LeaveBalanceInHours = Globals.CurrentUser?.EmployeeDetails?.LeaveBalanceInHours ?? 0;
+            if (!doLimitedUpdate)
+            {
+                Username = Globals.CurrentUser?.Username ?? "DESIGNER";
+                JobHoursPerWeek = Globals.CurrentUser?.EmployeeDetails?.JobHoursPerWeek ?? 0;
+                LeaveBalanceInHours = Globals.CurrentUser?.EmployeeDetails?.LeaveBalanceInHours ?? 0;
+                AssignedJobs = new ObservableCollection<Job>();
+                // As the ObservableCollection won't update when set, we need to manually add all the items...
+                foreach (var job in Globals.CurrentUser?.AssignedJobs ?? [])
+                {
+                    if (job.Status == JobStatus.Assigned)
+                    {
+                        AssignedJobs.Add(job);
+                    }
+                }
+            }
             UserTimeRecording = Math.Round((Globals.CurrentUser?.EmployeeDetails?.JobActualHoursThisWeek ?? 0) / (double)(Globals.CurrentUser?.EmployeeDetails?.JobHoursPerWeek ?? 1) * 100, 2);
-            AssignedJobs = new ObservableCollection<Job>(Globals.CurrentUser?.AssignedJobs ?? []);
+            JobActualHoursThisWeek = Globals.CurrentUser?.EmployeeDetails?.JobActualHoursThisWeek ?? 0;
             NumberOfAssignedJobs = AssignedJobs.Count;
             HighestUrgencyLevelOfAssignedJobs = NumberOfAssignedJobs == 0 ? 0 : AssignedJobs.Max(job => (int)job.UrgencyLevel);
         }

@@ -1,5 +1,6 @@
 ﻿using HotelSmartManagement.Common.Database.Repositories;
 using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HotelSmartManagement.Common.Database.Services
 {
@@ -25,7 +26,8 @@ namespace HotelSmartManagement.Common.Database.Services
                 return null;
             }
 
-            var newJob = new Job() { Title = jobTitle, Description = jobDescription, UrgencyLevel = urgencyLevel, TaskType = taskType, CreatedById = createdByUser, CreatedAtUtc = DateTime.UtcNow, Status = JobStatus.Pending, AssignedToId = assignedToUser };
+            var jobStatus = assignedToUser == null ? JobStatus.Pending : JobStatus.Assigned;
+            var newJob = new Job() { Title = jobTitle, Description = jobDescription, UrgencyLevel = urgencyLevel, TaskType = taskType, CreatedById = createdByUser, CreatedAtUtc = DateTime.UtcNow, Status = jobStatus, AssignedToId = assignedToUser };
             _jobRepository.Add(newJob);
             _jobRepository.Save();
 
