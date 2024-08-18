@@ -95,6 +95,7 @@ namespace HotelSmartManagement
 
             // Register Services
             services.AddTransient<UserService>();
+            services.AddTransient<HotelOverviewService>();
 
             // Register Views
             services.AddTransient<MainWindow>();
