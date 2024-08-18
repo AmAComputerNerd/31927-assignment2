@@ -23,7 +23,7 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
             });
             HotelManagement_Selected = new RelayCommand(() =>
             {
-                WeakReferenceMessenger.Default.Send(new ChangeViewEvent(typeof(HotelManagementDashboardViewModel)), nameof(MainViewModel));
+                WeakReferenceMessenger.Default.Send(new ChangeViewEvent(typeof(HotelOverviewDashboardViewModel)), nameof(MainViewModel));
             });
             ReservationAndRooms_Selected = new RelayCommand(() =>
             {

@@ -45,6 +45,10 @@ namespace HotelSmartManagement.Common.Database.Services
         {
             return await _announcementRepository.GetById(guid);
         }
+        public IAsyncEnumerable<Announcement> GetAllAnnouncements()
+        {
+            return _announcementRepository.GetAll();
+        }
 
         public async Task<Event?> GetEvent(Guid eventId)
         {
@@ -54,6 +58,10 @@ namespace HotelSmartManagement.Common.Database.Services
         {
             return await _eventRepository.GetBy(eventT => eventT.Title == eventTitle);
         }
+        public IAsyncEnumerable<Event> GetAllEvents()
+        {
+            return _eventRepository.GetAll();
+        }
 
         public async Task<InventoryItem?> GetInventoryItem(Guid inventoryItemId)
         {
@@ -62,6 +70,10 @@ namespace HotelSmartManagement.Common.Database.Services
         public async Task<InventoryItem?> GetInventoryItem(string itemName)
         {
             return await _inventoryItemRepository.GetBy(inventoryItem => inventoryItem.Name == itemName);
+        }
+        public IAsyncEnumerable<InventoryItem> GetAllInventory()
+        {
+            return _inventoryItemRepository.GetAll();
         }
 
         public async void UpdateAnnouncement(Announcement announcement)
