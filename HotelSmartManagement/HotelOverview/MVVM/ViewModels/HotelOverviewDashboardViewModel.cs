@@ -26,7 +26,7 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
         // Commands.
         public AsyncRelayCommand OnManageInventoryButton_Clicked { get; }
         public AsyncRelayCommand OnAddEventButton_Clicked { get; }
-        public AsyncRelayCommand OnAddAnnouncement_Clicked { get; }
+        public AsyncRelayCommand OnAddAnnouncementButton_Clicked { get; }
 
 #pragma warning disable CS8618 // Reason: private fields are set through public properties.
         public HotelOverviewDashboardViewModel(Globals globals, HotelOverviewService hotelOverviewService) : base(globals)
@@ -34,21 +34,25 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
         {
             _hotelOverviewService = hotelOverviewService;
 
-            //ImageUri = Globals.GetProfilePictureUri();
             OnManageInventoryButton_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(ManageInventoryViewModel)), nameof(MainViewModel))));
             OnAddEventButton_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(AddEventViewModel)), nameof(MainViewModel))));
-            OnAddAnnouncement_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(AddAnnouncementViewModel)), nameof(MainViewModel))));
+            OnAddAnnouncementButton_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(AddAnnouncementViewModel)), nameof(MainViewModel))));
             RefreshUserBindings();
         }
 
-        async private void RefreshUserBindings()
+        private void RefreshUserBindings()
         {
             InventoryItems = new ObservableCollection<InventoryItem>(_hotelOverviewService.GetAllInventory() as ICollection<InventoryItem> ?? Array.Empty<InventoryItem>());
             Announcements = new ObservableCollection<Announcement>(_hotelOverviewService.GetAllAnnouncements().Where(a => a.IsResolved) as ICollection<Announcement> ?? Array.Empty<Announcement>());
             Events = string.Empty;
-            await foreach (var e in _hotelOverviewService.GetAllEvents())
+            var eventList = _hotelOverviewService.GetAllEvents().ToBlockingEnumerable().ToList();
+            if (eventList.Count() > 0)
             {
-                Events += e.Title + ": " + e.Description + " | ";
+                Events += eventList[0].Title + ": " + eventList[0].Description + " - affecting " + eventList[0].AreaAffected.ToFriendlyString();
+                for (int i = 1; i < eventList.Count(); i++)
+                {
+                    Events += " | " + eventList[i].Title + ": " + eventList[i].Description + " - affecting " + eventList[i].AreaAffected.ToFriendlyString();
+                }
             }
         }
     }

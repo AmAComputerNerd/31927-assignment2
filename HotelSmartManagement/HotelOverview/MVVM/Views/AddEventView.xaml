@@ -19,23 +19,30 @@
                     <TextBlock Text="Event Title:"
                                Style="{StaticResource SubTitle}"
                                Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="John Doe"
+                    <TextBox Text="{Binding Title}"
                              Grid.Row="0" Grid.Column="1"/>
                     <TextBlock Text="Areas Affected:"
                                Style="{StaticResource SubTitle}"
                                Grid.Row="1" Grid.Column="0"/>
-                    <ComboBox Text="johndoe@gmail.com"
-                             Grid.Row="1" Grid.Column="1"/>
+                    <ComboBox Text="{Binding AreaAffected}"
+                             Grid.Row="1" Grid.Column="1"
+                              ItemsSource="{Binding AreaTypes}"/>
                     <TextBlock Text="Event Details"
                                Style="{StaticResource SubTitle}"
                                Grid.Row="2" Grid.Column="0"/>
-                    <TextBox Text="***************"
+                    <TextBox Text="{Binding Details}"
                              Grid.Row="2" Grid.Column="1"/>
                 </UniformGrid>
             </Grid>
             <UniformGrid HorizontalAlignment="Center">
-                <Button Content='Save &amp; Close' Margin="10" Padding="5"/>
-                <Button Content="Cancel" Margin="10"/>
+                <Button Content='Save &amp; Close' 
+                        Margin="10" Padding="5" 
+                        Style="{StaticResource FancyButton}" 
+                        Command="{Binding OnSaveClose_Clicked}"/>
+                <Button Content="Cancel" 
+                        Margin="10" Padding="5" 
+                        Style="{StaticResource FancyButton}"
+                        Command="{Binding OnCancel_Clicked}"/>
             </UniformGrid>
         </StackPanel>
     </Grid>

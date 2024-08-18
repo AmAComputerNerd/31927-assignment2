@@ -108,7 +108,7 @@ namespace HotelSmartManagement
             services.AddTransient<MainWindow>();
             services.AddTransient<MenuView>();
 
-            services.AddTransient<HotelManagementDashboardView>();
+            services.AddTransient<HotelOverviewDashboardView>();
             services.AddTransient<AddAnnouncementView>();
             services.AddTransient<AddEventView>();
             services.AddTransient<ManageInventoryView>();

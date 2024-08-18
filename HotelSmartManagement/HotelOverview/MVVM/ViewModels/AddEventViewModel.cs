@@ -15,11 +15,11 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
 
         private HotelOverviewService _hotelOverviewService;
         private Area _areaAffected;
-        private ObservableCollection<Area> _areaTypes;
+        private ObservableCollection<string> _areaTypes;
 
         // Public properties.
         public Area AreaAffected { get => _areaAffected; set => SetProperty(ref _areaAffected, value); }
-        public ObservableCollection<Area> AreaTypes { get => _areaTypes; set => SetProperty(ref _areaTypes, value); }
+        public ObservableCollection<string> AreaTypes { get => _areaTypes; }
         // Commands
         public AsyncRelayCommand OnSaveClose_Clicked { get; }
         public AsyncRelayCommand OnCancel_Clicked { get; }
@@ -30,8 +30,9 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
         {
             _hotelOverviewService = hotelOverviewService;
 
+            _areaTypes = [.. Enum.GetNames(typeof(Area))];
+            ErrorMessage = string.Empty;
             OnSaveClose_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => OnSave()));
-            OnCancel_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(HotelOverviewDashboardViewModel)), nameof(MainViewModel))));
             OnCancel_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(HotelOverviewDashboardViewModel)), nameof(MainViewModel))));
         }
 

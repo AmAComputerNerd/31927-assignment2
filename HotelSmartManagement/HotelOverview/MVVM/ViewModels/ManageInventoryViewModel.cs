@@ -34,9 +34,9 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
             IncreaseQuantityCommand = new RelayCommand<InventoryItem>(IncreaseQuantity);
             DecreaseQuantityCommand = new RelayCommand<InventoryItem>(DecreaseQuantity);
 
-            OnClose_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => OnSave()));
+            OnClose_Clicked = new AsyncRelayCommand(async () => await Task.Run(() => OnClose()));
         }
-        async public void OnSave()
+        async public void OnClose()
         {
             await Task.Run(() => Messenger.Send(new ChangeViewEvent(typeof(HotelOverviewDashboardViewModel)), nameof(MainViewModel)));
         }

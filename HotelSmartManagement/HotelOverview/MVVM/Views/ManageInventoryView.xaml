@@ -44,6 +44,11 @@
                 </ScrollViewer>
             </Border>
         </Grid>
-        <Button Content='Close' Margin="10" Padding="20,5" Grid.Row="2" HorizontalAlignment="Center"/>
+        <Button Content='Close' Margin="10" 
+                Padding="20,5" Grid.Row="2" 
+                HorizontalAlignment="Center"
+                Style="{StaticResource FancyButton}"
+                Command="{Binding OnClose_Clicked}"
+                />
     </Grid>
 </UserControl>

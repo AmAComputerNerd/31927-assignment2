@@ -34,8 +34,14 @@
                 </UniformGrid>
             </Grid>
             <UniformGrid HorizontalAlignment="Center">
-                <Button Content='Save &amp; Close' Margin="10" Padding="5"/>
-                <Button Content="Cancel" Margin="10"/>
+                <Button Content='Save &amp; Close' 
+                        Margin="10" Padding="5"
+                        Style="{StaticResource FancyButton}"
+                        Command="{Binding OnSaveClose_Clicked}"/>
+                <Button Content="Cancel" 
+                        Margin="10" Padding="5"
+                        Style="{StaticResource FancyButton}"
+                        Command="{Binding OnCancel_Clicked}"/>
             </UniformGrid>
         </StackPanel>
     </Grid>
