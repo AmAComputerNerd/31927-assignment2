@@ -15,32 +15,35 @@
                        Style="{StaticResource Title}"/>
             <TextBlock Style="{StaticResource SubTitle}">Welcome <Bold><Run Text="{Binding Username, FallbackValue=VS_DESIGNER}"/></Bold>. You have <Bold><Run Text="{Binding NumberOfAssignedJobs, FallbackValue=69}"/> jobs</Bold> pending (highest urgency level: <Run Text="{Binding HighestUrgencyLevelOfAssignedJobs, FallbackValue=-1}"/>).</TextBlock>
 
-            <Grid Margin="10,10,0,0">
+            <TextBlock Text="Assigned Jobs"
+                       Margin="10,10,10,5"
+                       Style="{StaticResource Heading}"/>
+            <Grid Margin="10,0,0,0">
                 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled"
                               Grid.Column="0">
                     
-                    <StackPanel MinWidth="500">
-                        
-                        <RadioButton MinHeight="50"
-                                     Background="Yellow"
-                                     Style="{StaticResource StickyButton}"/>
-                        <RadioButton MinHeight="50"
-                                     Background="Wheat"
-                                     Style="{StaticResource StickyButton}"/>
-                        <RadioButton MinHeight="50"
-                                     Background="Wheat"
-                                     Style="{StaticResource StickyButton}"/>
-                        <RadioButton MinHeight="50"
-                                     Background="White"
-                                     Style="{StaticResource StickyButton}"/>
-                        
-                    </StackPanel>
+                    <Grid MinWidth="500" MinHeight="175">
+
+                        <ListView ItemsSource="{Binding AssignedJobs}"
+                                  SelectedItem="{Binding SelectedJob}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}"/>
+                                    <GridViewColumn Header="Urgency" DisplayMemberBinding="{Binding UrgencyLevel, Converter={StaticResource EnumToStringConverter}}"/>
+                                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding TaskType, Converter={StaticResource EnumToStringConverter}}"/>
+                                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status, Converter={StaticResource EnumToStringConverter}}"/>
+                                    <GridViewColumn Header="Created By" DisplayMemberBinding="{Binding CreatedBy.Username}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                    </Grid>
                     
                 </ScrollViewer>
 
@@ -72,7 +75,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel>
+                <StackPanel Margin="0,10">
                     
                     <TextBlock Text="Employment At-A-Glance"
                                Style="{StaticResource Heading}"/>

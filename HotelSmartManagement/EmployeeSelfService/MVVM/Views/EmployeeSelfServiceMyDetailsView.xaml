@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HotelSmartManagement.EmployeeSelfService.MVVM.Views"
              xmlns:viewmodel="clr-namespace:HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:extensions="clr-namespace:HotelSmartManagement.Common.XamlExtensions"
              d:DataContext="{d:DesignInstance Type={x:Type viewmodel:EmployeeSelfServiceMyDetailsViewModel}}"
              mc:Ignorable="d" 
@@ -14,105 +15,149 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <ScrollViewer Grid.Row="0">
             <StackPanel Background="WhiteSmoke">
 
                 <TextBlock Text="My Details"
                            Style="{StaticResource Title}"/>
-                <UniformGrid Rows="4" Columns="2" Margin="0,0,200,0"
+                <UniformGrid Rows="3" Columns="2" Margin="0,0,200,0"
                              extensions:UniformGridHelper.ChildMargin="10,5,0,5">
-                    
+
                     <TextBlock Text="Full Name:"
                                Style="{StaticResource SubTitle}"
                                Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="John Doe"
+                    <TextBox Text="{Binding FullName, FallbackValue=John Doe}"
                              Grid.Row="0" Grid.Column="1"/>
-                    
+
                     <TextBlock Text="Email Address:"
                                Style="{StaticResource SubTitle}"
                                Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Text="johndoe@gmail.com"
+                    <TextBox Text="{Binding EmailAddress, FallbackValue=johndoe@gmail.com}"
                              Grid.Row="1" Grid.Column="1"/>
-                    
+
                     <TextBlock Text="Password:"
                                Style="{StaticResource SubTitle}"
                                Grid.Row="2" Grid.Column="0"/>
-                    <TextBox Text="***************"
-                             Grid.Row="2" Grid.Column="1"/>
-                    
-                    <TextBlock Text="Profile Picture:"
-                               Style="{StaticResource SubTitle}"
-                               Grid.Row="3" Grid.Column="0"/>
-                    <Button Content="Upload Picture"
-                            Style="{StaticResource FancyButton}"
-                            Grid.Row="3" Grid.Column="1"/>
-                    
+                    <PasswordBox x:Name="Password" FontSize="16"
+                                 Grid.Row="2" Grid.Column="1"
+                                 VerticalAlignment="Center">
+                        <behaviors:Interaction.Triggers>
+                            <behaviors:EventTrigger EventName="PasswordChanged">
+                                <!-- Pass the PasswordBox itself as the CommandParameter -->
+                                <behaviors:InvokeCommandAction Command="{Binding OnPassword_Changed}" 
+                                                               CommandParameter="{Binding ElementName=Password}"/>
+                            </behaviors:EventTrigger>
+                        </behaviors:Interaction.Triggers>
+                    </PasswordBox>
+
                 </UniformGrid>
 
                 <TextBlock Text="My Payment"
                            Style="{StaticResource Heading}"/>
                 <UniformGrid Rows="2" Columns="2" Margin="0,0,200,0"
                              extensions:UniformGridHelper.ChildMargin="10,5,0,5">
-                    
+
                     <TextBlock Text="Account No:"
                                Style="{StaticResource SubTitle}"
                                Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="1072 93"
+                    <TextBox Text="{Binding BankAccountNo}"
                              Grid.Row="0" Grid.Column="1"/>
-                    
+
                     <TextBlock Text="BSB:"
                                Style="{StaticResource SubTitle}"
                                Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Text="041937"
+                    <TextBox Text="{Binding BankAccountBsb}"
                              Grid.Row="1" Grid.Column="1"/>
-                    
+
                 </UniformGrid>
 
                 <TextBlock Text="My Employment"
                            Style="{StaticResource Heading}"/>
                 <UniformGrid Rows="3" Columns="2" Margin="0,0,200,0"
                              extensions:UniformGridHelper.ChildMargin="10,5,0,5">
-                    
+
                     <TextBlock Text="Position:"
                                Style="{StaticResource SubTitle}"
                                Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="Senior Manager"
+                    <TextBox Text="{Binding JobPosition}"
                              Grid.Row="0" Grid.Column="1"/>
-                    
+
                     <TextBlock Text="Employed For:"
                                Style="{StaticResource SubTitle}"
                                Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Text="Full Time (38hr p/week)"
-                             Grid.Row="1" Grid.Column="1"/>
-                    
-                    <TextBlock Text="Pay Rate Per Hour"
+                    <TextBlock Text="{Binding EmployeeStatus}"
+                               Grid.Row="1" Grid.Column="1"/>
+
+                    <TextBlock Text="Pay Rate Per Hour ($ p/hour)"
                                Style="{StaticResource SubTitle}"
                                Grid.Row="2" Grid.Column="0"/>
-                    <TextBox Text="$40 p/hour"
+                    <TextBox Text="{Binding JobPayPerHour}"
                              Grid.Row="2" Grid.Column="1"/>
-                    
+
                 </UniformGrid>
 
                 <TextBlock Text="My Leave"
                            Style="{StaticResource Heading}"/>
                 <UniformGrid Columns="2" Margin="0,0,200,0"
                              extensions:UniformGridHelper.ChildMargin="10,5,0,5">
-                    
-                    <TextBlock Text="Annual Leave Balance:"
+
+                    <TextBlock Text="Annual Leave Balance (hours):"
                                Style="{StaticResource SubTitle}"
                                Grid.Column="0"/>
-                    <TextBox Text="14.29 hours"
-                             Grid.Column="1"/>
-                    
+                    <TextBlock Style="{StaticResource SubTitle}" VerticalAlignment="Center" Grid.Column="1"><Run Text="{Binding LeaveBalanceInHours, FallbackValue=10.27}"/> hours</TextBlock>
+
                 </UniformGrid>
-            
+
+                <Grid Margin="10,0,0,0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled"
+                                  Grid.Column="0">
+
+                        <Grid MinWidth="500" MinHeight="175" MaxHeight="175">
+
+                            <ListView ItemsSource="{Binding UserLeaveRequests}"
+                                      SelectedItem="{Binding SelectedLeaveRequest}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Start On" DisplayMemberBinding="{Binding StartAt}"/>
+                                        <GridViewColumn Header="End On" DisplayMemberBinding="{Binding EndAt}"/>
+                                        <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                                        <GridViewColumn Header="Is Approved?" DisplayMemberBinding="{Binding IsApproved}"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+
+                        </Grid>
+
+                    </ScrollViewer>
+
+                    <UniformGrid Rows="2" Grid.Column="1"
+                                 HorizontalAlignment="Center"
+                                 extensions:UniformGridHelper.ChildPadding="20,5">
+
+                        <Button Content="Add (Dummy) Request"
+                                FontSize="16"
+                                Style="{StaticResource FancyButton}" Command="{Binding OnAddRequest_Clicked}"/>
+                        <Button Content="Delete Request"
+                                FontSize="16"
+                                Style="{StaticResource FancyButton}" Command="{Binding OnDeleteRequest_Clicked}"/>
+
+                    </UniformGrid>
+
+                </Grid>
+
             </StackPanel>
         </ScrollViewer>
         <UniformGrid Columns="2" Grid.Row="1" 
                      HorizontalAlignment="Center" Margin="5"
                      extensions:UniformGridHelper.ChildMargin="10,0">
-            
+
             <Button Content="Save"
                     Grid.Column="0"
                     Padding="20,5"
@@ -121,88 +166,7 @@
                     Grid.Column="1"
                     Padding="20,5"
                     Command="{Binding OnCancel_Clicked}" Style="{StaticResource FancyButton}"/>
-            
+
         </UniformGrid>
     </Grid>
-    <!--
-    <ScrollViewer>
-        <StackPanel Background="White">
-            
-            <TextBlock Text="My Details"
-                       Style="{StaticResource Title}"/>
-            <UniformGrid Rows="4" Columns="2" Margin="0,0,200,0"
-                         extensions:UniformGridHelper.ChildMargin="10,5,0,5">
-                <TextBlock Text="Full Name:"
-                           Style="{StaticResource SubTitle}"
-                           Grid.Row="0" Grid.Column="0"/>
-                <TextBox Text="John Doe"
-                         Grid.Row="0" Grid.Column="1"/>
-                <TextBlock Text="Email Address:"
-                           Style="{StaticResource SubTitle}"
-                           Grid.Row="1" Grid.Column="0"/>
-                <TextBox Text="johndoe@gmail.com"
-                         Grid.Row="1" Grid.Column="1"/>
-                <TextBlock Text="Password:"
-                           Style="{StaticResource SubTitle}"
-                           Grid.Row="2" Grid.Column="0"/>
-                <TextBox Text="***************"
-                         Grid.Row="2" Grid.Column="1"/>
-                <TextBlock Text="Profile Picture:"
-                           Style="{StaticResource SubTitle}"
-                           Grid.Row="3" Grid.Column="0"/>
-                <Button Content="Upload Picture"
-                        Style="{StaticResource FancyButton}"
-                        Grid.Row="3" Grid.Column="1"/>
-            </UniformGrid>
-            
-            <TextBlock Text="My Payment"
-                       Style="{StaticResource Heading}"/>
-            <UniformGrid Rows="2" Columns="2" Margin="0,0,200,0"
-                         extensions:UniformGridHelper.ChildMargin="10,5,0,5">
-                <TextBlock Text="Account No:"
-                           Style="{StaticResource SubTitle}"
-                           Grid.Row="0" Grid.Column="0"/>
-                <TextBox Text="1072 93"
-                         Grid.Row="0" Grid.Column="1"/>
-                <TextBlock Text="BSB:"
-                           Style="{StaticResource SubTitle}"
-                           Grid.Row="1" Grid.Column="0"/>
-                <TextBox Text="041937"
-                         Grid.Row="1" Grid.Column="1"/>
-            </UniformGrid>
-            
-            <TextBlock Text="My Employment"
-                       Style="{StaticResource Heading}"/>
-            <UniformGrid Rows="3" Columns="2" Margin="0,0,200,0"
-                         extensions:UniformGridHelper.ChildMargin="10,5,0,5">
-                <TextBlock Text="Position:"
-                           Style="{StaticResource SubTitle}"
-                           Grid.Row="0" Grid.Column="0"/>
-                <TextBox Text="Senior Manager"
-                         Grid.Row="0" Grid.Column="1"/>
-                <TextBlock Text="Employed For:"
-                           Style="{StaticResource SubTitle}"
-                           Grid.Row="1" Grid.Column="0"/>
-                <TextBox Text="Full Time (38hr p/week)"
-                         Grid.Row="1" Grid.Column="1"/>
-                <TextBlock Text="Pay Rate Per Hour"
-                           Style="{StaticResource SubTitle}"
-                           Grid.Row="2" Grid.Column="0"/>
-                <TextBox Text="$40 p/hour"
-                         Grid.Row="2" Grid.Column="1"/>
-            </UniformGrid>
-            
-            <TextBlock Text="My Leave"
-                       Style="{StaticResource Heading}"/>
-            <UniformGrid Columns="2" Margin="0,0,200,0"
-                         extensions:UniformGridHelper.ChildMargin="10,5,0,5">
-                <TextBlock Text="Annual Leave Balance:"
-                           Style="{StaticResource SubTitle}"
-                           Grid.Column="0"/>
-                <TextBox Text="14.29 hours"
-                         Grid.Column="1"/>
-            </UniformGrid>
-        </StackPanel>
-    </ScrollViewer>
-    -->
 </UserControl>

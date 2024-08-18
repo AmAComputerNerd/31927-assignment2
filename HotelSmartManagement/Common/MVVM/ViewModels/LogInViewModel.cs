@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using HotelSmartManagement.Common.Database.Services;
 using HotelSmartManagement.Common.Events;
 using HotelSmartManagement.Common.MVVM.Models;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,6 +11,7 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
 {
     public class LogInViewModel : ViewModelBase
     {
+        private readonly IServiceProvider _serviceProvider;
         private readonly UserService _userService;
         private string _title;
         private string _username;
@@ -44,8 +46,9 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
 
         public AsyncRelayCommand OnLogInRegister_Clicked { get; }
 
-        public LogInViewModel(UserService userService, Globals globals) : base(globals)
+        public LogInViewModel(IServiceProvider serviceProvider, UserService userService, Globals globals) : base(globals)
         {
+            _serviceProvider = serviceProvider;
             _userService = userService;
             Username = string.Empty;
             Password = string.Empty;
@@ -70,7 +73,7 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
         private async Task LogIn()
         {
             // Validate input.
-            var user = _userService.GetUser(Username);
+            var user = await _userService.GetUser(Username);
             if (user == null)
             {
                 // User not found.
@@ -119,6 +122,8 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
                 MessageBox.Show("Username must be unique.", "Registration Failed", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            // Create a matching user details object.
+            var employeeDetailsId = await _userService.NewEmployeeDetails((Guid)id) ?? throw new ArgumentException("Something went wrong - we can't generate an EmployeeDetails model!");
             // User created successfully.
             var user = _userService.GetUser((Guid)id);
             Globals.CurrentUser = user;
