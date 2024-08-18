@@ -61,6 +61,12 @@
             <DataTemplate DataType="{x:Type reservationRoomsViewModels:ReservationAndRoomsDashboardViewModel}">
                 <reservationRoomsViews:ReservationAndRoomsDashboardView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type reservationRoomsViewModels:ReservationDetailsViewModel}">
+                <reservationRoomsViews:ReservationDetailsView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type reservationRoomsViewModels:RoomDetailsViewModel}">
+                <reservationRoomsViews:RoomDetailsView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -70,7 +70,7 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
         private async Task LogIn()
         {
             // Validate input.
-            var user = await _userService.GetUser(Username);
+            var user = _userService.GetUser(Username);
             if (user == null)
             {
                 // User not found.
@@ -112,7 +112,7 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
                 return;
             }
             // Passwords matched, try to create a new user.
-            var id = await _userService.NewUser(Username, Password, Email);
+            var id = _userService.NewUser(Username, Password, Email);
             if (id == null)
             {
                 // User already exists with that username.
@@ -120,7 +120,7 @@ namespace HotelSmartManagement.Common.MVVM.ViewModels
                 return;
             }
             // User created successfully.
-            var user = await _userService.GetUser((Guid)id);
+            var user = _userService.GetUser((Guid)id);
             Globals.CurrentUser = user;
             WeakReferenceMessenger.Default.Send(new UserChangedEvent(false));
 

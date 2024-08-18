@@ -28,7 +28,7 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         }
         public async void SetRoom(string roomType)
         {
-            _room = await _service.GetRoom((RoomType)int.Parse(roomType));
+            _room = _service.GetRoom((RoomType)int.Parse(roomType));
         }
     }
 }

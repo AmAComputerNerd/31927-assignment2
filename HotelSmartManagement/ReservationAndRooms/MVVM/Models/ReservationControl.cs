@@ -6,6 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using CommunityToolkit.Mvvm.Input;
+using HotelSmartManagement.Common.Database.Services;
+using HotelSmartManagement.Common.Events;
+using HotelSmartManagement.Common.MVVM.Models;
+using HotelSmartManagement.Common.MVVM.ViewModels;
+using HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels;
+using HotelSmartManagement.HotelOverview.MVVM.ViewModels;
+using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
+using System.Collections.ObjectModel;
 
 namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
 {
@@ -26,7 +35,16 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.Models
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public static readonly DependencyProperty OnReservation_ClickedProperty =
+        DependencyProperty.Register(nameof(OnReservation_Clicked), typeof(IRelayCommand), typeof(ReservationControl), new PropertyMetadata(null));
+
+        public IRelayCommand OnReservation_Clicked
+        {
+            get => (IRelayCommand)GetValue(OnReservation_ClickedProperty);
+            set => SetValue(OnReservation_ClickedProperty, value);
+        }
 
         protected void OnPropertyChanged(string propertyName)
         {

@@ -131,7 +131,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
                 return null;
             }
 
-            var user = await _userService.GetUser(AssignedEmployeeUsername);
+            var user = _userService.GetUser(AssignedEmployeeUsername);
             return user?.UniqueId;
         }
 
@@ -146,7 +146,7 @@ namespace HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels
             }
 
             // Create a new job.
-            var id = await _jobService.NewJob(JobTitle, JobDescription, GetSelectedUrgency(), GetSelectedType(), user.UniqueId, await GetSelectedEmployeeId()) ?? throw new ArgumentException("Somehow, the id is null! Check JobService - maybe something's gone wrong with NewJob.");
+            var id = _jobService.NewJob(JobTitle, JobDescription, GetSelectedUrgency(), GetSelectedType(), user.UniqueId, await GetSelectedEmployeeId()) ?? throw new ArgumentException("Somehow, the id is null! Check JobService - maybe something's gone wrong with NewJob.");
             Messenger.Send(new JobChangedEvent(id));
 
             // Close the window.

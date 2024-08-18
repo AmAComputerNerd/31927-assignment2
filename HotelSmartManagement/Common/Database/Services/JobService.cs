@@ -15,10 +15,10 @@ namespace HotelSmartManagement.Common.Database.Services
             _jobRepository = jobRepository;
         }
 
-        public async Task<Guid?> NewJob(string jobTitle, string jobDescription, JobUrgencyLevel urgencyLevel, JobType taskType, Guid createdByUser) => await NewJob(jobTitle, jobDescription, urgencyLevel, taskType, createdByUser, null);
-        public async Task<Guid?> NewJob(string jobTitle, string jobDescription, JobUrgencyLevel urgencyLevel, JobType taskType, Guid createdByUser, Guid? assignedToUser)
+        public Guid? NewJob(string jobTitle, string jobDescription, JobUrgencyLevel urgencyLevel, JobType taskType, Guid createdByUser) => NewJob(jobTitle, jobDescription, urgencyLevel, taskType, createdByUser, null);
+        public Guid? NewJob(string jobTitle, string jobDescription, JobUrgencyLevel urgencyLevel, JobType taskType, Guid createdByUser, Guid? assignedToUser)
         {
-            if (!await _userRepository.ContainsById(createdByUser) || (assignedToUser != null && !await _userRepository.ContainsById(assignedToUser.Value)))
+            if (!_userRepository.ContainsById(createdByUser) || (assignedToUser != null && !_userRepository.ContainsById(assignedToUser.Value)))
             {
                 // There isn't a user currently registered by that Id.
                 // We shouldn't create a job with a link to a non-existent user.
@@ -31,18 +31,18 @@ namespace HotelSmartManagement.Common.Database.Services
 
             return newJob.UniqueId;
         }
-        public async Task<Guid?> NewJob(string jobTitle, string jobDescription, JobUrgencyLevel urgencyLevel, JobType taskType, string createdByUser) => await NewJob(jobTitle, jobDescription, urgencyLevel, taskType, createdByUser, null);
-        public async Task<Guid?> NewJob(string jobTitle, string jobDescription, JobUrgencyLevel urgencyLevel, JobType taskType, string createdByUser, string? assignedToUser)
+        public Guid? NewJob(string jobTitle, string jobDescription, JobUrgencyLevel urgencyLevel, JobType taskType, string createdByUser) => NewJob(jobTitle, jobDescription, urgencyLevel, taskType, createdByUser, null);
+        public Guid? NewJob(string jobTitle, string jobDescription, JobUrgencyLevel urgencyLevel, JobType taskType, string createdByUser, string? assignedToUser)
         {
-            if (!await _userRepository.ContainsAny(user => user.Username == createdByUser) || (assignedToUser != null && !await _userRepository.ContainsAny(user => user.Username == assignedToUser)))
+            if (!_userRepository.ContainsAny(user => user.Username == createdByUser) || (assignedToUser != null && !_userRepository.ContainsAny(user => user.Username == assignedToUser)))
             {
                 // There isn't a user currently registered by that Id.
                 // We shouldn't create a job with a link to a non-existent user.
                 return null;
             }
 
-            var createdByUser1 = await _userRepository.GetBy(user => user.Username == createdByUser);
-            var assignedToUser1 = await _userRepository.GetBy(user => user.Username == assignedToUser);
+            var createdByUser1 = _userRepository.GetBy(user => user.Username == createdByUser);
+            var assignedToUser1 = _userRepository.GetBy(user => user.Username == assignedToUser);
             var createdByUserId = createdByUser1?.UniqueId ?? throw new ArgumentNullException("We should have never reached this point, but createdByUser1 is null somehow?");
             var assignedToUserId = assignedToUser1?.UniqueId;
 
@@ -53,9 +53,9 @@ namespace HotelSmartManagement.Common.Database.Services
             return newJob.UniqueId;
         }
 
-        public async Task<Job?> GetJob(Guid jobId)
+        public Job? GetJob(Guid jobId)
         {
-            return await _jobRepository.GetById(jobId);
+            return _jobRepository.GetById(jobId);
         }
         public IEnumerable<Job> GetJobsRelatingTo(Guid userId)
         {
@@ -78,9 +78,9 @@ namespace HotelSmartManagement.Common.Database.Services
             return _jobRepository.GetAll().Where(job => job.ClosedById == userId);
         }
 
-        public async void UpdateJob(Job job)
+        public void UpdateJob(Job job)
         {
-            if (await _jobRepository.Contains(job))
+            if (_jobRepository.Contains(job))
             {
                 _jobRepository.Update(job);
             }
@@ -102,9 +102,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _jobRepository.DeleteRange(allJobs);
             _jobRepository.Save();
         }
-        public async void DeleteAllJobsByUser(Guid userId)
+        public void DeleteAllJobsByUser(Guid userId)
         {
-            if (!await _userRepository.ContainsById(userId))
+            if (!_userRepository.ContainsById(userId))
             {
                 // There isn't a user currently registered by that Id.
                 // We shouldn't delete jobs linked to a non-existent user.

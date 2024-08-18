@@ -6,8 +6,8 @@ namespace HotelSmartManagement.Common.Database.Repositories
     public interface IRepository<T> where T : class, IDatabaseObject
     {
         IEnumerable<T> GetAll();
-        Task<T?> GetById(Guid id);
-        Task<T?> GetBy(Expression<Func<T, bool>> predicate);
+        T? GetById(Guid id);
+        T? GetBy(Expression<Func<T, bool>> predicate);
         void Add(T entity);
         void AddRange(IEnumerable<T> entities);
         void AddRange(params T[] entities);
@@ -17,9 +17,9 @@ namespace HotelSmartManagement.Common.Database.Repositories
         int DeleteBy(Expression<Func<T, bool>> predicate);
         void DeleteRange(IEnumerable<T> entities);
         void DeleteRange(params T[] entities);
-        Task<bool> Contains(T entity);
-        Task<bool> ContainsById(Guid entityId);
-        Task<bool> ContainsAny(Expression<Func<T, bool>> predicate);
+        bool Contains(T entity);
+        bool ContainsById(Guid entityId);
+        bool ContainsAny(Expression<Func<T, bool>> predicate);
         void Save();
         IQueryable<T> AsQueryable();
     }
