@@ -45,7 +45,7 @@ namespace HotelSmartManagement.Common.Database.Services
         {
             return await _announcementRepository.GetById(guid);
         }
-        public IAsyncEnumerable<Announcement> GetAllAnnouncements()
+        public IEnumerable<Announcement> GetAllAnnouncements()
         {
             return _announcementRepository.GetAll();
         }
@@ -58,7 +58,7 @@ namespace HotelSmartManagement.Common.Database.Services
         {
             return await _eventRepository.GetBy(eventT => eventT.Title == eventTitle);
         }
-        public IAsyncEnumerable<Event> GetAllEvents()
+        public IEnumerable<Event> GetAllEvents()
         {
             return _eventRepository.GetAll();
         }
@@ -71,7 +71,7 @@ namespace HotelSmartManagement.Common.Database.Services
         {
             return await _inventoryItemRepository.GetBy(inventoryItem => inventoryItem.Name == itemName);
         }
-        public IAsyncEnumerable<InventoryItem> GetAllInventory()
+        public IEnumerable<InventoryItem> GetAllInventory()
         {
             return _inventoryItemRepository.GetAll();
         }
@@ -118,9 +118,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _announcementRepository.Delete(announcement);
             _announcementRepository.Save();
         }
-        public async void DeleteAllAnnouncements()
+        public void DeleteAllAnnouncements()
         {
-            var allAnnouncements = await _announcementRepository.GetAll().ToListAsync();
+            var allAnnouncements = _announcementRepository.GetAll();
             _announcementRepository.DeleteRange(allAnnouncements);
             _announcementRepository.Save();
         }
@@ -129,9 +129,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _eventRepository.Delete(eventT);
             _eventRepository.Save();
         }
-        public async void DeleteAllEvent()
+        public void DeleteAllEvent()
         {
-            var allEvent = await _eventRepository.GetAll().ToListAsync();
+            var allEvent = _eventRepository.GetAll();
             _eventRepository.DeleteRange(allEvent);
             _eventRepository.Save();
         }
@@ -140,9 +140,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _inventoryItemRepository.Delete(inventoryItem);
             _inventoryItemRepository.Save();
         }
-        public async void DeleteAllInventoryItems()
+        public void DeleteAllInventoryItems()
         {
-            var allInventoryItems = await _inventoryItemRepository.GetAll().ToListAsync();
+            var allInventoryItems = _inventoryItemRepository.GetAll();
             _inventoryItemRepository.DeleteRange(allInventoryItems);
             _inventoryItemRepository.Save();
         }

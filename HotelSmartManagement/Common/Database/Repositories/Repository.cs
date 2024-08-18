@@ -79,9 +79,9 @@ namespace HotelSmartManagement.Common.Database.Repositories
             _dbSet.RemoveRange(entities);
         }
 
-        public IAsyncEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll()
         {
-            return AsQueryable().AsAsyncEnumerable();
+            return AsQueryable().AsEnumerable();
         }
 
         public Task<T?> GetBy(Expression<Func<T, bool>> predicate)

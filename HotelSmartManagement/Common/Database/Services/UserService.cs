@@ -93,11 +93,11 @@ namespace HotelSmartManagement.Common.Database.Services
         {
             return await _leaveRequestRepository.GetById(leaveRequestId);
         }
-        public IAsyncEnumerable<LeaveRequest> GetLeaveRequestsForUser(Guid userId)
+        public IEnumerable<LeaveRequest> GetLeaveRequestsForUser(Guid userId)
         {
             return _leaveRequestRepository.GetAll().Where(leaveRequest => leaveRequest.EmployeeDetails.User.UniqueId == userId);
         }
-        public IAsyncEnumerable<LeaveRequest> GetLeaveRequestsForUser(string username)
+        public IEnumerable<LeaveRequest> GetLeaveRequestsForUser(string username)
         {
             return _leaveRequestRepository.GetAll().Where(leaveRequest => leaveRequest.EmployeeDetails.User.Username == username);
         }
@@ -144,9 +144,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _userRepository.Delete(user);
             _userRepository.Save();
         }
-        public async void DeleteAllUsers()
+        public void DeleteAllUsers()
         {
-            var allUsers = await _userRepository.GetAll().ToListAsync();
+            var allUsers = _userRepository.GetAll();
             _userRepository.DeleteRange(allUsers);
             _userRepository.Save();
         }
@@ -155,9 +155,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _employeeDetailsRepository.Delete(employeeDetails);
             _employeeDetailsRepository.Save();
         }
-        public async void DeleteAllEmployeeDetails()
+        public void DeleteAllEmployeeDetails()
         {
-            var allEmployeeDetails = await _employeeDetailsRepository.GetAll().ToListAsync();
+            var allEmployeeDetails = _employeeDetailsRepository.GetAll();
             _employeeDetailsRepository.DeleteRange(allEmployeeDetails);
             _employeeDetailsRepository.Save();
         }
@@ -166,9 +166,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _leaveRequestRepository.Delete(leaveRequest);
             _leaveRequestRepository.Save();
         }
-        public async void DeleteAllLeaveRequests()
+        public void DeleteAllLeaveRequests()
         {
-            var allLeaveRequests = await _leaveRequestRepository.GetAll().ToListAsync();
+            var allLeaveRequests = _leaveRequestRepository.GetAll();
             _leaveRequestRepository.DeleteRange(allLeaveRequests);
             _leaveRequestRepository.Save();
         }

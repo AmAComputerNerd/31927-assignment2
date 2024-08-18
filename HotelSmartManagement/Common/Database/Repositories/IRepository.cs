@@ -5,7 +5,7 @@ namespace HotelSmartManagement.Common.Database.Repositories
 {
     public interface IRepository<T> where T : class, IDatabaseObject
     {
-        IAsyncEnumerable<T> GetAll();
+        IEnumerable<T> GetAll();
         Task<T?> GetById(Guid id);
         Task<T?> GetBy(Expression<Func<T, bool>> predicate);
         void Add(T entity);

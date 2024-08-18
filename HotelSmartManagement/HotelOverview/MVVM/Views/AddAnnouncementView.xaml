@@ -24,8 +24,9 @@
                     <TextBlock Text="Announcement Category:"
                            Style="{StaticResource SubTitle}"
                            Grid.Row="1" Grid.Column="0"/>
-                    <ComboBox Text="{Binding AnnouncementCategories}"
-                            Grid.Row="1" Grid.Column="1"/>
+                    <ComboBox Text="{Binding AnnouncementCategory}"
+                            Grid.Row="1" Grid.Column="1"
+                            ItemsSource="{Binding AnnouncementCategories}"/>
                     <TextBlock Text="Announcement Details"
                            Style="{StaticResource SubTitle}"
                            Grid.Row="2" Grid.Column="0"/>

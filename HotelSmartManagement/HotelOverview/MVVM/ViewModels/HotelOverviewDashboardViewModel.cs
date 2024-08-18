@@ -42,10 +42,10 @@ namespace HotelSmartManagement.HotelOverview.MVVM.ViewModels
 
         private void RefreshUserBindings()
         {
-            InventoryItems = new ObservableCollection<InventoryItem>(_hotelOverviewService.GetAllInventory() as ICollection<InventoryItem> ?? Array.Empty<InventoryItem>());
-            Announcements = new ObservableCollection<Announcement>(_hotelOverviewService.GetAllAnnouncements().Where(a => !a.IsResolved) as ICollection<Announcement> ?? Array.Empty<Announcement>());
+            InventoryItems = new ObservableCollection<InventoryItem>(_hotelOverviewService.GetAllInventory() ?? Array.Empty<InventoryItem>());
+            Announcements = new ObservableCollection<Announcement>(_hotelOverviewService.GetAllAnnouncements() ?? Array.Empty<Announcement>());
             Events = string.Empty;
-            var eventList = _hotelOverviewService.GetAllEvents().Where(x => x.DateAffected.Date == DateTime.Today.Date).ToBlockingEnumerable().ToList();
+            var eventList = _hotelOverviewService.GetAllEvents().Where(x => x.DateAffected.Date == DateTime.Today.Date).ToList();
             if (eventList.Count() > 0)
             {
                 Events += eventList[0].Title + ": " + eventList[0].Description + " - affecting " + eventList[0].AreaAffected.ToFriendlyString();

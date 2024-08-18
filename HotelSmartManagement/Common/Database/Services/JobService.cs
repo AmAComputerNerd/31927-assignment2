@@ -57,7 +57,7 @@ namespace HotelSmartManagement.Common.Database.Services
         {
             return await _jobRepository.GetById(jobId);
         }
-        public IAsyncEnumerable<Job> GetJobsRelatingTo(Guid userId)
+        public IEnumerable<Job> GetJobsRelatingTo(Guid userId)
         {
             var jobsCreatedBy = GetJobsCreatedBy(userId);
             var jobsAssignedTo = GetJobsAssignedTo(userId);
@@ -65,17 +65,17 @@ namespace HotelSmartManagement.Common.Database.Services
 
             return jobsCreatedBy.Concat(jobsAssignedTo).Concat(jobsClosedBy);
         }
-        public IAsyncEnumerable<Job> GetJobsCreatedBy(Guid userId)
+        public IEnumerable<Job> GetJobsCreatedBy(Guid userId)
         {
-            return _jobRepository.GetAll().WhereAwait(async job => await Task.Run(() => job.CreatedById == userId));
+            return _jobRepository.GetAll().Where(job => job.CreatedById == userId);
         }
-        public IAsyncEnumerable<Job> GetJobsAssignedTo(Guid userId)
+        public IEnumerable<Job> GetJobsAssignedTo(Guid userId)
         {
-            return _jobRepository.GetAll().WhereAwait(async job => await Task.Run(() => job.AssignedToId == userId));
+            return _jobRepository.GetAll().Where(job => job.AssignedToId == userId);
         }
-        public IAsyncEnumerable<Job> GetJobsClosedBy(Guid userId)
+        public IEnumerable<Job> GetJobsClosedBy(Guid userId)
         {
-            return _jobRepository.GetAll().WhereAwait(async job => await Task.Run(() => job.ClosedById == userId));
+            return _jobRepository.GetAll().Where(job => job.ClosedById == userId);
         }
 
         public async void UpdateJob(Job job)
@@ -96,9 +96,9 @@ namespace HotelSmartManagement.Common.Database.Services
             _jobRepository.Delete(job);
             _jobRepository.Save();
         }
-        public async void DeleteAllJobs()
+        public void DeleteAllJobs()
         {
-            var allJobs = await _jobRepository.GetAll().ToListAsync();
+            var allJobs = _jobRepository.GetAll().ToList();
             _jobRepository.DeleteRange(allJobs);
             _jobRepository.Save();
         }
@@ -111,7 +111,7 @@ namespace HotelSmartManagement.Common.Database.Services
                 return;
             }
 
-            var allJobs = await _jobRepository.GetAll().WhereAwait(async job => await Task.Run(() => job.CreatedById == userId || job.AssignedToId == userId || job.ClosedById == userId)).ToListAsync();
+            var allJobs = _jobRepository.GetAll().Where(job => job.CreatedById == userId || job.AssignedToId == userId || job.ClosedById == userId).ToList();
             _jobRepository.DeleteRange(allJobs);
             _jobRepository.Save();
         }
