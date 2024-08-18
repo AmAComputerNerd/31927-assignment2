@@ -5,20 +5,48 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HotelSmartManagement.ReservationAndRooms.MVVM.Views"
              xmlns:viewmodel="clr-namespace:HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels"
+             xmlns:extensions="clr-namespace:HotelSmartManagement.Common.XamlExtensions"
+             xmlns:reservation="clr-namespace:HotelSmartManagement.ReservationAndRooms.MVVM.Models"
              d:DataContext="{d:DesignInstance Type=viewmodel:ReservationAndRoomsDashboardViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="259*"/>
-            <ColumnDefinition Width="541*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Image HorizontalAlignment="Left" Height="450" Stretch="UniformToFill" VerticalAlignment="Center" Width="199" Source="\ReservationAndRooms\MVVM\Views\Assets\StockHotelExterior.jpg"/>
-        <Rectangle Margin="0,0,60,0" Fill="Black" Opacity=".5"/>
-        <Label Content="07:08" FontWeight="Bold" FontSize="40" Foreground="White" Margin="10,2,131,392"/>
-        <Label Content="12th of &#xD;&#xA;August, 2024" FontSize="8" Foreground="White" Margin="128,26,13,392"/>
-        <Label Content="No critical alerts to display." FontWeight="Bold" FontSize="8" HorizontalAlignment="Left" Foreground="White" Margin="43,96,0,331"/>
-        <Rectangle Fill="White" Margin="0,63,60,386"/>
-        <Rectangle Fill="White" Margin="0,149,60,300"/>
+
+        <Grid Background="LightGray" Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <TextBlock Text="Reservations" Style="{StaticResource Title}" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="10,10,10,10" />
+
+            <TextBlock Text="Room Types" Style="{StaticResource SubTitle}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="10,10,10,10" />
+
+            <DockPanel Grid.Row="2" Grid.Column="0">
+                <UniformGrid Rows="4" Width="200" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" extensions:UniformGridHelper.ChildMargin="10">
+                    <Button Content="STANDARD&#10;Single/Double/Queen/King" Command="{Binding OnRoomDetails_Clicked}" CommandParameter="1"/>
+                    <Button Content="DELUXE&#10;Single/Double/Queen/King" Command="{Binding OnRoomDetails_Clicked}" CommandParameter="2"/>
+                    <Button Content="SUITE&#10;Single/Double/Queen/King" Command="{Binding OnRoomDetails_Clicked}" CommandParameter="3"/>
+                    <Button Content="COLLECTION&#10;Single/Double/Queen/King" Command="{Binding OnRoomDetails_Clicked}" CommandParameter="4"/>
+                </UniformGrid>
+            </DockPanel>
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding GlobalReservations}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <reservation:ReservationControl Reservation="{Binding}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>
