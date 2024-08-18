@@ -1,4 +1,6 @@
-﻿namespace HotelSmartManagement.Common.Events
+﻿using HotelSmartManagement.Common.MVVM.Models;
+
+namespace HotelSmartManagement.Common.Events
 {
     public class ChangeViewEvent
     {
@@ -9,7 +11,7 @@
             ViewModel = viewModelType;
         }
 
-        public ChangeViewEvent(object viewModel)
+        public ChangeViewEvent(IViewModel viewModel)
         {
             ViewModel = viewModel.GetType();
         }

@@ -6,9 +6,9 @@ namespace HotelSmartManagement.Common.Database.Services
 {
     public class UserService
     {
-        private UserRepository _userRepository;
-        private EmployeeDetailsRepository _employeeDetailsRepository;
-        private LeaveRequestRepository _leaveRequestRepository;
+        private readonly UserRepository _userRepository;
+        private readonly EmployeeDetailsRepository _employeeDetailsRepository;
+        private readonly LeaveRequestRepository _leaveRequestRepository;
 
         public UserService(UserRepository userRepository, EmployeeDetailsRepository employeeDetailsRepository, LeaveRequestRepository leaveRequestRepository)
         {
@@ -35,7 +35,39 @@ namespace HotelSmartManagement.Common.Database.Services
 
             return newUser.UniqueId;
         }
-    
+        public async Task<Guid?> NewLeaveRequest(Guid userId, DateTime startAt, DateTime endAt, string description)
+        {
+            var employeeDetails = await GetEmployeeDetailsFromUser(userId);
+            if (employeeDetails == null)
+            {
+                // The user doesn't have an EmployeeDetails object, so we can't create a LeaveRequest for them.
+                // This might be because (hypothetically) the user is not an employee, or that the user ID passed in is invalid.
+                return null;
+            }
+
+            var newLeaveRequest = new LeaveRequest { StartAt = startAt, EndAt = endAt, Description = description, EmployeeDetailsId = employeeDetails.UniqueId };
+            _leaveRequestRepository.Add(newLeaveRequest);
+            _leaveRequestRepository.Save();
+
+            return newLeaveRequest.UniqueId;
+        }
+        public async Task<Guid?> NewPreApprovedLeaveRequest(Guid userId, DateTime startAt, DateTime endAt, string description)
+        {
+            var employeeDetails = await GetEmployeeDetailsFromUser(userId);
+            if (employeeDetails == null)
+            {
+                // The user doesn't have an EmployeeDetails object, so we can't create a LeaveRequest for them.
+                // This might be because (hypothetically) the user is not an employee, or that the user ID passed in is invalid.
+                return null;
+            }
+
+            var newLeaveRequest = new LeaveRequest { StartAt = startAt, EndAt = endAt, Description = description, EmployeeDetailsId = employeeDetails.UniqueId, IsApproved = true };
+            _leaveRequestRepository.Add(newLeaveRequest);
+            _leaveRequestRepository.Save();
+
+            return newLeaveRequest.UniqueId;
+        }
+
         public async Task<User?> GetUser(string username)
         {
             return await _userRepository.GetBy(user => user.Username == username);
@@ -58,6 +90,10 @@ namespace HotelSmartManagement.Common.Database.Services
             return await _employeeDetailsRepository.GetBy(details => details.User.Username == username);
         }
 
+        public async Task<LeaveRequest?> GetLeaveRequest(Guid leaveRequestId)
+        {
+            return await _leaveRequestRepository.GetById(leaveRequestId);
+        }
         public IAsyncEnumerable<LeaveRequest> GetLeaveRequestsForUser(Guid userId)
         {
             return _leaveRequestRepository.GetAll().Where(leaveRequest => leaveRequest.EmployeeDetails.User.UniqueId == userId);
