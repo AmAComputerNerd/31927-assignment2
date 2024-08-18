@@ -1,11 +1,6 @@
 ﻿using HotelSmartManagement.Common.MVVM.Models;
-using HotelSmartManagement.HotelOverview.MVVM.ViewModels;
 using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
 using HotelSmartManagement.Common.Database.Services;
-using System.Configuration;
-using HotelSmartManagement.EmployeeSelfService.MVVM.Models;
-using HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels;
-using HotelSmartManagement.EmployeeSelfService.MVVM.Views;
 
 namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
 {
@@ -17,6 +12,7 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         private Room _room;
         private ReservationAndRoomsService _service;
 
+        // Public
         public Room Room { get => _room; set => SetProperty(ref _room, value); }
 
         public RoomDetailsViewModel(ReservationAndRoomsService service, Globals globals) : base(globals)

@@ -3,11 +3,7 @@ using HotelSmartManagement.Common.Database.Services;
 using HotelSmartManagement.Common.Events;
 using HotelSmartManagement.Common.MVVM.Models;
 using HotelSmartManagement.Common.MVVM.ViewModels;
-using HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels;
-using HotelSmartManagement.HotelOverview.MVVM.ViewModels;
 using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.ObjectModel;
 
 namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
 {
@@ -23,21 +19,21 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         public List<Reservation> Reservations { get => _reservations; set => SetProperty(ref _reservations, value); }
 
         // Commands
-        public RelayCommand<Reservation> OnReservation_Clicked { get; }
+        public RelayCommand<string> OnReservation_Clicked { get; }
         public RelayCommand<string> OnRoomDetails_Clicked { get; }
 
         public ReservationAndRoomsDashboardViewModel(ReservationAndRoomsService service, Globals globals) : base(globals)
         {
             _service = service;
-            SeedData();
 
+            SeedData();
             Reservations = _service.GetAllReservations().ToList();
 
-            OnReservation_Clicked = new RelayCommand<Reservation>((reservation) =>
+            OnReservation_Clicked = new RelayCommand<string>((reservation) =>
             {
-                _ = reservation ?? throw new ArgumentException("Invalid reservation selection!");
-                var reservationDetailsViewModel = new ReservationDetailsViewModel(service, globals, reservation);
-                Messenger.Send(new ChangeViewEvent(reservationDetailsViewModel), nameof(MainViewModel));
+                _ = _service.GetReservation(reservation) ?? throw new ArgumentException("Invalid reservation selection!");
+                var reservationDetailsViewModel = new ReservationDetailsViewModel(service, globals);
+                Messenger.Send(new ChangeViewEvent(reservationDetailsViewModel, _service.GetReservation(reservation)), nameof(MainViewModel));
             });
 
             OnRoomDetails_Clicked = new RelayCommand<string>((roomType) =>

@@ -4,12 +4,7 @@ using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using iText.Layout.Properties;
 
 namespace HotelSmartManagement.Common.Database.Services
 {
@@ -25,6 +20,7 @@ namespace HotelSmartManagement.Common.Database.Services
             _roomRepository = roomRepository;
             _reservationRepository = reservationRepository;
         }
+
         #region Add To Database
         public void AddReservation(string reference, DateTime startDate, DateTime endDate, string requests, Guest guest, Room room)
         {
@@ -129,12 +125,21 @@ namespace HotelSmartManagement.Common.Database.Services
                 using (var pdf = new PdfDocument(writer))
                 {
                     var document = new Document(pdf);
-                    document.Add(new Paragraph("Reservation Details"));
-                    document.Add(new Paragraph($"Reference: {reservation.Reference}"));
-                    document.Add(new Paragraph($"Guest: {reservation.Guest?.FullName}"));
-                    document.Add(new Paragraph($"Start Date: {reservation.StartDate:d}"));
-                    document.Add(new Paragraph($"End Date: {reservation.EndDate:d}"));
-                    document.Add(new Paragraph($"Requests: {reservation.Requests}"));
+
+                    document.Add(new Paragraph("YOUR RESERVATION").SetBold().SetFontSize(30).SetTextAlignment(TextAlignment.CENTER).SetMarginBottom(2f));
+                    Table table = new Table(UnitValue.PERCENT).UseAllAvailableWidth();
+                    table.AddCell("Reference");
+                    table.AddCell($"{reservation.Reference}");
+                    table.AddCell("Guest");
+                    table.AddCell($"{reservation.Guest?.FullName}");
+                    table.AddCell("Start Date");
+                    table.AddCell($"{reservation.StartDate:d}");
+                    table.AddCell("End Date");
+                    table.AddCell($"{reservation.EndDate:d}");
+                    table.AddCell("Special Requests");
+                    table.AddCell($"{reservation.Requests}");
+                    document.Add(table);
+                    document.Add(new Paragraph("For any further enquiries, contact hotel concierge. This PDF reservation was generated upon request by the Hotel Smart Management System.").SetMarginTop(2f).SetFontSize(8).SetItalic());
                 }
             }
 

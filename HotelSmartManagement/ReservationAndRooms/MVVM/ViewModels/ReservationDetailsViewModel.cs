@@ -1,10 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using HotelSmartManagement.Common.Database.Services;
-using HotelSmartManagement.Common.Events;
 using HotelSmartManagement.Common.MVVM.Models;
-using HotelSmartManagement.Common.MVVM.ViewModels;
-using HotelSmartManagement.EmployeeSelfService.MVVM.ViewModels;
-using HotelSmartManagement.HotelOverview.MVVM.ViewModels;
 using HotelSmartManagement.ReservationAndRooms.MVVM.Models;
 
 namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
@@ -21,15 +17,21 @@ namespace HotelSmartManagement.ReservationAndRooms.MVVM.ViewModels
         public Reservation Reservation { get => _reservation; set => SetProperty(ref _reservation, value); }
 
         // Commands
-        public RelayCommand OnDeleteReservation_Clicked { get; }
         public RelayCommand OnExportAsPDF_Clicked { get; }
 
-        public ReservationDetailsViewModel(ReservationAndRoomsService service, Globals globals, Reservation reservation) : base(globals)
+        public ReservationDetailsViewModel(ReservationAndRoomsService service, Globals globals) : base(globals)
         {
-            _reservation = reservation;
             _service = service;
-            OnExportAsPDF_Clicked = new RelayCommand(() => ReservationAndRoomsService.ExportReservationAsPDF(reservation, ""));
-            OnDeleteReservation_Clicked = new RelayCommand(() => _service.RemoveReservation(reservation.UniqueId));
+            OnExportAsPDF_Clicked = new RelayCommand(() => ReservationAndRoomsService.ExportReservationAsPDF(Reservation, "reservation.pdf"));
+        }
+
+        public override void Initialise(params object[] args)
+        {
+            if (args.Length != 1 || args[0] is not Reservation reservation)
+            {
+                throw new ArgumentException($"{nameof(RoomDetailsViewModel)} requires one argument of type string to be passed to the Initialise method.");
+            }
+            Reservation = reservation;
         }
     }
 }
